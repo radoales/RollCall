@@ -21,7 +21,10 @@
         {
             services.
                   AddTransient<IIdentityService, IdentityService>()
-                  .AddTransient<IAttendanceService, AttendanceService>();
+                  .AddTransient<IAttendanceService, AttendanceService>()
+                  .AddTransient<ISubjectServices, SubjectService>()
+                  .AddTransient<ISchoolClassService, SchoolClassService>();
+
             return services;
         }
 

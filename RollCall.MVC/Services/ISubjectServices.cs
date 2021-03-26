@@ -1,10 +1,13 @@
 ﻿namespace RollCall.MVC.Services
 {
-    using System;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using RollCall.MVC.Data.Models;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    interface ISubjectServices
+
+    public interface ISubjectServices
     {
+        SelectList GetSubjectsAsSelectedList();
+        Task<IEnumerable<User>> GetUsersInSubject(int id);
     }
 }

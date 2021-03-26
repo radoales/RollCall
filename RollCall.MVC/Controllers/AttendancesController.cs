@@ -61,11 +61,11 @@
         // POST: Attendances/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateTime,UserId,ClassId")] CreateAttendanceVM model)
+        public async Task<IActionResult> Create([Bind("Id,UserId,ClassId")] CreateAttendanceVM model)
         {
             if (ModelState.IsValid)
             {
-                await this.attendanceService.CreateAttendance(model.DateTime, model.UserId, model.ClassId);
+                await this.attendanceService.CreateAttendance(model.UserId, model.ClassId);
                 return RedirectToAction(nameof(Index));
             }
             //ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", attendance.ClassId);

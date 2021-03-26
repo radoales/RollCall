@@ -11,6 +11,6 @@
         public User User { get; set; }
 
         public int ClassId { get; set; }
-        public Class Class { get; set; }
+        public SchoolClass Class { get; set; }
     }
 }

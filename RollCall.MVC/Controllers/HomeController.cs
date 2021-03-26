@@ -1,21 +1,22 @@
 ﻿namespace RollCall.MVC.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.Services;
     using System.Diagnostics;
+    using System.Threading.Tasks;
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ISchoolClassService schoolClassService;
+        public HomeController(ISchoolClassService schoolClassService)
         {
-            _logger = logger;
+            this.schoolClassService = schoolClassService;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var classes = await this.schoolClassService.GetAll();
+            return View(classes);
         }
 
         public IActionResult Privacy()

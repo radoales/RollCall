@@ -180,11 +180,17 @@ namespace RollCall.MVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("CheckIn_End")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CheckIn_Middle")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CheckIn_Start")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -198,7 +204,7 @@ namespace RollCall.MVC.Migrations
                     b.ToTable("Attendance");
                 });
 
-            modelBuilder.Entity("RollCall.MVC.Data.Models.Class", b =>
+            modelBuilder.Entity("RollCall.MVC.Data.Models.SchoolClass", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,6 +217,12 @@ namespace RollCall.MVC.Migrations
                     b.Property<DateTime>("ClassStartTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Code")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CodeGeneratedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
@@ -218,7 +230,7 @@ namespace RollCall.MVC.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("SchoolClasses");
                 });
 
             modelBuilder.Entity("RollCall.MVC.Data.Models.Subject", b =>
@@ -310,6 +322,21 @@ namespace RollCall.MVC.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("RollCall.MVC.Data.Models.UserClasses", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SchoolClassId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "SchoolClassId");
+
+                    b.HasIndex("SchoolClassId");
+
+                    b.ToTable("UserClasses");
+                });
+
             modelBuilder.Entity("RollCall.MVC.Data.Models.UsersSubjects", b =>
                 {
                     b.Property<string>("UserId")
@@ -378,7 +405,7 @@ namespace RollCall.MVC.Migrations
 
             modelBuilder.Entity("RollCall.MVC.Data.Models.Attendance", b =>
                 {
-                    b.HasOne("RollCall.MVC.Data.Models.Class", "Class")
+                    b.HasOne("RollCall.MVC.Data.Models.SchoolClass", "Class")
                         .WithMany("Attendances")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,7 +420,7 @@ namespace RollCall.MVC.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RollCall.MVC.Data.Models.Class", b =>
+            modelBuilder.Entity("RollCall.MVC.Data.Models.SchoolClass", b =>
                 {
                     b.HasOne("RollCall.MVC.Data.Models.Subject", "Subject")
                         .WithMany("Classes")
@@ -402,6 +429,25 @@ namespace RollCall.MVC.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("RollCall.MVC.Data.Models.UserClasses", b =>
+                {
+                    b.HasOne("RollCall.MVC.Data.Models.SchoolClass", "SchoolClass")
+                        .WithMany("UserClasses")
+                        .HasForeignKey("SchoolClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RollCall.MVC.Data.Models.User", "User")
+                        .WithMany("UserClasses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SchoolClass");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RollCall.MVC.Data.Models.UsersSubjects", b =>
@@ -423,9 +469,11 @@ namespace RollCall.MVC.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RollCall.MVC.Data.Models.Class", b =>
+            modelBuilder.Entity("RollCall.MVC.Data.Models.SchoolClass", b =>
                 {
                     b.Navigation("Attendances");
+
+                    b.Navigation("UserClasses");
                 });
 
             modelBuilder.Entity("RollCall.MVC.Data.Models.Subject", b =>
@@ -438,6 +486,8 @@ namespace RollCall.MVC.Migrations
             modelBuilder.Entity("RollCall.MVC.Data.Models.User", b =>
                 {
                     b.Navigation("Attendances");
+
+                    b.Navigation("UserClasses");
 
                     b.Navigation("UsersSubjects");
                 });

@@ -15,11 +15,10 @@
         {
             this.context = context;
         }
-        public async Task CreateAttendance(DateTime dateTime, string userId, int classId)
+        public async Task CreateAttendance(string userId, int classId)
         {
             var attendance = new Attendance
             {
-                DateTime = dateTime,
                 ClassId = classId,
                 UserId = userId
             };

@@ -1,0 +1,94 @@
+﻿@model DetailsSchoolClassVM
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="text-center">
+        <h2>@Model.Subject.Name</h2>
+        <h5>@Model.Date</h5>
+        <h6>@Model.Time</h6>
+        @*@if (this.User.IsInRole(WebConstants.Roles.TeacherRole))
+        {*@
+            <a class="btn btn-success" onclick="generateCode(@Model.Id)"> Genarete Room Code</a>
+        
+        <h2>@Model.Code</h2>
+        @*<h6>Time left: @Model.TimeLeft.ToString("mm':'ss")</h6>*@
+        <div id="timeLeft"></div>
+    </div>
+    <p id="time" hidden>@Model.CodeGeneratedTime</p>
+    <div>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr style="font-weight:bold">
+                    <td>Name</td>
+                    <td>Check In 1</td>
+                    <td>Check In 2</td>
+                    <td>Check In 3</td>
+                    <td>Attendance %</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attendance in Model.Attendances)
+                {
+                    <tr>
+                        <td>@attendance.User.FirstName @attendance.User.LastName</td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
+                        </td>
+                        <td style="font-weight:bold">66%</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+function generateCode(id) {
+    $.ajax({
+        type: 'GET',
+        url: "/schoolclasses/GenerateCode/",
+        data: { id : id },
+        success: function (result) {
+            $("body").html(result);
+        }
+    });
+    }
+
+    var x = document.getElementById("time").innerHTML
+    var countDownDate = new Date(x).getTime();
+    console.log(countDownDate)
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("timeLeft").innerHTML = minutes + "m " + seconds + "s ";
+
+        // If the count down is over, write some text 
+        //if (distance < 0) {
+        //    clearInterval(x);
+        //    document.getElementById("demo").innerHTML = "EXPIRED";
+        //}
+    }, 1000);
+
+</script>

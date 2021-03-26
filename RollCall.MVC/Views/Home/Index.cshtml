@@ -1,8 +1,51 @@
-﻿@{
+﻿@model IEnumerable<IndexSchoolClassVM>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h3 class="text-center">Today's classes</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClassStartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClassEndTime)
+                </th>
+                <th>
+                    Participants
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassStartTime.TimeOfDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassEndTime.TimeOfDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Participants)/  @Html.DisplayFor(modelItem => item.UsersInClass)
+                </td>
+                <td>
+                    <a asp-controller="SchoolClasses" asp-action="Details" asp-route-id="@item.Id">Open Class</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
 </div>

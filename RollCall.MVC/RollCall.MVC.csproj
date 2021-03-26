@@ -17,6 +17,7 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Infrastructure\SeddData\" />
+    <Folder Include="Views\Shared\PartialViews\" />
   </ItemGroup>
 
 </Project>

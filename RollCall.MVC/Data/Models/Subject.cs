@@ -8,7 +8,7 @@ namespace RollCall.MVC.Data.Models
 
         public string Name { get; set; }
 
-        public ICollection<Class> Classes { get; set; } 
+        public ICollection<SchoolClass> Classes { get; set; } 
         public ICollection<UsersSubjects> UsersSubjects { get; set; }
     }
 }

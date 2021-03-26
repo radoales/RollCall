@@ -33,8 +33,12 @@ namespace RollCall.MVC.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
+            var subject = await _context
+                .Subjects
+                .Include(x => x.Classes)
+                .ThenInclude(x => x.Attendances)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (subject == null)
             {
                 return NotFound();
