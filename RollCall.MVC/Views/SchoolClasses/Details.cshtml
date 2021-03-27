@@ -10,18 +10,27 @@
         <h2>@Model.Subject.Name</h2>
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
-        @*@if (this.User.IsInRole(WebConstants.Roles.TeacherRole))
-        {*@
+        @if (this.User.IsInRole(WebConstants.Roles.TeacherRole))
+        {
             <a class="btn btn-success" onclick="generateCode(@Model.Id)"> Genarete Room Code</a>
-        
-        <h2>@Model.Code</h2>
-        @*<h6>Time left: @Model.TimeLeft.ToString("mm':'ss")</h6>*@
+            <h2 id="generatedCode">@Model.Code</h2>
+        }
+
+        @if (this.User.IsInRole(WebConstants.Roles.StudentRole))
+        {
+           
+            <div style="justify-self:center">
+                <input id="enteredCode" style="width:100px" type="text" />
+                <a class="btn btn-success" onclick="checkIn('@(Model.UserId)', @(Model.Id))"> Ckeck In</a>
+            </div>
+        }
         <div id="timeLeft"></div>
     </div>
     <p id="time" hidden>@Model.CodeGeneratedTime</p>
     <div>
         <hr />
         <table class="table">
+
             <thead>
                 <tr style="font-weight:bold">
                     <td>Name</td>
@@ -54,15 +63,29 @@
 </div>
 
 <script type="text/javascript">
-function generateCode(id) {
-    $.ajax({
-        type: 'GET',
-        url: "/schoolclasses/GenerateCode/",
-        data: { id : id },
-        success: function (result) {
-            $("body").html(result);
-        }
-    });
+    function generateCode(id) {
+        $.ajax({
+            type: 'GET',
+            url: "/schoolclasses/GenerateCode/",
+            data: { id: id },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    }
+
+    function checkIn(userId, classId) {
+
+        var enteredCode = document.getElementById("enteredCode").value
+
+        $.ajax({
+            type: 'GET',
+            url: "/schoolclasses/CheckIn/",
+            data: { userId, classId, enteredCode },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
     }
 
     var x = document.getElementById("time").innerHTML
@@ -84,11 +107,11 @@ function generateCode(id) {
         // Output the result in an element with id="demo"
         document.getElementById("timeLeft").innerHTML = minutes + "m " + seconds + "s ";
 
-        // If the count down is over, write some text 
-        //if (distance < 0) {
-        //    clearInterval(x);
-        //    document.getElementById("demo").innerHTML = "EXPIRED";
-        //}
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timeLeft").innerHTML = "Check in Locked";
+        }
     }, 1000);
 
 </script>

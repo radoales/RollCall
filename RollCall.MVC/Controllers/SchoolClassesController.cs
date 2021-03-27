@@ -1,5 +1,6 @@
 ﻿namespace RollCall.MVC.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,19 @@
     {
         private readonly ISchoolClassService schoolClassService;
         private readonly ISubjectServices subjectServices;
+        private readonly IAttendanceService attendanceService;
+        private readonly UserManager<User> userManager;
 
-        public SchoolClassesController(ISchoolClassService schoolClassService, ISubjectServices subjectServices)
+        public SchoolClassesController(
+            ISchoolClassService schoolClassService,
+            ISubjectServices subjectServices,
+            IAttendanceService attendanceService,
+            UserManager<User> userManager)
         {
             this.schoolClassService = schoolClassService;
             this.subjectServices = subjectServices;
+            this.attendanceService = attendanceService;
+            this.userManager = userManager;
         }
 
         // GET: SchoolClasses
@@ -42,6 +51,8 @@
             {
                 return NotFound();
             }
+
+            schoolClass.UserId = this.userManager.GetUserId(this.User);
 
             return View(schoolClass);
         }
@@ -155,6 +166,21 @@
             await this.schoolClassService.GenerateCode(id);
 
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        public async Task<IActionResult> CheckIn(string userId, int classId, int enteredCode)
+        {
+            var schoolClass = await this.schoolClassService.Get(classId);
+            if (schoolClass.Code != enteredCode)
+            {
+                return RedirectToAction(nameof(Details), new { classId });
+            }
+
+            int currentBlock = await this.schoolClassService.DefineSpot(classId);
+
+            await this.attendanceService.CheckIn(userId, classId, currentBlock);
+
+            return RedirectToAction(nameof(Details), new { classId });
         }
     }
 }

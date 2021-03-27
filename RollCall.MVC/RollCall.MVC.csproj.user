@@ -14,5 +14,6 @@
     <WebStackScaffolding_DbContextTypeFullName>RollCall.MVC.Data.RollCallDbContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
+    <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
 </Project>

@@ -2,6 +2,7 @@
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using RollCall.MVC.Data.Models;
     using static WebConstants;
     public class RegisterRequestModel
@@ -34,6 +35,8 @@
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
 
-        public Address Address { get; set; }
+        public SelectList Roles { get; set; }
+
+        public string Role { get; set; }
     }
 }

@@ -11,5 +11,6 @@
         Task CreateAttendance(string userId, int classId);
         Task UpdateAttendance(int id, DateTime dateTime, string userId, int classId);
         Task DeleteAttendance(Attendance attendance);
+        Task CheckIn(string userId, int classId, int spot);
     }
 }

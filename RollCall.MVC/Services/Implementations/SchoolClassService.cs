@@ -52,6 +52,23 @@
 
         }
 
+        public async Task<int> DefineSpot(int classId)
+        {
+            var schoolClass = await this.context.SchoolClasses.FirstOrDefaultAsync(x => x.Id == classId);
+            var classDuration = schoolClass.ClassEndTime - schoolClass.ClassStartTime;
+            var blockDuration = classDuration / 3;
+
+            var endBlock1 = schoolClass.ClassStartTime + blockDuration;
+            var endBlock2 = endBlock1 + blockDuration;
+
+            var currentBlock =
+                DateTime.Now < endBlock1 ? 1
+                : DateTime.Now > endBlock1 && DateTime.Now < endBlock2 ? 2
+                : 3;
+
+            return currentBlock;
+        }
+
         public Task Delete(SchoolClass schoolClass)
         {
             throw new NotImplementedException();
@@ -87,12 +104,12 @@
                      Attendances = x.Attendances,
                      Code = x.Code,
                      SubjectId = x.SubjectId,
-                     CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(15).ToString("MMM d, yyyy HH':'mm':'ss" ),
+                     CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
                      Subject = x.Subject,
                      TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
                      //TimeLeft = x.CodeGeneratedTime != null ? (TimeSpan.FromMinutes(15) - (DateTime.Now - (DateTime)x.CodeGeneratedTime)) : TimeSpan.Zero
                  })
-                 .FirstOrDefaultAsync();
+                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<IndexSchoolClassVM>> GetAll()
@@ -111,7 +128,7 @@
                     UserClasses = x.UserClasses,
                     Attendances = x.Attendances,
                     UsersInClass = x.Attendances.Count,
-                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),                 
+                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
                 }).ToListAsync();
         }
 

@@ -13,5 +13,6 @@
         Task Update(int id, DateTime dateTime, string userId, int classId);
         Task Delete(SchoolClass schoolClass);
         Task GenerateCode(int id);
+        Task<int> DefineSpot(int classId);
     }
 }

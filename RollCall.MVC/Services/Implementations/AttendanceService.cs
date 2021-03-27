@@ -15,6 +15,28 @@
         {
             this.context = context;
         }
+
+        public async Task CheckIn(string userId, int classId, int currentBlock )
+        {
+            var attendance = await this.context
+                .Attendance.FirstOrDefaultAsync(x => x.ClassId == classId && x.UserId == userId);
+
+            switch (currentBlock)
+            {
+                case 1: attendance.CheckIn_Start = true;
+                    break;
+                case 2: attendance.CheckIn_Middle = true;
+                    break;
+                case 3: attendance.CheckIn_End = true;
+                    break;
+                default:
+                    break;
+            }
+
+            this.context.Update(attendance);
+            await this.context.SaveChangesAsync();
+        }
+
         public async Task CreateAttendance(string userId, int classId)
         {
             var attendance = new Attendance

@@ -7,6 +7,8 @@
     using Services;
     using ViewModels.Identity;
     using static WebConstants;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections.Generic;
 
     public class IdentityController : Controller
     {
@@ -30,7 +32,8 @@
         [Route("Identity/register")]
         public ActionResult Register()
         {
-            var model = new RegisterRequestModel { Address = new Address() };
+            var roles = new SelectList(new List<string>() { Roles.AdminRole, Roles.StudentRole, Roles.TeacherRole});
+            var model = new RegisterRequestModel() { Roles = roles };
             return View(model);
         }
 
@@ -39,6 +42,9 @@
         [Route("Identity/register")]
         public async Task<ActionResult> Register(RegisterRequestModel model)
         {
+            var roles = new SelectList(new List<string>() { Roles.AdminRole, Roles.StudentRole, Roles.TeacherRole });
+            model.Roles = roles;
+
             if (ModelState.IsValid)
             {      
                 var user = new User
@@ -51,6 +57,7 @@
                 };
 
                 await this.userManager.CreateAsync(user, model.Password);
+                await this.userManager.AddToRoleAsync(user, model.Role);
 
                 return RedirectToAction(nameof(Login));
             }

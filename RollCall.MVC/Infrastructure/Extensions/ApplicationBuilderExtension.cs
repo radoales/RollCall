@@ -50,15 +50,6 @@
 
                         if (adminUser == null)
                         {
-                            //var address = new Address
-                            //{
-                            //    Town = "Copenhagen",
-                            //    Zip = 2300,
-                            //    AddressField = "Østrigsgade 7,3"
-                            //};
-
-                           // var addressId = await addressService.CreateAddress("Copenhagen", 2300, "Østrigsgade 7,3");
-
                             adminUser = new User
                             {
                                 Email = adminMail,
@@ -66,7 +57,6 @@
                                 PhoneNumber = "12345678",
                                 FirstName = "Rado",
                                 LastName = "Naydenov"
-                              //  AddressId = addressId
 
                             };
 
