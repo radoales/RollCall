@@ -52,7 +52,7 @@
 
         }
 
-        public async Task<int> DefineSpot(int classId)
+        public async Task<int> GetCurrentBlock(int classId)
         {
             var schoolClass = await this.context.SchoolClasses.FirstOrDefaultAsync(x => x.Id == classId);
             var classDuration = schoolClass.ClassEndTime - schoolClass.ClassStartTime;
@@ -60,11 +60,13 @@
 
             var endBlock1 = schoolClass.ClassStartTime + blockDuration;
             var endBlock2 = endBlock1 + blockDuration;
+            var endBlock3 = schoolClass.ClassEndTime;
 
             var currentBlock =
-                DateTime.Now < endBlock1 ? 1
+                  DateTime.Now < endBlock1 ? 1
                 : DateTime.Now > endBlock1 && DateTime.Now < endBlock2 ? 2
-                : 3;
+                : DateTime.Now > endBlock2 && DateTime.Now < endBlock3 ? 3
+                : 0;
 
             return currentBlock;
         }
@@ -91,6 +93,8 @@
 
         public async Task<DetailsSchoolClassVM> Get(int id)
         {
+            var currentBlock = await GetCurrentBlock(id);
+
             return await this.context.SchoolClasses
                  .Include(s => s.Subject)
                  .Include(x => x.Attendances)
@@ -99,6 +103,7 @@
                  {
                      Id = x.Id,
                      Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
+                     CurrentBlock = currentBlock,
                      Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
                      UserClasses = x.UserClasses,
                      Attendances = x.Attendances,
@@ -107,7 +112,33 @@
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
                      Subject = x.Subject,
                      TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
-                     //TimeLeft = x.CodeGeneratedTime != null ? (TimeSpan.FromMinutes(15) - (DateTime.Now - (DateTime)x.CodeGeneratedTime)) : TimeSpan.Zero
+                 })
+                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId)
+        {
+            var currentBlock = await GetCurrentBlock(id);
+            var attendancePercentage = await CalculateAttendancePercentage(userId, id);
+
+            return await this.context.SchoolClasses
+                 .Include(s => s.Subject)
+                 .Include(x => x.Attendances)
+                 .ThenInclude(x => x.User)
+                 .Select(x => new DetailsSchoolClassVM
+                 {
+                     Id = x.Id,
+                     Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
+                     CurrentBlock = currentBlock,
+                     Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
+                     UserClasses = x.UserClasses,
+                     Attendances = x.Attendances.Where(a => a.UserId == userId).ToList(),
+                     Code = x.Code,
+                     SubjectId = x.SubjectId,
+                     CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
+                     Subject = x.Subject,
+                     TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null,
+                     AttendancePercentage = attendancePercentage
                  })
                  .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -135,6 +166,37 @@
         public Task Update(int id, DateTime dateTime, string userId, int classId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId)
+        {
+            return await this.context
+                .SchoolClasses
+                .Include(x => x.Subject)
+                .ThenInclude(x => x.UsersSubjects)
+                .Where(x => x.ClassStartTime.Date == DateTime.Now.Date
+                && x.Subject.UsersSubjects.FirstOrDefault(y => y.UserId == userId).UserId == userId)
+                .Select(x => new IndexSchoolClassVM
+                {
+                    Id = x.Id,
+                    ClassStartTime = x.ClassStartTime,
+                    ClassEndTime = x.ClassEndTime,
+                    Code = x.Code,
+                    Subject = x.Subject,
+                    SubjectId = x.SubjectId,
+                    Attendances = x.Attendances,
+                    UsersInClass = x.Attendances.Count,
+                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                })
+                .ToListAsync();
+        }
+
+        private async Task<double> CalculateAttendancePercentage(string userId, int classId)
+        {
+            var attendance = await this.context.Attendances.FirstOrDefaultAsync(x => x.UserId == userId && x.ClassId == classId);
+            var list = new List<bool>() { attendance.CheckIn_Start, attendance.CheckIn_Middle, attendance.CheckIn_End };
+            double count = Math.Floor(list.Count(x => x == true) / 3.00 * 100);
+            return count;
         }
     }
 }

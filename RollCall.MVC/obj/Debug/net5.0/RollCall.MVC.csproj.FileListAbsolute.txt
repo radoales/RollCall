@@ -175,3 +175,4 @@ C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\SchoolClas
 C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\SchoolClasses\Edit.cshtml.g.cs
 C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\SchoolClasses\Index.cshtml.g.cs
 C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\Shared\_CheckInPartial.cshtml.g.cs
+C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\SchoolClasses\CheckIn.cshtml.g.cs

@@ -10,6 +10,8 @@
     using RollCall.MVC.ViewModels.SchoolClass;
     using System.Linq;
     using System.Threading.Tasks;
+    using static RollCall.MVC.WebConstants;
+
     public class SchoolClassesController : Controller
     {
         private readonly ISchoolClassService schoolClassService;
@@ -45,16 +47,43 @@
                 return NotFound();
             }
 
-            var schoolClass = await this.schoolClassService.Get((int)id);
+            var isUserStudent = this.User.IsInRole(Roles.StudentRole);
+            var userId = this.userManager.GetUserId(this.User);
 
-            if (schoolClass == null)
+            DetailsSchoolClassVM model = null;
+
+            if (isUserStudent)
+            {
+                model = await this.schoolClassService.GetAsStudent((int)id, userId);
+            }
+            else
+            {
+                model = await this.schoolClassService.Get((int)id);
+            }
+
+            
+            if (model == null)
             {
                 return NotFound();
             }
 
-            schoolClass.UserId = this.userManager.GetUserId(this.User);
+            var currentBlock = await this.schoolClassService.GetCurrentBlock((int)id);
 
-            return View(schoolClass);
+            if (!isUserStudent)
+            {
+                return View(model);
+            }
+
+            model.UserId = userId;
+            model.StudentCheckedIn = await this.attendanceService.IsStudentCheckedInforCurrentBlock(userId, (int)id, currentBlock);
+            var isClassActive = await this.schoolClassService.GetCurrentBlock((int)id) != 0;
+
+            if (!model.StudentCheckedIn && isClassActive)
+            {
+                return RedirectToAction(nameof(CheckIn), new { model.UserId, classId = model.Id });
+            }
+
+            return View(model);
         }
 
         // GET: SchoolClasses/Create
@@ -168,19 +197,43 @@
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        public async Task<IActionResult> CheckIn(string userId, int classId, int enteredCode)
+        [HttpGet]
+        public async Task<IActionResult> CheckIn(string userId, int classId)
         {
             var schoolClass = await this.schoolClassService.Get(classId);
-            if (schoolClass.Code != enteredCode)
+            var isClassActive = await this.schoolClassService.GetCurrentBlock(classId) != 0;
+
+            var model = new CheckInVM
             {
-                return RedirectToAction(nameof(Details), new { classId });
+                SubjectName = schoolClass.Subject.Name,
+                EnteredCode = schoolClass.EnteredCode,
+                CodeGeneratedTime = schoolClass.CodeGeneratedTime,
+                Date = schoolClass.Date,
+                Time = schoolClass.Time,
+                TimeLeft = schoolClass.TimeLeft,
+                ClassId = classId,
+                IsClassActive =  isClassActive
+
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckIn(CheckInVM model)
+        {
+            var schoolClass = await this.schoolClassService.Get(model.ClassId);
+            if (schoolClass.Code != model.EnteredCode)
+            {
+                ModelState.AddModelError("EnteredCode", "Wrong Code");
+                return View(model);
             }
 
-            int currentBlock = await this.schoolClassService.DefineSpot(classId);
+            int currentBlock = await this.schoolClassService.GetCurrentBlock(model.ClassId);
 
-            await this.attendanceService.CheckIn(userId, classId, currentBlock);
+            await this.attendanceService.CheckIn(model.UserId, model.ClassId, currentBlock);
 
-            return RedirectToAction(nameof(Details), new { classId });
+            return RedirectToAction(nameof(Details),  new { id = model.ClassId } );
         }
     }
 }

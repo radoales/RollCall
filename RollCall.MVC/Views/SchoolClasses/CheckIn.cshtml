@@ -1,0 +1,73 @@
+﻿@model RollCall.MVC.ViewModels.SchoolClass.CheckInVM
+<div class="text-center">
+    <h2>@Model.SubjectName</h2>
+    <h5>@Model.Date</h5>
+    <h6>@Model.Time</h6>
+    <form id="modelForm"  asp-action="CheckIn">
+
+        @if (Model.StudentCheckedIn == false && Model.IsClassActive)
+        {
+            <div style="justify-self:center">
+                <input type="hidden" asp-for="SubjectName" />
+                <input type="hidden" asp-for="ClassId" />
+                <input type="hidden" asp-for="Date" />
+                <input type="hidden" asp-for="Time" />
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="CodeGeneratedTime" />
+                <div class="form-group">
+                    <input class="" asp-for="EnteredCode" maxlength="4" id="enteredCode" style=" font-size:60px; width:150px" type="text" />
+                    <span asp-validation-for="EnteredCode" class="text-danger"></span>
+                </div>
+                <p id="time" hidden>@Model.CodeGeneratedTime</p>
+                <div class="form-group">
+                    <input style="height:100px; font-size:60px" type="submit" value="Check In" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </form>
+    <div id="timeLeft"></div>
+</div>
+
+<script type="text/javascript">
+
+    function checkIn(model) {
+        console.log(model);
+        //var enteredCode = document.getElementById("enteredCode").value
+
+        $.ajax({
+            type: 'POST',
+            url: "/schoolclasses/CheckIn/",
+            data: JSON.stringify(model),
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    }
+
+    var x = document.getElementById("time").innerHTML
+    var countDownDate = new Date(x).getTime();
+    console.log(countDownDate)
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("timeLeft").innerHTML = minutes + "m " + seconds + "s ";
+
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timeLeft").innerHTML = "Check in Locked";
+        }
+    }, 1000);
+
+</script>

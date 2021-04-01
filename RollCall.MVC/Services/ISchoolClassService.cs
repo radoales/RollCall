@@ -9,10 +9,12 @@
     {
         Task<IEnumerable<IndexSchoolClassVM>> GetAll();
         Task<DetailsSchoolClassVM> Get(int id);
+        Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId);
         Task Create(DateTime classStartTime, DateTime classEndTime, int subjectId);
         Task Update(int id, DateTime dateTime, string userId, int classId);
         Task Delete(SchoolClass schoolClass);
         Task GenerateCode(int id);
-        Task<int> DefineSpot(int classId);
+        Task<int> GetCurrentBlock(int classId);
+        Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);
     }
 }

@@ -3,15 +3,20 @@
     using RollCall.MVC.Data.Models;
     using System;
     using System.Collections.Generic;
-    public class DetailsSchoolClassVM
+    public class CheckInVM
     {
         public int Id { get; set; }
+
+        public string SubjectName { get; set; }
+
+        public int ClassId { get; set; }
 
         public int CurrentBlock { get; set; }
 
         public string UserId { get; set; }
 
         public bool StudentCheckedIn { get; set; }
+        public bool IsClassActive { get; set; }
 
         public int? Code { get; set; }
         public int? EnteredCode { get; set; }
@@ -24,13 +29,5 @@
 
         public DateTime? TimeLeft { get; set; }
 
-        public double AttendancePercentage { get; set; }
-
-        public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
-
-        public ICollection<Attendance> Attendances { get; set; }
-
-        public ICollection<UserClasses> UserClasses { get; set; }
     }
 }

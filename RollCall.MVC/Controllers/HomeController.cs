@@ -1,21 +1,28 @@
 ﻿namespace RollCall.MVC.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RollCall.MVC.Data.Models;
     using RollCall.MVC.Services;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ISchoolClassService schoolClassService;
-        public HomeController(ISchoolClassService schoolClassService)
+        private readonly UserManager<User> userManager;
+        public HomeController(ISchoolClassService schoolClassService, UserManager<User> userManager)
         {
             this.schoolClassService = schoolClassService;
+            this.userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
-            var classes = await this.schoolClassService.GetAll();
+            var userId = this.userManager.GetUserId(this.User);
+
+            var classes = await this.schoolClassService.GetTodaysLoggedInUserClasses(userId);
             return View(classes);
         }
 

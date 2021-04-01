@@ -73,6 +73,30 @@
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
+        public async Task<bool> IsStudentCheckedInforCurrentBlock(string userId, int schoolClassId, int currentBlock)
+        {
+            var attendance = await this.context
+                .Attendance
+                .FirstOrDefaultAsync(x => x.ClassId == schoolClassId && x.UserId == userId);
+            bool result = false;
+
+            switch (currentBlock)
+            {
+                case 1: result = attendance.CheckIn_Start == true;
+                    break;
+                case 2:
+                    result = attendance.CheckIn_Middle == true;
+                    break;
+                case 3:
+                    result = attendance.CheckIn_End == true;
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
         public Task UpdateAttendance(int id, DateTime dateTime, string userId, int classId)
         {
             throw new NotImplementedException();
