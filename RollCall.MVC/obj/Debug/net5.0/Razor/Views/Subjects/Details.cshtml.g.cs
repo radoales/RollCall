@@ -40,8 +40,15 @@ using RollCall.MVC.ViewModels.SchoolClass;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cd03c557012f95bdfd93128f68a0db78843f941b", @"/Views/Subjects/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"501c5d1622a7a6048273834a5290681d4b4e6adc", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8414f2d6d848a1080a85dacc32d44cee52454c80", @"/Views/_ViewImports.cshtml")]
     public class Views_Subjects_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<RollCall.MVC.Data.Models.Subject>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "Classes", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -124,7 +131,7 @@ Write(Model.Name);
 #line hidden
 #nullable disable
             WriteLiteral("</td>\r\n                    <td>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b6519", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b6695", async() => {
                 WriteLiteral("Go to class");
             }
             );
@@ -165,7 +172,7 @@ Write(Model.Name);
 #line hidden
 #nullable disable
             WriteLiteral("        </tbody>\r\n    </table>\r\n</div>\r\n<div>\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b9190", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b9366", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -196,7 +203,7 @@ Write(Model.Name);
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" |\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b11323", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd03c557012f95bdfd93128f68a0db78843f941b11499", async() => {
                 WriteLiteral("Back to List");
             }
             );

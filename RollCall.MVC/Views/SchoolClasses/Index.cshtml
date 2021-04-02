@@ -1,48 +1,124 @@
-﻿@model IEnumerable<IndexSchoolClassVM>
+﻿@model PaginatedListIndexSchoolClassVM
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var date = "";
 }
 
-<h1>Index</h1>
+<div class="container">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClassStartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClassEndTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassStartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassEndTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <h1>Classes</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    Subject
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Participants
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.SchoolClasses)
+            {
+                if (date != item.Date || date == "")
+                {
+                    date = item.Date;
+                    <tr>
+                        <td class="text-center" colspan="4">
+                            <div style="font-size:20px"><strong>@date</strong></div>             
+                        </td>
+                    </tr>
+                    
+                }
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Participants)/  @Html.DisplayFor(modelItem => item.UsersInClass)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Open Class</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @*Paging*@
+    @{
+        var prevDisabled = !Model.SchoolClasses.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.SchoolClasses.HasNextPage ? "disabled" : "";
+    }
+    <div class="container">
+        <div style="padding-bottom:40px; text-align:center">
+            <a onclick="paging(@(Model.SchoolClasses.PageIndex - 1))"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            @if (Model.SchoolClasses.PageIndex > 2)
+            {
+                <a class="btn btn-default" onclick="paging(1)">
+                    1
+                </a>
+                <span>...</span>
+            }
+            @if (Model.SchoolClasses.HasPreviousPage)
+            {
+                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.PageIndex - 1))">
+                    @(Model.SchoolClasses.PageIndex - 1)
+                </a>
+            }
+            <span>@Model.SchoolClasses.PageIndex</span>
+            @if (Model.SchoolClasses.HasNextPage)
+            {
+                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.PageIndex + 1))">
+                    @(Model.SchoolClasses.PageIndex + 1)
+                </a>
+            }
+            @if (Model.SchoolClasses.TotalPages > Model.SchoolClasses.PageIndex + 1)
+            {
+                <span>...</span>
+                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.TotalPages))">
+                    @Model.SchoolClasses.TotalPages
+                </a>
+            }
+            <a onclick="paging(@(Model.SchoolClasses.PageIndex + 1))"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //-------------------------Paging----------------------------->
+    //Go to specified page
+    function paging(pageNumber) {
+        //var e = document.getElementById("sortId");
+        //var sortId = e.options[e.selectedIndex].text;
+        //var productTypeId = $('#productTypeId').attr('data-value');
+
+        $.ajax({
+            type: 'GET',
+            url: "/schoolclasses/index",
+            data: { "pageNumber": pageNumber/*, "productTypeId": productTypeId, "sortBy": sortId */ },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    }
+</script>

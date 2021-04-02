@@ -1,13 +1,28 @@
 ﻿namespace RollCall.MVC.ViewModels.SchoolClass
 {
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.ViewModels.Attendance;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+
     public class DetailsSchoolClassVM
     {
         public int Id { get; set; }
 
         public int CurrentBlock { get; set; }
+
+        public double AverageAttendance
+        {
+            get
+            {              
+                return Attendances.Average(a => a.AttendancePersentage);
+            }
+            set
+            {
+                this.AverageAttendance = value;
+            }
+        }
 
         public string UserId { get; set; }
 
@@ -24,12 +39,10 @@
 
         public DateTime? TimeLeft { get; set; }
 
-        public double AttendancePercentage { get; set; }
-
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
 
-        public ICollection<Attendance> Attendances { get; set; }
+        public ICollection<ListAtendanceVM> Attendances { get; set; }
 
         public ICollection<UserClasses> UserClasses { get; set; }
     }

@@ -40,8 +40,15 @@ using RollCall.MVC.ViewModels.SchoolClass;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dcea3e1f64ecb4a2cfb8081939158f3f19b320e9", @"/Views/Shared/_CheckInPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"501c5d1622a7a6048273834a5290681d4b4e6adc", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8414f2d6d848a1080a85dacc32d44cee52454c80", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__CheckInPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<bool>
     {
         #pragma warning disable 1998

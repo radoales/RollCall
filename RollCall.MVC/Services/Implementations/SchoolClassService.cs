@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.ViewModels.Attendance;
     using RollCall.MVC.ViewModels.SchoolClass;
     using System;
     using System.Collections.Generic;
@@ -95,7 +96,7 @@
         {
             var currentBlock = await GetCurrentBlock(id);
 
-            return await this.context.SchoolClasses
+            var result = await this.context.SchoolClasses
                  .Include(s => s.Subject)
                  .Include(x => x.Attendances)
                  .ThenInclude(x => x.User)
@@ -105,8 +106,17 @@
                      Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
                      CurrentBlock = currentBlock,
                      Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
-                     UserClasses = x.UserClasses,
-                     Attendances = x.Attendances,
+                     Attendances = x.Attendances.Select(a => new ListAtendanceVM
+                     {
+                         Id = a.Id,
+                         CheckIn_Start = a.CheckIn_Start,
+                         CheckIn_Middle = a.CheckIn_Middle,
+                         CheckIn_End = a.CheckIn_End,
+                         ClassId = a.ClassId,
+                         UserId = a.UserId,
+                         User = a.User,
+                         Class = a.Class
+                     }).ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
@@ -114,12 +124,15 @@
                      TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
                  })
                  .FirstOrDefaultAsync(x => x.Id == id);
+
+
+
+            return result;
         }
 
         public async Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId)
         {
             var currentBlock = await GetCurrentBlock(id);
-            var attendancePercentage = await CalculateAttendancePercentage(userId, id);
 
             return await this.context.SchoolClasses
                  .Include(s => s.Subject)
@@ -131,14 +144,23 @@
                      Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
                      CurrentBlock = currentBlock,
                      Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
-                     UserClasses = x.UserClasses,
-                     Attendances = x.Attendances.Where(a => a.UserId == userId).ToList(),
+                     Attendances = x.Attendances.Where(a => a.UserId == userId)
+                     .Select(a => new ListAtendanceVM
+                     {
+                         Id = a.Id,
+                         CheckIn_Start = a.CheckIn_Start,
+                         CheckIn_Middle = a.CheckIn_Middle,
+                         CheckIn_End = a.CheckIn_End,
+                         ClassId = a.ClassId,
+                         UserId = a.UserId,
+                         User = a.User,
+                         Class = a.Class
+                     }).ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
                      Subject = x.Subject,
-                     TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null,
-                     AttendancePercentage = attendancePercentage
+                     TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
                  })
                  .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -151,12 +173,11 @@
                 .Select(x => new IndexSchoolClassVM
                 {
                     Id = x.Id,
-                    ClassStartTime = x.ClassStartTime,
-                    ClassEndTime = x.ClassEndTime,
+                    Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
+                    Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
                     Code = x.Code,
                     Subject = x.Subject,
                     SubjectId = x.SubjectId,
-                    UserClasses = x.UserClasses,
                     Attendances = x.Attendances,
                     UsersInClass = x.Attendances.Count,
                     Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),

@@ -23,6 +23,10 @@
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
 
+        public string Date { get; set; }
+
+        public string Time { get; set; }
+
         public ICollection<Attendance> Attendances { get; set; }
 
         public ICollection<UserClasses> UserClasses { get; set; }

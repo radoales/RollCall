@@ -11,14 +11,15 @@
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
 
-        @if (this.User.IsInRole(WebConstants.Roles.TeacherRole))
+        @if (this.User.IsInRole(WebConstants.Roles.TeacherRole) && Model.CurrentBlock != 0)
         {
             <a class="btn btn-success" onclick="generateCode(@Model.Id)"> Genarete Room Code</a>
             <h2 id="generatedCode">@Model.Code</h2>
             <div id="timeLeft"></div>
+            <p id="time" hidden>@Model.CodeGeneratedTime</p>
         }
     </div>
-    <p id="time" hidden>@Model.CodeGeneratedTime</p>
+
     <div>
         <hr />
         <table class="table">
@@ -46,9 +47,15 @@
                         <td>
                             <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
                         </td>
-                        <td style="font-weight:bold">@Model.AttendancePercentage%</td>
+                        <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
                     </tr>
                 }
+                <tr>
+                    <td class="text-lg-right" colspan="4"><strong>Average Attendence:</strong></td>
+                    <td class="" colspan="1">
+                        <div style=""><strong>@Model.AverageAttendance%</strong></div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
