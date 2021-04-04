@@ -5,7 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+@if (this.User.IsInRole(AdminRole))
+{
+    <p>
+        <a asp-action="Create">Add new Class</a>
+    </p>
+}
 
 <h4>Subject</h4>
 <hr />

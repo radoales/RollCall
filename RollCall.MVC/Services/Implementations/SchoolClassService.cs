@@ -194,8 +194,8 @@
                     SubjectId = x.SubjectId,
                     Attendances = x.Attendances,
                     UsersInClass = x.Attendances.Count,
-                    Participants = x.Attendances
-                                    .Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                    IsCurrentClass = x.ClassStartTime <= DateTime.Now && x.ClassEndTime > DateTime.Now
                 }).ToListAsync();
         }
 

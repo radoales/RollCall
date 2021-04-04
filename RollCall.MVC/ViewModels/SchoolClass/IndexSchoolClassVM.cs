@@ -20,6 +20,8 @@
 
         public int Participants { get; set; }
 
+        public bool IsCurrentClass { get; set; }
+
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
 
