@@ -24,6 +24,5 @@ namespace RollCall.MVC.Data.Models
         public ICollection<Attendance> Attendances { get; set; }
 
         public ICollection<UsersSubjects> UsersSubjects { get; set; }
-        public ICollection<UserClasses> UserClasses { get; set; }
     }
 }

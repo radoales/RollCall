@@ -1,5 +1,6 @@
 ﻿namespace RollCall.MVC.Services.Implementations
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
     using RollCall.MVC.Data.Models;
@@ -10,15 +11,19 @@
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
+    using static RollCall.MVC.WebConstants;
+
     public class SchoolClassService : ISchoolClassService
     {
         private readonly RollCallDbContext context;
         private readonly ISubjectServices subjectServices;
+        private readonly UserManager<User> userManager;
 
-        public SchoolClassService(RollCallDbContext context, ISubjectServices subjectServices)
+        public SchoolClassService(RollCallDbContext context, ISubjectServices subjectServices, UserManager<User> userManager)
         {
             this.context = context;
             this.subjectServices = subjectServices;
+            this.userManager = userManager;
         }
 
         public async Task Create(DateTime classStartTime, DateTime classEndTime, int subjectId)
@@ -72,9 +77,11 @@
             return currentBlock;
         }
 
-        public Task Delete(SchoolClass schoolClass)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var schoolClass = await this.context.SchoolClasses.FindAsync(id);
+            this.context.SchoolClasses.Remove(schoolClass);
+            await this.context.SaveChangesAsync();
         }
 
         public async Task GenerateCode(int id)
@@ -92,9 +99,10 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<DetailsSchoolClassVM> Get(int id)
+        public async Task<DetailsSchoolClassVM> GetDetailsSchoolClassVM(int id)
         {
             var currentBlock = await GetCurrentBlock(id);
+            var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
             var result = await this.context.SchoolClasses
                  .Include(s => s.Subject)
@@ -116,7 +124,7 @@
                          UserId = a.UserId,
                          User = a.User,
                          Class = a.Class
-                     }).ToList(),
+                     }).Where(x => !allTeachers.Contains(x.User)).ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
@@ -125,7 +133,12 @@
                  })
                  .FirstOrDefaultAsync(x => x.Id == id);
 
-
+            result.Teachers = await this.context.
+                 UsersSubjects
+                 .Include(x => x.User)
+                 .Where(x => allTeachers.Contains(x.User) && x.SubjectId == result.SubjectId)
+                 .Select(x => x.User)
+                 .ToListAsync();
 
             return result;
         }
@@ -170,6 +183,7 @@
             return await this.context
                 .SchoolClasses
                 .Include(x => x.Subject)
+                .OrderByDescending(x => x.ClassStartTime)
                 .Select(x => new IndexSchoolClassVM
                 {
                     Id = x.Id,
@@ -180,13 +194,21 @@
                     SubjectId = x.SubjectId,
                     Attendances = x.Attendances,
                     UsersInClass = x.Attendances.Count,
-                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                    Participants = x.Attendances
+                                    .Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
                 }).ToListAsync();
         }
 
-        public Task Update(int id, DateTime dateTime, string userId, int classId)
+        public async Task Update(int id, DateTime startTime, DateTime endTime, int subjectId)
         {
-            throw new NotImplementedException();
+            var schoolClass = await this.context.SchoolClasses.FirstOrDefaultAsync(x => x.Id == id);
+
+            schoolClass.ClassStartTime = startTime;
+            schoolClass.ClassEndTime = endTime;
+            schoolClass.SubjectId = subjectId;
+
+            this.context.Update(schoolClass);
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId)
@@ -212,12 +234,18 @@
                 .ToListAsync();
         }
 
-        private async Task<double> CalculateAttendancePercentage(string userId, int classId)
+        public async Task<EditSchoolClassVM> GetEditSchoolClassVM(int id)
         {
-            var attendance = await this.context.Attendances.FirstOrDefaultAsync(x => x.UserId == userId && x.ClassId == classId);
-            var list = new List<bool>() { attendance.CheckIn_Start, attendance.CheckIn_Middle, attendance.CheckIn_End };
-            double count = Math.Floor(list.Count(x => x == true) / 3.00 * 100);
-            return count;
+            return await this.context
+                .SchoolClasses
+                .Select(x => new EditSchoolClassVM
+                {
+                    Id = x.Id,
+                    ClassStartTime = x.ClassStartTime,
+                    ClassEndTime = x.ClassEndTime,
+                    Subject = x.Subject,
+                    SubjectId = x.SubjectId
+                }).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

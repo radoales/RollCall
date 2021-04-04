@@ -322,21 +322,6 @@ namespace RollCall.MVC.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("RollCall.MVC.Data.Models.UserClasses", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("SchoolClassId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "SchoolClassId");
-
-                    b.HasIndex("SchoolClassId");
-
-                    b.ToTable("UserClasses");
-                });
-
             modelBuilder.Entity("RollCall.MVC.Data.Models.UsersSubjects", b =>
                 {
                     b.Property<string>("UserId")
@@ -431,25 +416,6 @@ namespace RollCall.MVC.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("RollCall.MVC.Data.Models.UserClasses", b =>
-                {
-                    b.HasOne("RollCall.MVC.Data.Models.SchoolClass", "SchoolClass")
-                        .WithMany("UserClasses")
-                        .HasForeignKey("SchoolClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RollCall.MVC.Data.Models.User", "User")
-                        .WithMany("UserClasses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SchoolClass");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RollCall.MVC.Data.Models.UsersSubjects", b =>
                 {
                     b.HasOne("RollCall.MVC.Data.Models.Subject", "Subject")
@@ -472,8 +438,6 @@ namespace RollCall.MVC.Migrations
             modelBuilder.Entity("RollCall.MVC.Data.Models.SchoolClass", b =>
                 {
                     b.Navigation("Attendances");
-
-                    b.Navigation("UserClasses");
                 });
 
             modelBuilder.Entity("RollCall.MVC.Data.Models.Subject", b =>
@@ -486,8 +450,6 @@ namespace RollCall.MVC.Migrations
             modelBuilder.Entity("RollCall.MVC.Data.Models.User", b =>
                 {
                     b.Navigation("Attendances");
-
-                    b.Navigation("UserClasses");
 
                     b.Navigation("UsersSubjects");
                 });

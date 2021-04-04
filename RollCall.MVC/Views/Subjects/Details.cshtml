@@ -1,4 +1,4 @@
-﻿@model RollCall.MVC.Data.Models.Subject
+﻿@model Subject
 
 @{
     ViewData["Title"] = "Details";
@@ -22,7 +22,7 @@
                 <tr>
                     <td>@x.ClassStartTime.GetDateTimeFormats('D')[0]</td>
                     <td>@x.ClassStartTime.TimeOfDay - @x.ClassEndTime.TimeOfDay</td>
-                    <td><a asp-controller="Classes" asp-action="Details" asp-route-id="@x.Id">Go to class</a></td>
+                    <td><a asp-controller="SchoolClasses" asp-action="Details" asp-route-id="@x.Id">Go to class</a></td>
                 </tr>
             }
         </tbody>

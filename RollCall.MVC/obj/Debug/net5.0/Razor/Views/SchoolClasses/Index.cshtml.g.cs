@@ -47,8 +47,15 @@ using RollCall.MVC.Helpers;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using static RollCall.MVC.WebConstants.Roles;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9e220a05ddf3fb34ae702ddd6a3dc88a3ddb8314", @"/Views/SchoolClasses/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8414f2d6d848a1080a85dacc32d44cee52454c80", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3da133b743af150fc5ed4ee2bc18140668abc8ef", @"/Views/_ViewImports.cshtml")]
     public class Views_SchoolClasses_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<PaginatedListIndexSchoolClassVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Create", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -89,7 +96,7 @@ using RollCall.MVC.Helpers;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n<div class=\"container\">\r\n\r\n    <h1>Classes</h1>\r\n\r\n    <p>\r\n        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9e220a05ddf3fb34ae702ddd6a3dc88a3ddb83144632", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9e220a05ddf3fb34ae702ddd6a3dc88a3ddb83144826", async() => {
                 WriteLiteral("Create New");
             }
             );
@@ -184,7 +191,7 @@ using RollCall.MVC.Helpers;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9e220a05ddf3fb34ae702ddd6a3dc88a3ddb83148749", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9e220a05ddf3fb34ae702ddd6a3dc88a3ddb83148943", async() => {
                 WriteLiteral("Open Class");
             }
             );

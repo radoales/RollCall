@@ -22,7 +22,5 @@
         public Subject Subject { get; set; }
 
         public ICollection<Attendance> Attendances { get; set; }
-
-        public ICollection<UserClasses> UserClasses { get; set; }
     }
 }

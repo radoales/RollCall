@@ -10,6 +10,7 @@
     {
         public int Id { get; set; }
 
+        public IEnumerable<User> Teachers { get; set; }
         public int CurrentBlock { get; set; }
 
         public double AverageAttendance
@@ -43,7 +44,5 @@
         public Subject Subject { get; set; }
 
         public ICollection<ListAtendanceVM> Attendances { get; set; }
-
-        public ICollection<UserClasses> UserClasses { get; set; }
     }
 }

@@ -8,11 +8,12 @@
     public interface ISchoolClassService
     {
         Task<IEnumerable<IndexSchoolClassVM>> GetAll();
-        Task<DetailsSchoolClassVM> Get(int id);
+        Task<DetailsSchoolClassVM> GetDetailsSchoolClassVM(int id);
+        Task<EditSchoolClassVM> GetEditSchoolClassVM(int id);
         Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId);
         Task Create(DateTime classStartTime, DateTime classEndTime, int subjectId);
-        Task Update(int id, DateTime dateTime, string userId, int classId);
-        Task Delete(SchoolClass schoolClass);
+        Task Update(int id, DateTime startTime, DateTime endTime, int subjectId);
+        Task Delete(int id);
         Task GenerateCode(int id);
         Task<int> GetCurrentBlock(int classId);
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);

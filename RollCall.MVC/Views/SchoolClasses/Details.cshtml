@@ -10,13 +10,25 @@
         <h2>@Model.Subject.Name</h2>
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
+        <h6><u>Teachers: </u></h6>
+        @foreach (var teacher in Model.Teachers)
+        {
+           <h6>@teacher.FirstName @teacher.LastName</h6>
+        }
 
-        @if (this.User.IsInRole(WebConstants.Roles.TeacherRole) && Model.CurrentBlock != 0)
+        @if (this.User.IsInRole(TeacherRole) && Model.CurrentBlock != 0)
         {
             <a class="btn btn-success" onclick="generateCode(@Model.Id)"> Genarete Room Code</a>
             <h2 id="generatedCode">@Model.Code</h2>
             <div id="timeLeft"></div>
             <p id="time" hidden>@Model.CodeGeneratedTime</p>
+        }
+        @if (this.User.IsInRole(AdminRole))
+        {
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            </div>
         }
     </div>
 
@@ -26,6 +38,7 @@
 
             <thead>
                 <tr style="font-weight:bold">
+                    <td>Student Number</td>
                     <td>Name</td>
                     <td>Check In 1</td>
                     <td>Check In 2</td>
@@ -36,22 +49,23 @@
             <tbody>
                 @foreach (var attendance in Model.Attendances)
                 {
-                    <tr>
-                        <td>@attendance.User.FirstName @attendance.User.LastName</td>
-                        <td>
-                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
-                        </td>
-                        <td>
-                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
-                        </td>
-                        <td>
-                            <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
-                        </td>
-                        <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
-                    </tr>
+                <tr>
+                    <td>@attendance.User.StudentNumber</td>
+                    <td>@attendance.User.FirstName @attendance.User.LastName</td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
+                    </td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
+                    </td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
+                    </td>
+                    <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
+                </tr>
                 }
                 <tr>
-                    <td class="text-lg-right" colspan="4"><strong>Average Attendence:</strong></td>
+                    <td class="text-lg-right" colspan="5"><strong>Average Attendence:</strong></td>
                     <td class="" colspan="1">
                         <div style=""><strong>@Model.AverageAttendance%</strong></div>
                     </td>

@@ -16,7 +16,6 @@ namespace RollCall.MVC.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<UsersSubjects> UsersSubjects { get; set; }
-        public DbSet<UserClasses> UserClasses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,20 +31,6 @@ namespace RollCall.MVC.Data
                 .HasOne(us => us.Subject)
                 .WithMany(s => s.UsersSubjects)
                 .HasForeignKey(us => us.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserClasses>()
-       .HasKey(up => new { up.UserId, up.SchoolClassId });
-
-            modelBuilder.Entity<UserClasses>()
-                .HasOne(uc => uc.User)
-                .WithMany(u => u.UserClasses)
-                .HasForeignKey(uc => uc.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserClasses>()
-                .HasOne(uc => uc.SchoolClass)
-                .WithMany(c => c.UserClasses)
-                .HasForeignKey(uc => uc.SchoolClassId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
