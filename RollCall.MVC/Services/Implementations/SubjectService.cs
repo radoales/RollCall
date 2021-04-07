@@ -20,6 +20,28 @@
 
         public async Task AddUserToSubject(string userId, int subjectId)
         {
+            var schoolClasses = await this.context
+                .SchoolClasses
+                .Where(x => x.SubjectId == subjectId && x.ClassStartTime.Date > DateTime.Today.Date)
+                .ToListAsync();
+
+            var attendances = new List<Attendance>();
+
+            if (schoolClasses.Count != 0)
+            {
+                foreach (var sc in schoolClasses)
+                {
+                    var attendance = new Attendance
+                    {
+                        ClassId = sc.Id,
+                        UserId = userId
+                    };
+
+                    attendances.Add(attendance);
+                }
+            }
+          
+
             var userSubject = new UsersSubjects
             {
                 UserId = userId,
@@ -27,6 +49,7 @@
             };
 
             this.context.Add(userSubject);
+            this.context.AddRange(attendances);
             await this.context.SaveChangesAsync();
         }
 
@@ -56,7 +79,7 @@
                 return await this.context
               .Users
               .Include(x => x.UsersSubjects)
-              .Where(x => x.FirstName.StartsWith(name) || x.LastName.StartsWith(name))
+              .Where(x => (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) && !x.UsersSubjects.Any(us => us.SubjectId == subjectId))
               .Select(x => new AddUsersToSubjectVM
               {
                   User = x,
@@ -65,6 +88,14 @@
               .ToListAsync();
             }
 
+        }
+
+        public async Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId)
+        {
+            return await this.context
+                .Subjects
+                .Where(x => x.UsersSubjects.Any(x => x.UserId == userId))
+                .ToListAsync();
         }
 
         public SelectList GetSubjectsAsSelectedList()
@@ -99,9 +130,20 @@
 
         public async Task RemoveUserFromSubject(string userId, int subjectId)
         {
-            var userSubject = await this.context.UsersSubjects.FindAsync(userId, subjectId);
+            var userSubject = await this.context
+                .UsersSubjects
+                .FindAsync(userId, subjectId);
+
+            var attendances = await this.context
+                .Attendance
+                .Where(x => x.Class.SubjectId == subjectId && x.UserId == userId)
+                .ToListAsync();
+
+
+                this.context.RemoveRange(attendances);
 
             this.context.Remove(userSubject);
+          
             await this.context.SaveChangesAsync();
         }
     }

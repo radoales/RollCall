@@ -17,7 +17,7 @@
         {
             get
             {              
-                return Attendances.Average(a => a.AttendancePersentage);
+                return Attendances.Count > 0? Attendances.Average(a => a.AttendancePersentage): 0;
             }
             set
             {

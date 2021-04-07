@@ -33,7 +33,10 @@
         // GET: SchoolClasses
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            var classes = await this.schoolClassService.GetAll();
+            var userId = this.userManager.GetUserId(this.User);
+
+            var classes = await this.schoolClassService.GetIndexSchoolClassesVmByUser(userId);
+
             var model = new PaginatedListIndexSchoolClassVM
             {
 

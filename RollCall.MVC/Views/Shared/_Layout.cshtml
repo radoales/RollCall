@@ -32,9 +32,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="SchoolClasses" asp-action="Index">Classes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Attendances" asp-action="Index">Attendances</a>
-                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -43,6 +40,18 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
+            {
+                <div class="alert alert-danger">
+                    @TempData[WebConstants.TempDataErrorMessageKey]
+                </div>
+            }
+            @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
+            {
+                <div class="alert alert-success">
+                    @TempData[WebConstants.TempDataSuccessMessageKey]
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

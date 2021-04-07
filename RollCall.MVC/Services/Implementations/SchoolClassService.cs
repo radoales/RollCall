@@ -146,8 +146,9 @@
         public async Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId)
         {
             var currentBlock = await GetCurrentBlock(id);
+            var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
-            return await this.context.SchoolClasses
+            var result =  await this.context.SchoolClasses
                  .Include(s => s.Subject)
                  .Include(x => x.Attendances)
                  .ThenInclude(x => x.User)
@@ -176,13 +177,23 @@
                      TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
                  })
                  .FirstOrDefaultAsync(x => x.Id == id);
+
+            result.Teachers = await this.context.
+                UsersSubjects
+                .Include(x => x.User)
+                .Where(x => allTeachers.Contains(x.User) && x.SubjectId == result.SubjectId)
+                .Select(x => x.User)
+                .ToListAsync();
+
+            return result;
         }
 
-        public async Task<IEnumerable<IndexSchoolClassVM>> GetAll()
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetIndexSchoolClassesVmByUser(string userId)
         {
             return await this.context
                 .SchoolClasses
                 .Include(x => x.Subject)
+                .Where(x => x.Subject.UsersSubjects.FirstOrDefault(y => y.UserId == userId).UserId == userId)
                 .OrderByDescending(x => x.ClassStartTime)
                 .Select(x => new IndexSchoolClassVM
                 {

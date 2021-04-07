@@ -15,5 +15,6 @@
         Task<Subject> Get(int id);
         Task AddUserToSubject(string userId, int subjectId);
         Task RemoveUserFromSubject(string userId, int subjectId);
+        Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId);
     }
 }

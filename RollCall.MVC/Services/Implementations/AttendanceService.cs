@@ -73,6 +73,13 @@
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
+        public async Task<bool> HasUserPassedAttendancesInSubject(string userId, int subjectId)
+        {
+            return await this.context
+                .Attendance
+                .AnyAsync(x => x.UserId == userId && x.Class.SubjectId == subjectId && x.Class.ClassStartTime.Date < DateTime.Now.Date);
+        }
+
         public async Task<bool> IsStudentCheckedInforCurrentBlock(string userId, int schoolClassId, int currentBlock)
         {
             var attendance = await this.context

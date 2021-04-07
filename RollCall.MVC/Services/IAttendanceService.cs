@@ -13,5 +13,6 @@
         Task DeleteAttendance(Attendance attendance);
         Task CheckIn(string userId, int classId, int spot);
         Task<bool> IsStudentCheckedInforCurrentBlock(string userId, int schoolClassId, int currentBlock);
+        Task<bool> HasUserPassedAttendancesInSubject(string userId, int subjectId);
     }
 }

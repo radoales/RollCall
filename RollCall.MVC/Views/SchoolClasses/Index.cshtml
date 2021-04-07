@@ -36,7 +36,7 @@
                 if (date != item.Date || date == "")
                 {
                     date = item.Date;
-                    <tr>
+                    <tr class="text-center">
                         <td class="text-center" colspan="4">
                             <div style="font-size:20px"><strong>@date</strong></div>
                         </td>
@@ -45,7 +45,7 @@
                 }
                 <tr class="text-center" style="background-color: @(item.IsCurrentClass ? "yellow" : "white")">
                     <td>
-                        @Html.DisplayFor(modelItem => item.Subject.Name) @item.IsCurrentClass
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Time)

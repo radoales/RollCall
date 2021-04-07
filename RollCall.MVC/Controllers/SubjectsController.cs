@@ -3,6 +3,7 @@
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.ViewModels.Subjects;
@@ -17,17 +18,28 @@
     {
         private readonly RollCallDbContext _context;
         private readonly ISubjectServices subjectServices;
+        private readonly IAttendanceService attendanceService;
+        private readonly UserManager<User> userManager;
 
-        public SubjectsController(RollCallDbContext context, ISubjectServices subjectServices)
+        public SubjectsController(
+            RollCallDbContext context,
+            ISubjectServices subjectServices,
+            IAttendanceService attendanceService,
+            UserManager<User> userManager)
         {
             _context = context;
             this.subjectServices = subjectServices;
+            this.attendanceService = attendanceService;
+            this.userManager = userManager;
         }
 
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects.ToListAsync());
+            var userId =  this.userManager.GetUserId(this.User);
+            var model = await this.subjectServices.GetAllSubjectsByUser(userId);
+
+            return View(model);
         }
 
         // GET: Subjects/Details/5
@@ -186,6 +198,14 @@
         [Authorize(Roles = Roles.AdminRole)]
         public async Task<IActionResult> RemoveUserFromSubject(string userId, int subjectId)
         {
+            //todo check if user has passed attendances in this subject
+            var hasAttendances = await this.attendanceService.HasUserPassedAttendancesInSubject(userId, subjectId);
+
+            if (hasAttendances)
+            {
+                TempData[TempDataErrorMessageKey] = "Can not remove user with pass classes";
+                return RedirectToAction(nameof(Edit), new { id = subjectId });
+            }
             await this.subjectServices.RemoveUserFromSubject(userId, subjectId);
 
             return RedirectToAction(nameof(Edit), new { id = subjectId });
