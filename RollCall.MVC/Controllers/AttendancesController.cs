@@ -11,7 +11,7 @@
     using RollCall.MVC.Services;
     using RollCall.MVC.ViewModels.Attendance;
 
-    // [Authorize]
+     [Authorize]
     public class AttendancesController : Controller
     {
        // private readonly RollCallDbContext _context;

@@ -42,20 +42,27 @@ using RollCall.MVC.ViewModels.SchoolClass;
 #nullable disable
 #nullable restore
 #line 5 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
-using RollCall.MVC.Helpers;
+using RollCall.MVC.ViewModels.Subjects;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
 using static RollCall.MVC.WebConstants.Roles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"619549da99273dd90c3d5de5a5d0ee9f56cf9992", @"/Views/Subjects/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3da133b743af150fc5ed4ee2bc18140668abc8ef", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"95cb4bd0b24a48fae3cc2ac33af19587f0f203d3", @"/Views/_ViewImports.cshtml")]
     public class Views_Subjects_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Subject>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "SchoolClasses", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -138,7 +145,7 @@ Write(Model.Name);
 #line hidden
 #nullable disable
             WriteLiteral("</td>\r\n                    <td>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf99926870", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf99927058", async() => {
                 WriteLiteral("Go to class");
             }
             );
@@ -179,7 +186,7 @@ Write(Model.Name);
 #line hidden
 #nullable disable
             WriteLiteral("        </tbody>\r\n    </table>\r\n</div>\r\n<div>\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf99929547", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf99929735", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -210,7 +217,7 @@ Write(Model.Name);
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" |\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf999211680", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619549da99273dd90c3d5de5a5d0ee9f56cf999211868", async() => {
                 WriteLiteral("Back to List");
             }
             );

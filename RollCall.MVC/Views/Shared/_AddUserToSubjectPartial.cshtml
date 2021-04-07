@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AddUsersToSubjectVM>
+<div id="user-subject-partial">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Number</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.StudentNumber</td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+
+                    <td>
+                        <button id="Add" type="button"  class="btn btn-success" onclick="Add(this)" data-id="@item.User.Id">Add</button>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    
+
+
+</script>

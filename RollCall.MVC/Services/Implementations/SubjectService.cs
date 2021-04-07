@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.ViewModels.Subjects;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,6 +16,55 @@
         public SubjectService(RollCallDbContext context)
         {
             this.context = context;
+        }
+
+        public async Task AddUserToSubject(string userId, int subjectId)
+        {
+            var userSubject = new UsersSubjects
+            {
+                UserId = userId,
+                SubjectId = subjectId
+            };
+
+            this.context.Add(userSubject);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<Subject> Get(int id)
+        {
+            return await this.context
+                .Subjects
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<AddUsersToSubjectVM>> GetAddUsersToSubjectVM(string name, int subjectId)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return await this.context
+                .Users
+                .Include(x => x.UsersSubjects)
+                .Where(x => !x.UsersSubjects.Any(us => us.SubjectId == subjectId))
+                .Select(x => new AddUsersToSubjectVM
+                {
+                    User = x
+                })
+                .ToListAsync();
+            }
+            else
+            {
+                return await this.context
+              .Users
+              .Include(x => x.UsersSubjects)
+              .Where(x => x.FirstName.StartsWith(name) || x.LastName.StartsWith(name))
+              .Select(x => new AddUsersToSubjectVM
+              {
+                  User = x,
+                  IsInSubject = x.UsersSubjects.Where(a => a.UserId == x.Id && a.SubjectId == subjectId).Any()
+              })
+              .ToListAsync();
+            }
+
         }
 
         public SelectList GetSubjectsAsSelectedList()
@@ -35,6 +85,24 @@
                 .Where(x => x.SubjectId == id)
                 .Select(x => x.User)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetUsersNotInSubject(int id)
+        {
+            return await this.context
+                .UsersSubjects
+                .Include(x => x.Subject)
+                .Where(x => x.SubjectId == id)
+                .Select(x => x.User)
+                .ToListAsync();
+        }
+
+        public async Task RemoveUserFromSubject(string userId, int subjectId)
+        {
+            var userSubject = await this.context.UsersSubjects.FindAsync(userId, subjectId);
+
+            this.context.Remove(userSubject);
+            await this.context.SaveChangesAsync();
         }
     }
 }

@@ -1,33 +1,61 @@
-﻿@model RollCall.MVC.Data.Models.Subject
+﻿@model AddOrRemoveUsersFromSubjectVM
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Subject</h4>
+<h4>@Model.Subject.Name</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<form asp-action="Edit">
+    <div class="row">
+
+        <div class="col-md-10">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+            <div class="form-group">     
+                <input asp-for="Name" placeholder="type new name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Change  name</button>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    </div>
+</form>
+<div class="row">
+    <input id="subjectId" type="hidden" asp-for="Id" />
+    <div class="col-md-6">
+        <input id="filter-name" placeholder="search" type="text" class="form-control" />
+        @await Html.PartialAsync("_AddUserToSubjectPartial", Model.UsersToAdd)
+
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student Number</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.UsersInSubject)
+                {
+                    <tr>
+
+                        <td>@item.StudentNumber</td>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>
+                            <button id="Remove" type="button" class="btn btn-danger" onclick="Remove(this)" data-id="@item.Id">Remove</button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {
