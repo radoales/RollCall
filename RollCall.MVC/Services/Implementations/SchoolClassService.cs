@@ -188,7 +188,7 @@
             return result;
         }
 
-        public async Task<IEnumerable<IndexSchoolClassVM>> GetIndexSchoolClassesVmByUser(string userId)
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetAllAsIndexSchoolClassesVmByUser(string userId)
         {
             return await this.context
                 .SchoolClasses
@@ -257,6 +257,50 @@
                     Subject = x.Subject,
                     SubjectId = x.SubjectId
                 }).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetUpcomingAsIndexSchoolClassesVmByUser(string userId)
+        {
+            return await this.context
+               .SchoolClasses
+               .Include(x => x.Subject)
+               .Where(x => x.ClassStartTime >= DateTime.Now && x.Subject.UsersSubjects.FirstOrDefault(y => y.UserId == userId).UserId == userId)
+               .OrderByDescending(x => x.ClassStartTime)
+               .Select(x => new IndexSchoolClassVM
+               {
+                   Id = x.Id,
+                   Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
+                   Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
+                   Code = x.Code,
+                   Subject = x.Subject,
+                   SubjectId = x.SubjectId,
+                   Attendances = x.Attendances,
+                   UsersInClass = x.Attendances.Count,
+                   Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                   IsCurrentClass = x.ClassStartTime <= DateTime.Now && x.ClassEndTime > DateTime.Now
+               }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetPassedAsIndexSchoolClassesVmByUser(string userId)
+        {
+            return await this.context
+               .SchoolClasses
+               .Include(x => x.Subject)
+               .Where(x => x.ClassStartTime < DateTime.Now && x.Subject.UsersSubjects.FirstOrDefault(y => y.UserId == userId).UserId == userId)
+               .OrderByDescending(x => x.ClassStartTime)
+               .Select(x => new IndexSchoolClassVM
+               {
+                   Id = x.Id,
+                   Date = x.ClassStartTime.GetDateTimeFormats('D')[0],
+                   Time = $"{x.ClassStartTime.TimeOfDay} - {x.ClassEndTime.TimeOfDay}",
+                   Code = x.Code,
+                   Subject = x.Subject,
+                   SubjectId = x.SubjectId,
+                   Attendances = x.Attendances,
+                   UsersInClass = x.Attendances.Count,
+                   Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                   IsCurrentClass = x.ClassStartTime <= DateTime.Now && x.ClassEndTime > DateTime.Now
+               }).ToListAsync();
         }
     }
 }

@@ -7,7 +7,9 @@
     using System.Threading.Tasks;
     public interface ISchoolClassService
     {
-        Task<IEnumerable<IndexSchoolClassVM>> GetIndexSchoolClassesVmByUser(string userId);
+        Task<IEnumerable<IndexSchoolClassVM>> GetAllAsIndexSchoolClassesVmByUser(string userId);
+        Task<IEnumerable<IndexSchoolClassVM>> GetUpcomingAsIndexSchoolClassesVmByUser(string userId);
+        Task<IEnumerable<IndexSchoolClassVM>> GetPassedAsIndexSchoolClassesVmByUser(string userId);
         Task<DetailsSchoolClassVM> GetDetailsSchoolClassVM(int id);
         Task<EditSchoolClassVM> GetEditSchoolClassVM(int id);
         Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId);

@@ -4,11 +4,21 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var date = "";
+    var isUpcoming = Model.Set == "upcoming" ? "disabled" : "";
+    var isPaased = Model.Set == "passed" ? "disabled" : "";
 }
 
 <div class="container">
-
-    <h1>Classes</h1>
+    <input id="set" type="hidden" asp-for="Set" />
+    <h1 class="text-center">Classes</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <button onclick="UpcomingClasses()" class="btn btn-secondary btn-lg btn-block" @isUpcoming>Upcoming Classes</button>
+        </div>
+        <div class="col-md-6">
+            <button onclick="PassedClasses()" class="btn btn-secondary btn-lg btn-block" @isPaased>Passed Classes</button>
+        </div>
+    </div>
     @if (this.User.IsInRole(AdminRole))
     {
         <p>
@@ -107,20 +117,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    //-------------------------Paging----------------------------->
-    //Go to specified page
-    function paging(pageNumber) {
-        //var e = document.getElementById("sortId");
-        //var sortId = e.options[e.selectedIndex].text;
-        //var productTypeId = $('#productTypeId').attr('data-value');
 
-        $.ajax({
-            type: 'GET',
-            url: "/schoolclasses/index",
-            data: { "pageNumber": pageNumber/*, "productTypeId": productTypeId, "sortBy": sortId */ },
-            success: function (result) {
-                $("body").html(result);
-            }
-        });
-    }
+
 </script>

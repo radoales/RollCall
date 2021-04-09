@@ -8,6 +8,7 @@
     using RollCall.MVC.Helpers;
     using RollCall.MVC.Services;
     using RollCall.MVC.ViewModels.SchoolClass;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using static RollCall.MVC.WebConstants;
     [Authorize]
@@ -31,19 +32,31 @@
         }
 
         // GET: SchoolClasses
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber, string set)
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var classes = await this.schoolClassService.GetIndexSchoolClassesVmByUser(userId);
+            IEnumerable<IndexSchoolClassVM> schoolClasses = null;
+            switch (set)
+            { 
+                case "upcoming":
+                    schoolClasses = await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId);
+                    break;
+                case "passed":
+                    schoolClasses = await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId);
+                    break;
+                default:
+                    schoolClasses = await this.schoolClassService.GetAllAsIndexSchoolClassesVmByUser(userId);
+                    break;
+            }
 
             var model = new PaginatedListIndexSchoolClassVM
             {
-
-                SchoolClasses = await PaginatedList<IndexSchoolClassVM>.CreateAsync(classes, pageNumber ?? 1, 10)
+                Set = set,
+                SchoolClasses = await PaginatedList<IndexSchoolClassVM>.CreateAsync(schoolClasses, pageNumber ?? 1, 10)
             };
 
-            return View(model);
+            return View(model); 
         }
 
         // GET: SchoolClasses/Details/5
