@@ -17,7 +17,7 @@
         private readonly ISchoolClassService schoolClassService;
         private readonly ISubjectServices subjectServices;
         private readonly IAttendanceService attendanceService;
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<User> userManager; 
 
         public SchoolClassesController(
             ISchoolClassService schoolClassService,
@@ -31,24 +31,18 @@
             this.userManager = userManager;
         }
 
-        // GET: SchoolClasses
+        // GET: SchoolClasses 
         public async Task<IActionResult> Index(int? pageNumber, string set)
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            IEnumerable<IndexSchoolClassVM> schoolClasses = null;
-            switch (set)
-            { 
-                case "upcoming":
-                    schoolClasses = await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId);
-                    break;
-                case "passed":
-                    schoolClasses = await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId);
-                    break;
-                default:
-                    schoolClasses = await this.schoolClassService.GetAllAsIndexSchoolClassesVmByUser(userId);
-                    break;
-            }
+           // IEnumerable<IndexSchoolClassVM> schoolClasses = null;
+           var schoolClasses = set switch
+            {
+                "upcoming" => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
+                "passed" => await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId),
+                _ => await this.schoolClassService.GetAllAsIndexSchoolClassesVmByUser(userId),
+            };
 
             var model = new PaginatedListIndexSchoolClassVM
             {

@@ -6,6 +6,13 @@
 }
 
 <h1>@Model.Name</h1>
+@if (this.User.IsInRole(AdminRole))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    </div>
+}
 
 <div>
     <table class="table">
@@ -19,6 +26,7 @@
         <tbody>
             @foreach (var x in Model.Classes)
             {
+                
                 <tr>
                     <td>@x.ClassStartTime.GetDateTimeFormats('D')[0]</td>
                     <td>@x.ClassStartTime.TimeOfDay - @x.ClassEndTime.TimeOfDay</td>

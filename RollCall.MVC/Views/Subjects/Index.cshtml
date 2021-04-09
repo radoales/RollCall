@@ -5,32 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<style>
+    .list-galery-zoom {
+        transition: transform .2s;
+        align-content: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+        .list-galery-zoom:hover {
+            /* transform: scale(1.01);*/
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+        }
+</style>
+
+<h1 class="text-center">My Subjects</h1>
+@if (this.User.IsInRole(AdminRole))
+{
+    <p>
+        <a asp-action="Create">Add new subject</a>
+    </p>
 }
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="row justify-content-center" style="margin:auto">
+        @foreach (var item in Model)
+        {   
+        <div class="card bg-light mb-3 list-galery-zoom  mb-5 rounded" style="width: 14.1rem; margin-top:5px;margin-right:10px; margin-right:10px; margin-bottom:30px">
+            <a style="text-decoration: none" asp-action="Details" asp-route-id="@item.Id">
+                <div style="margin:5px; padding:3px;" class="card-body text-center">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>    
+                </div>
+            </a>
+        </div>         
+        }
+    </div>
+</div>
