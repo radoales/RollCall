@@ -75,46 +75,31 @@
     @{
         var prevDisabled = !Model.SchoolClasses.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.SchoolClasses.HasNextPage ? "disabled" : "";
+        var active = "";
     }
-    <div class="container">
-        <div style="padding-bottom:40px; text-align:center">
-            <a onclick="paging(@(Model.SchoolClasses.PageIndex - 1))"
-               class="btn btn-default @prevDisabled">
-                Previous
-            </a>
-            @if (Model.SchoolClasses.PageIndex > 2)
+
+    <nav aria-label="Page navigation example"> 
+        <ul class="pagination justify-content-center">
+            <li class="page-item @prevDisabled">
+                <a class="page-link" onclick="pagingSchoolClasses(@(Model.SchoolClasses.PageIndex - 1))" href="#">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.SchoolClasses.TotalPages; i++)
             {
-                <a class="btn btn-default" onclick="paging(1)">
-                    1
-                </a>
-                <span>...</span>
+
+
+                active = Model.SchoolClasses.PageIndex == i ? "active" : "";
+
+                <li class="page-item @active">
+                    <a class="page-link" onclick="pagingSchoolClasses(@i)" href="#">@i</a>
+                </li>
             }
-            @if (Model.SchoolClasses.HasPreviousPage)
-            {
-                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.PageIndex - 1))">
-                    @(Model.SchoolClasses.PageIndex - 1)
-                </a>
-            }
-            <span>@Model.SchoolClasses.PageIndex</span>
-            @if (Model.SchoolClasses.HasNextPage)
-            {
-                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.PageIndex + 1))">
-                    @(Model.SchoolClasses.PageIndex + 1)
-                </a>
-            }
-            @if (Model.SchoolClasses.TotalPages > Model.SchoolClasses.PageIndex + 1)
-            {
-                <span>...</span>
-                <a class="btn btn-default" onclick="paging(@(Model.SchoolClasses.TotalPages))">
-                    @Model.SchoolClasses.TotalPages
-                </a>
-            }
-            <a onclick="paging(@(Model.SchoolClasses.PageIndex + 1))"
-               class="btn btn-default @nextDisabled">
-                Next
-            </a>
-        </div>
-    </div>
+            <li class="page-item @nextDisabled">
+                <a class="page-link" onclick="pagingSchoolClasses(@(Model.SchoolClasses.PageIndex + 1))" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+   
 </div>
 <script type="text/javascript">
 

@@ -127,7 +127,7 @@
                      }).Where(x => !allTeachers.Contains(x.User)).ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
-                     CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),
+                     CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(TimeToCheckIn).ToString("MMM d, yyyy HH':'mm':'ss"),
                      Subject = x.Subject,
                      TimeLeft = x.CodeGeneratedTime != null ? (DateTime)x.CodeGeneratedTime : null
                  })

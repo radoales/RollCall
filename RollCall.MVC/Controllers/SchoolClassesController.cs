@@ -47,7 +47,7 @@
             var model = new PaginatedListIndexSchoolClassVM
             {
                 Set = set,
-                SchoolClasses = await PaginatedList<IndexSchoolClassVM>.CreateAsync(schoolClasses, pageNumber ?? 1, 10)
+                SchoolClasses = await PaginatedList<IndexSchoolClassVM>.CreateAsync(schoolClasses, pageNumber ?? 1, 5)
             };
 
             return View(model); 

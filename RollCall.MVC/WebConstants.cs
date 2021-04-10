@@ -13,8 +13,11 @@
             public const string TeacherRole = "Teacher";
         }
 
-
+        
         public const string TempDataSuccessMessageKey = "SuccessMessage";
         public const string TempDataErrorMessageKey = "ErrorMessage";
+
+        public const int TimeToCheckIn = 30;
+
     }
 }

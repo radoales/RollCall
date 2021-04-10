@@ -68,9 +68,9 @@ function PassedClasses() {
     });
 }
 
-//-------------------------Paging----------------------------->
+//-------------------------Paging SchoolClasses----------------------------->
 //Go to specified page
-function paging(pageNumber) {
+function pagingSchoolClasses(pageNumber) {
     var set = document.getElementById("set").value;
     console.log(set)
     //var sortId = e.options[e.selectedIndex].text;
@@ -80,6 +80,24 @@ function paging(pageNumber) {
         type: 'GET',
         url: "/schoolclasses/index",
         data: { "pageNumber": pageNumber, "set": set /*, "productTypeId": productTypeId, "sortBy": sortId */ },
+        success: function (result) {
+            $("body").html(result);
+        }
+    });
+}
+
+//-------------------------Paging Users----------------------------->
+//Go to specified page
+function pagingUsers(pageNumber) {
+    //var set = document.getElementById("set").value;
+    //console.log(set)
+    //var sortId = e.options[e.selectedIndex].text;
+    //var productTypeId = $('#productTypeId').attr('data-value');
+
+    $.ajax({
+        type: 'GET',
+        url: "/users/index",
+        data: { "pageNumber": pageNumber /*, "productTypeId": productTypeId, "sortBy": sortId */ },
         success: function (result) {
             $("body").html(result);
         }
