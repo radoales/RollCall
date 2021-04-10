@@ -5,19 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Students</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model)
+                Student Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model)
+                Student Name
             </th>
         </tr>
     </thead>
@@ -26,12 +23,12 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item)
+                    @Html.DisplayFor(modelItem => item.StudentNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
-
+                <td><a asp-action="Details" asp-route-id="@item.Id">Student Info</a></td>
             </tr>
         }
     </tbody>

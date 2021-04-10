@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RollCall.MVC.Data.Models;
+using RollCall.MVC.ViewModels.Users;
 namespace RollCall.MVC.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -38,5 +39,6 @@ namespace RollCall.MVC.Data
         }
 
         public DbSet<RollCall.MVC.Data.Models.Attendance> Attendance { get; set; }
+
     }
 }

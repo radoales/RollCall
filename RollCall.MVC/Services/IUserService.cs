@@ -6,6 +6,8 @@
 
     public interface IUserService
     {
-        Task<IEnumerable<UserIndexVM>> GetAllUserIndexVMs();
+        Task<IEnumerable<UserIndexVM>> GetAllUsersAsIndexVM();
+        Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId);
+        Task<UserDetailVM> GetAsUserDetailVM(string id);
     }
 }

@@ -1,12 +1,10 @@
 ﻿namespace RollCall.MVC.ViewModels.Users
 {
-    using System;
+    using Data.Models;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using Data.Models;
-    using System.Linq;
-    using System.Threading.Tasks;
-    public class UserIndexVM
+
+    public class UserDetailVM
     {
         public string Id { get; set; }
         [DisplayName("Name")]
