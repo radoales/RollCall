@@ -103,7 +103,7 @@
             var subjects = this.context
                 .Subjects.ToList();
 
-            subjects.Insert(0, new Subject { Id = 0, Name = "Select Category" });
+            subjects.Insert(0, new Subject { Id = 0, Name = "Select Subject" });
 
             return new SelectList(subjects, "Id", "Name");
         }
@@ -126,6 +126,18 @@
                 .Where(x => x.SubjectId == id)
                 .Select(x => x.User)
                 .ToListAsync();
+        }
+
+        public SelectList GetUsersSubjectsAsSelectedList(string loggedInUser)
+        {
+            var subjects = this.context
+                 .Subjects
+                 .Where(x => x.UsersSubjects.Any(us => us.UserId == loggedInUser))
+                 .ToList();
+
+            subjects.Insert(0, new Subject { Id = 0, Name = "Select Subject" });
+
+            return new SelectList(subjects, "Id", "Name");
         }
 
         public async Task RemoveUserFromSubject(string userId, int subjectId)

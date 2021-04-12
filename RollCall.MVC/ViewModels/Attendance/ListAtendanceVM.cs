@@ -8,6 +8,7 @@
     public class ListAtendanceVM
     {
         private readonly double attendancePercentage;
+        private readonly string date;
         public int Id { get; set; }
 
         public bool CheckIn_Start { get; set; }
@@ -33,5 +34,17 @@
 
         public int ClassId { get; set; }
         public SchoolClass Class { get; set; }
+
+        public string Date
+        {
+            get
+            {             
+                return Class.ClassStartTime.GetDateTimeFormats('D')[0];
+            }
+            set
+            {
+                this.Date = value;
+            }
+        }
     }
 }

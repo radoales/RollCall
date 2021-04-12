@@ -9,5 +9,7 @@
         Task<IEnumerable<UserIndexVM>> GetAllUsersAsIndexVM();
         Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId);
         Task<UserDetailVM> GetAsUserDetailVM(string id);
+        Task<UserDetailVM> GetAsUserDetailVM(string id, int subjectId);
+
     }
 }

@@ -5,39 +5,84 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@Model.Name</h1>
 
 <div>
-    <h4>UserDetailVM</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StudentNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StudentNumber)
         </dd>
     </dl>
+
+    <form asp-action="details">
+        <input id="userId" asp-for="Id" type="hidden" />
+        <div class="form-group">
+            <label asp-for="Subject" class="control-label"></label>
+            <select onchange="selectSubject()" id="subjectId"
+                    asp-for="Subject" class="form-control"
+                    asp-items="Model.Subjects"></select>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Check In 1</th>
+                <th>Check In 2</th>
+                <th>Check In 3</th>
+                <th>Attendance Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var attendance in Model.Attendances)
+            {
+                <tr>
+                    <td>
+                        @attendance.Date
+                    </td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
+                    </td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
+                    </td>
+                    <td>
+                        <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
+                    </td>
+                    <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@if (this.User.IsInRole(AdminRole))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
+<script type="text/javascript">
+   
+       function selectSubject () {
+            console.log('hit')
+            var subjectId = $('#subjectId').val()
+            var userId = $('#userId').val()
+            $.ajax({
+                type: 'GET',
+                url: "/users/details",
+                data: { "id": userId, "subjectId": subjectId },
+                success: function (result) {
+                    $("body").html(result);
+                }
+            });
+        };
+
+</script>

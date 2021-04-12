@@ -16,13 +16,15 @@
     {
         private readonly IUserService userService;
         private readonly UserManager<User> userManager;
+        private readonly ISubjectServices subjectServices;
 
         public UsersController(
             IUserService userService,
-            UserManager<User> userManager)
+            UserManager<User> userManager, ISubjectServices subjectServices)
         {
             this.userService = userService;
             this.userManager = userManager;
+            this.subjectServices = subjectServices;
         }
 
         public async Task<IActionResult> Index(int? pageNumber)
@@ -32,6 +34,7 @@
             var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM()
                 : await this.userService.GetAllTeachersStudentsAsIndexVM(userid);
 
+
             var model = new PaginatedUserIndexVM
             {
                 Users = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 5)
@@ -40,9 +43,15 @@
             return View(model);
         }
 
-        public async Task<IActionResult> Details (string id)
+        public async Task<IActionResult> Details (string id, int? subjectId)
         {
-            var model = await this.userService.GetAsUserDetailVM(id);
+            var loggedInUser = this.userManager.GetUserId(this.User);
+
+            var model = subjectId == null ?  await this.userService.GetAsUserDetailVM(id) 
+                : await this.userService.GetAsUserDetailVM(id, (int)subjectId);
+
+            model.Subjects = this.subjectServices.GetUsersSubjectsAsSelectedList(loggedInUser);
+            model.Subject = subjectId != null ? (int)subjectId : 0;
             return View(model);
         }
     }
