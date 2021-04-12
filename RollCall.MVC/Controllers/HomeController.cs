@@ -7,6 +7,7 @@
     using RollCall.MVC.Services;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using static RollCall.MVC.WebConstants;
 
     [Authorize]
     public class HomeController : Controller
@@ -22,7 +23,8 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var classes = await this.schoolClassService.GetTodaysLoggedInUserClasses(userId);
+            var classes = this.User.IsInRole(Roles.AdminRole) ? await this.schoolClassService.GetTodaysUserClasses()
+                : await this.schoolClassService.GetTodaysLoggedInUserClasses(userId);
             return View(classes);
         }
 

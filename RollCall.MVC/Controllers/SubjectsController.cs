@@ -37,7 +37,8 @@
         public async Task<IActionResult> Index()
         {
             var userId =  this.userManager.GetUserId(this.User);
-            var model = await this.subjectServices.GetAllSubjectsByUser(userId);
+            var model = this.User.IsInRole(Roles.AdminRole) ? await this.subjectServices.GetAllSubjects()
+                : await this.subjectServices.GetAllSubjectsByUser(userId);
 
             return View(model);
         }

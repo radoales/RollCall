@@ -36,7 +36,6 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-           // IEnumerable<IndexSchoolClassVM> schoolClasses = null;
            var schoolClasses = set switch
             {
                 "upcoming" => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),

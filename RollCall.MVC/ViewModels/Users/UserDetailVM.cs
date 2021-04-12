@@ -3,8 +3,10 @@
     using Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using RollCall.MVC.ViewModels.Attendance;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
 
     public class UserDetailVM
     {
@@ -27,5 +29,17 @@
         public SelectList Subjects { get; set; }
 
         public int Subject { get; set; }
+
+        public double AverageAttendance
+        {
+            get
+            {
+                return Attendances.Count > 0 ? Math.Ceiling(Attendances.Average(a => a.AttendancePersentage)) : 0;
+            }
+            set
+            {
+                this.AverageAttendance = value;
+            }
+        }
     }
 }

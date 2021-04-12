@@ -47,7 +47,7 @@
         {
             var loggedInUser = this.userManager.GetUserId(this.User);
 
-            var model = subjectId == null ?  await this.userService.GetAsUserDetailVM(id) 
+            var model = subjectId == null ? await this.userService.GetAsUserDetailVM(id, 0)
                 : await this.userService.GetAsUserDetailVM(id, (int)subjectId);
 
             model.Subjects = this.subjectServices.GetUsersSubjectsAsSelectedList(loggedInUser);

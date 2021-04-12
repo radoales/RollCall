@@ -7,6 +7,11 @@
 
 <h1>Students</h1>
 
+@if (this.User.IsInRole(AdminRole))
+{
+    <a class="btn btn-primary" asp-controller="Identity" asp-action="Register">Add new User</a>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -33,6 +38,7 @@
         }
     </tbody>
 </table>
+
 @*Paging*@
 @{
     var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";

@@ -17,5 +17,6 @@
         Task RemoveUserFromSubject(string userId, int subjectId);
         Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId);
         SelectList GetUsersSubjectsAsSelectedList(string loggedInUser);
+        Task<IEnumerable<Subject>> GetAllSubjects();
     }
 }

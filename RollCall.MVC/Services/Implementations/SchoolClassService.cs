@@ -69,7 +69,7 @@
             var endBlock3 = schoolClass.ClassEndTime;
 
             var currentBlock =
-                  DateTime.Now < endBlock1 ? 1
+                  DateTime.Now < endBlock1 && DateTime.Now >= schoolClass.ClassStartTime ? 1
                 : DateTime.Now > endBlock1 && DateTime.Now < endBlock2 ? 2
                 : DateTime.Now > endBlock2 && DateTime.Now < endBlock3 ? 3
                 : 0;
@@ -301,6 +301,28 @@
                    Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
                    IsCurrentClass = x.ClassStartTime <= DateTime.Now && x.ClassEndTime > DateTime.Now
                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<IndexSchoolClassVM>> GetTodaysUserClasses()
+        {
+            return await this.context
+                 .SchoolClasses
+                 .Include(x => x.Subject)
+                 .ThenInclude(x => x.UsersSubjects)
+                 .Where(x => x.ClassStartTime.Date == DateTime.Now.Date)
+                 .Select(x => new IndexSchoolClassVM
+                 {
+                     Id = x.Id,
+                     ClassStartTime = x.ClassStartTime,
+                     ClassEndTime = x.ClassEndTime,
+                     Code = x.Code,
+                     Subject = x.Subject,
+                     SubjectId = x.SubjectId,
+                     Attendances = x.Attendances,
+                     UsersInClass = x.Attendances.Count,
+                     Participants = x.Attendances.Where(a => a.CheckIn_Start == true || a.CheckIn_Middle == true || a.CheckIn_End == true).Count(),
+                 })
+                 .ToListAsync();
         }
     }
 }

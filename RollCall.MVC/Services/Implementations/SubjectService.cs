@@ -22,7 +22,7 @@
         {
             var schoolClasses = await this.context
                 .SchoolClasses
-                .Where(x => x.SubjectId == subjectId && x.ClassStartTime.Date > DateTime.Today.Date)
+                .Where(x => x.SubjectId == subjectId && x.ClassStartTime.Date >= DateTime.Today.Date)
                 .ToListAsync();
 
             var attendances = new List<Attendance>();
@@ -88,6 +88,14 @@
               .ToListAsync();
             }
 
+        }
+
+        public async Task<IEnumerable<Subject>> GetAllSubjects()
+        {
+            return await this.context
+                .Subjects
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId)

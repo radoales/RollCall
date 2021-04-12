@@ -17,6 +17,7 @@
         Task Update(int id, DateTime startTime, DateTime endTime, int subjectId);
         Task Delete(int id);
         Task GenerateCode(int id);
+        Task<IEnumerable<IndexSchoolClassVM>> GetTodaysUserClasses();
         Task<int> GetCurrentBlock(int classId);
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);
     }
