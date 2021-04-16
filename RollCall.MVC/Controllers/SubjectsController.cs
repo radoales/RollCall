@@ -51,11 +51,7 @@
                 return NotFound();
             }
 
-            var subject = await _context
-                .Subjects
-                .Include(x => x.Classes)
-                .ThenInclude(x => x.Attendances)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subject = await this.subjectServices.GetIndexSubjectVM((int)id);
 
             if (subject == null)
             {
@@ -161,6 +157,14 @@
             if (subject == null)
             {
                 return NotFound();
+            }
+
+            var hasClassessOrUsers = await this.subjectServices.HasClassessOrUsers((int)id);
+
+            if (hasClassessOrUsers)
+            {
+                TempData[TempDataErrorMessageKey] = "Can not delete subject if it has classes or users";
+                return RedirectToAction(nameof(Details), new { id });
             }
 
             return View(subject);

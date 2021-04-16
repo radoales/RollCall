@@ -4,13 +4,14 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1>Students</h1>
 
 @if (this.User.IsInRole(AdminRole))
 {
     <a class="btn btn-primary" asp-controller="Identity" asp-action="Register">Add new User</a>
 }
+
+<hr />
 
 <table class="table">
     <thead>
@@ -21,6 +22,7 @@
             <th>
                 Student Name
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -45,7 +47,6 @@
     var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
     var active = "";
 }
-
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">

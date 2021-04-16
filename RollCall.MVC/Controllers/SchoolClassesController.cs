@@ -65,17 +65,9 @@
             var isUserStudent = this.User.IsInRole(Roles.StudentRole);
             var userId = this.userManager.GetUserId(this.User);
 
-            DetailsSchoolClassVM model = null;
-
-            if (isUserStudent)
-            {
-                model = await this.schoolClassService.GetAsStudent((int)id, userId);
-            }
-            else
-            {
-                model = await this.schoolClassService.GetDetailsSchoolClassVM((int)id);
-            }
-
+            DetailsSchoolClassVM model = isUserStudent
+                ? await this.schoolClassService.GetAsStudent((int)id, userId)
+                : await this.schoolClassService.GetDetailsSchoolClassVM((int)id);
 
             if (model == null)
             {

@@ -1,31 +1,36 @@
-﻿using Newtonsoft.Json;
-using RollCall.MVC.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace RollCall.MVC.Data.DataSeed
+﻿namespace RollCall.MVC.Data.DataSeed
 {
+    using Microsoft.AspNetCore.Identity;
+    using Newtonsoft.Json;
+    using Models;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using static RollCall.MVC.WebConstants;
     public class Seed
     {
-        public static void SeedUsers(RollCallDbContext context)
+        private readonly UserManager<User> userManager;
+        private readonly RollCallDbContext context;
+
+        public Seed(UserManager<User> userManager, RollCallDbContext context)
         {
-            if (!context.Users.Any())
+            this.userManager = userManager;
+            this.context = context;
+        }
+
+        public async Task SeedStudents()
+        {
+
+            var userData = System.IO.File.ReadAllText("Data/DataSeed/Students.json");
+            var users = JsonConvert.DeserializeObject<List<User>>(userData);
+
+            foreach (var user in users)
             {
-                var userData = System.IO.File.ReadAllText("Data/DataSeeds/UserSeedData.json");
-                var users = JsonConvert.DeserializeObject<List<User>>(userData);
-                var usersToAdd = new List<User>();
+                await userManager.CreateAsync(user, "11111111");
+                await userManager.AddToRoleAsync(user, Roles.StudentRole);
 
-                foreach (var user in users)
-                {
-                    user.UserName = user.UserName.ToLower();
-                    usersToAdd.Add(user);
-                }
-
-                context.AddRange(usersToAdd);
-                context.SaveChanges();
             }
+
         }
     }
 }

@@ -37,7 +37,7 @@
 
             var model = new PaginatedUserIndexVM
             {
-                Users = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 5)
+                Users = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 10)
             };
 
             return View(model);

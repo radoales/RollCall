@@ -10,6 +10,7 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
     using static RollCall.MVC.WebConstants;
+    using Data.DataSeed;
 
     [Authorize]
     public class HomeController : Controller
@@ -25,7 +26,6 @@
         [ServiceFilter(typeof(ClientIpCheckActionFilter))]
         public async Task<IActionResult> Index()
         {
-            var remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
             var userId = this.userManager.GetUserId(this.User);
 
             var classes = this.User.IsInRole(Roles.AdminRole) ? await this.schoolClassService.GetTodaysUserClasses()

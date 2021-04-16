@@ -1,5 +1,6 @@
 ﻿namespace RollCall.MVC.Services.Implementations
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
@@ -9,13 +10,18 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using static RollCall.MVC.WebConstants;
+
     public class SubjectService : ISubjectServices
     {
         private readonly RollCallDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public SubjectService(RollCallDbContext context)
+        public SubjectService(RollCallDbContext context,
+            UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         public async Task AddUserToSubject(string userId, int subjectId)
@@ -40,7 +46,7 @@
                     attendances.Add(attendance);
                 }
             }
-          
+
 
             var userSubject = new UsersSubjects
             {
@@ -106,6 +112,32 @@
                 .ToListAsync();
         }
 
+        public async Task<DetailsSubjectVM> GetIndexSubjectVM(int id)
+        {
+            var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
+
+            var result = await this.context
+                .Subjects
+                .Select(x => new DetailsSubjectVM
+                {
+                    Subject = x,
+                    SchoolClasses = x.Classes,
+                    Students = x.UsersSubjects
+                                .Where(y => y.SubjectId == id && !allTeachers.Contains(y.User))
+                                .Select(y => y.User)
+                })
+                .FirstOrDefaultAsync(x => x.Subject.Id == id);
+
+            result.Teachers = await this.context.
+                 UsersSubjects
+                 .Include(x => x.User)
+                 .Where(x => allTeachers.Contains(x.User) && x.SubjectId == result.Subject.Id)
+                 .Select(x => x.User)
+                 .ToListAsync();
+
+            return result;
+        }
+
         public SelectList GetSubjectsAsSelectedList()
         {
             var subjects = this.context
@@ -148,6 +180,13 @@
             return new SelectList(subjects, "Id", "Name");
         }
 
+        public async Task<bool> HasClassessOrUsers(int id)
+        {
+            return await this.context
+                .UsersSubjects
+                .AnyAsync(x => x.SubjectId == id);
+        }
+
         public async Task RemoveUserFromSubject(string userId, int subjectId)
         {
             var userSubject = await this.context
@@ -160,10 +199,10 @@
                 .ToListAsync();
 
 
-                this.context.RemoveRange(attendances);
+            this.context.RemoveRange(attendances);
 
             this.context.Remove(userSubject);
-          
+
             await this.context.SaveChangesAsync();
         }
     }

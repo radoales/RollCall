@@ -18,5 +18,7 @@
         Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId);
         SelectList GetUsersSubjectsAsSelectedList(string loggedInUser);
         Task<IEnumerable<Subject>> GetAllSubjects();
+        Task<bool> HasClassessOrUsers(int id);
+        Task<DetailsSubjectVM> GetIndexSubjectVM(int id);
     }
 }
