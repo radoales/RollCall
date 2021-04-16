@@ -18,12 +18,8 @@
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        [MinLength(8, ErrorMessage = "Password too short")]
-        [MaxLength(16, ErrorMessage = "Password too long")]
         public string Password { get; set; }
-        [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
+
         public string ConfirmPassword { get; set; }
 
         [DisplayName("First Name")]
@@ -34,6 +30,9 @@
 
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [DisplayName("Student Number")]
+        public int StudentNumber { get; set; }
 
         public SelectList Roles { get; set; }
 

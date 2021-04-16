@@ -21,22 +21,24 @@
 <h1 class="text-center">My Subjects</h1>
 @if (this.User.IsInRole(AdminRole))
 {
-    <p class="text-center">
+    <hr />
+    <div class="text-center">
         <a class="btn btn-primary" asp-action="Create">Add new subject</a>
-    </p>
+    </div>
+    <hr />
 }
 
 <div class="container">
     <div class="row justify-content-center" style="margin:auto">
         @foreach (var item in Model)
-        {   
-        <div class="card bg-light mb-3 list-galery-zoom  mb-5 rounded" style="width: 14.1rem; margin-top:5px;margin-right:10px; margin-right:10px; margin-bottom:30px">
-            <a style="text-decoration: none" asp-action="Details" asp-route-id="@item.Id">
-                <div style="margin:5px; padding:3px;" class="card-body text-center">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>    
-                </div>
-            </a>
-        </div>         
+        {
+            <div class="card bg-light mb-3 list-galery-zoom  mb-5 rounded" style="width: 14.1rem; margin-top:5px;margin-right:10px; margin-right:10px; margin-bottom:30px">
+                <a style="text-decoration: none" asp-action="Details" asp-route-id="@item.Id">
+                    <div style="margin:5px; padding:3px;" class="card-body text-center">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    </div>
+                </a>
+            </div>
         }
     </div>
 </div>

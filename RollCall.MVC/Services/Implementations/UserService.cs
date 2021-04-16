@@ -43,7 +43,8 @@
             {
                 return await this.context
               .Users
-              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)) 
+              || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
               .Select(x => new UserIndexVM
               {
                   Id = x.Id,
@@ -51,7 +52,9 @@
                   StudentNumber = x.StudentNumber,
                   Attendances = x.Attendances,
                   UsersSubjects = x.UsersSubjects
-              }).ToListAsync();
+              })
+              .OrderBy(x => x.Name)
+              .ToListAsync();
             }
 
             else
@@ -59,7 +62,8 @@
                 return await this.context
               .Users
               .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId))
-                           && (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+                           && (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) 
+                           || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
               .Select(x => new UserIndexVM
               {
                   Id = x.Id,
@@ -67,7 +71,9 @@
                   StudentNumber = x.StudentNumber,
                   Attendances = x.Attendances,
                   UsersSubjects = x.UsersSubjects
-              }).ToListAsync();
+              })
+              .OrderBy(x => x.Name)
+              .ToListAsync();
             }
 
         }
@@ -89,14 +95,17 @@
                    StudentNumber = x.StudentNumber,
                    Attendances = x.Attendances,
                    UsersSubjects = x.UsersSubjects
-               }).ToListAsync();
+               })
+              .OrderBy(x => x.Name)
+              .ToListAsync();
             }
 
             else
             {
                 return await this.context
                .Users
-                .Where(x => (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+                .Where(x => (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name))
+                || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
                .Select(x => new UserIndexVM
                {
                    Id = x.Id,
@@ -106,7 +115,9 @@
                    StudentNumber = x.StudentNumber,
                    Attendances = x.Attendances,
                    UsersSubjects = x.UsersSubjects
-               }).ToListAsync();
+               })
+              .OrderBy(x => x.Name)
+              .ToListAsync();
             }
 
         }

@@ -53,13 +53,13 @@
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber
+                    StudentNumber = model.StudentNumber
                 };
 
                 await this.userManager.CreateAsync(user, "12345678");
                 await this.userManager.AddToRoleAsync(user, model.Role);
 
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction("Index", "Users");
             }
             return View(model);
         }

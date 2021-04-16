@@ -10,7 +10,17 @@
 
 <div class="container">
     <input id="set" type="hidden" asp-for="Set" />
-    <h1 class="text-center">Classes</h1>
+    <div class="text-center">
+        <h1>Classes</h1>
+        @if (this.User.IsInRole(AdminRole))
+        {
+            <hr />
+            <p>
+                <a class="btn btn-primary" asp-action="Create">Add new Class</a>
+            </p>
+            <hr />
+        }
+    </div>
     <div class="row">
         <div class="col-md-6">
             <button onclick="UpcomingClasses()" class="btn btn-outline-secondary btn-lg btn-block" @isUpcoming>Upcoming Classes</button>
@@ -19,14 +29,6 @@
             <button onclick="PassedClasses()" class="btn btn-outline-secondary btn-lg btn-block" @isPaased>Passed Classes</button>
         </div>
     </div>
-    @if (this.User.IsInRole(AdminRole))
-    {
-        <hr />
-        <p>
-            <a class="btn btn-primary" asp-action="Create">Add new Class</a>
-        </p>
-        <hr />
-    }
     <table class="table">
         <thead>
             <tr class="text-center">

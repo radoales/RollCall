@@ -4,13 +4,16 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Students</h1>
+<div class="text-center">
+    <h1>Students</h1>
 
-@if (this.User.IsInRole(AdminRole))
-{
-    <a class="btn btn-primary" asp-controller="Identity" asp-action="Register">Add new User</a>
-}
+    @if (this.User.IsInRole(AdminRole))
+    {
+        <hr />
+        <a class="btn btn-primary" asp-controller="Identity" asp-action="Register">Add new User</a>
+        <hr />
+    }
 
-<hr />
+</div>
 <input asp-for="Name" id="filter-teachers-students" placeholder="search" type="text" class="form-control" />
 @await Html.PartialAsync("_UsersPartial", Model.Users)
