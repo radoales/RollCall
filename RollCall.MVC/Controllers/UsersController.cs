@@ -27,23 +27,24 @@
             this.subjectServices = subjectServices;
         }
 
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber, string name)
         {
             var userid = this.userManager.GetUserId(this.User);
 
-            var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM()
-                : await this.userService.GetAllTeachersStudentsAsIndexVM(userid);
+            var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM(name)
+                : await this.userService.GetAllTeachersStudentsAsIndexVM(userid, name);
 
 
             var model = new PaginatedUserIndexVM
             {
-                Users = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 10)
+                Users = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 2),
+                Name = name
             };
 
             return View(model);
         }
 
-        public async Task<IActionResult> Details (string id, int? subjectId)
+        public async Task<IActionResult> Details(string id, int? subjectId)
         {
             var loggedInUser = this.userManager.GetUserId(this.User);
 
@@ -53,6 +54,18 @@
             model.Subjects = this.subjectServices.GetUsersSubjectsAsSelectedList(loggedInUser);
             model.Subject = subjectId != null ? (int)subjectId : 0;
             return View(model);
+        }
+
+        public async Task<IActionResult> GetTeachersStudents(int? pageNumber, string name)
+        {
+            var userid = this.userManager.GetUserId(this.User);
+
+            var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM(name)
+                : await this.userService.GetAllTeachersStudentsAsIndexVM(userid, name);
+
+            var model = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 2);
+
+            return PartialView("_UsersPartial", model);
         }
     }
 }

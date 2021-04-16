@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('#filter-name').keyup(function () {
         var name = $(this).val();
         var subjectId = $('#subjectId').val()
-        console.log(subjectId)
+
         $.ajax({
             type: 'GET',
             url: "/subjects/GetAdduserSubjectsVM",
@@ -15,6 +15,24 @@ $(document).ready(function () {
         });
     });
 })
+
+//------------Filter Teacher's Students--------------->
+$(document).ready(function () {
+    $('#filter-teachers-students').keyup(function () {
+        var name = $(this).val();
+        var pageNumber = $('#page-number').val()
+        $.ajax({
+            type: 'GET',
+            url: "/users/GetTeachersStudents",
+            data: { "name": name, "pageNumber" : pageNumber },
+            success: function (result) {
+                $('#teachers-students').html(result);
+            }
+        });
+    });
+})
+
+
 
 //------------Add User to Subject--------------->
 function Add(element) {
@@ -93,11 +111,11 @@ function pagingUsers(pageNumber) {
     //console.log(set)
     //var sortId = e.options[e.selectedIndex].text;
     //var productTypeId = $('#productTypeId').attr('data-value');
-
+    var name = $('#filter-teachers-students').val()
     $.ajax({
         type: 'GET',
         url: "/users/index",
-        data: { "pageNumber": pageNumber /*, "productTypeId": productTypeId, "sortBy": sortId */ },
+        data: { "pageNumber": pageNumber, "name" : name /* "sortBy": sortId */ },
         success: function (result) {
             $("body").html(result);
         }

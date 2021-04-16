@@ -10,7 +10,6 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
     using static RollCall.MVC.WebConstants;
-    using Data.DataSeed;
 
     [Authorize]
     public class HomeController : Controller

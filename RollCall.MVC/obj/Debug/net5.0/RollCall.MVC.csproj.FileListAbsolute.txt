@@ -279,3 +279,4 @@ C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\Users\Inde
 C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs
 C:\Programming\SDL\RollCall\RollCall.MVC\bin\Debug\net5.0\Data\DataSeed\Students.json
 C:\Programming\SDL\RollCall\RollCall.MVC\bin\Debug\net5.0\Data\DataSeed\Teachers.json
+C:\Programming\SDL\RollCall\RollCall.MVC\obj\Debug\net5.0\Razor\Views\Shared\_UsersPartial.cshtml.g.cs

@@ -1,0 +1,60 @@
+﻿@model PaginatedList<UserIndexVM>
+
+    <div id="teachers-students">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Student Number
+                    </th>
+                    <th>
+                        Student Name
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td><a asp-action="Details" asp-route-id="@item.Id">Student Info</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*Paging*@
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            var active = "";
+        }
+        <input id="page-number" type="hidden" asp-for="@Model.PageIndex" />
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @prevDisabled">
+                    <a class="page-link" onclick="pagingUsers(@(Model.PageIndex - 1))" href="#">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+
+
+                    active = Model.PageIndex == i ? "active" : "";
+
+                    <li class="page-item @active">
+                        <a class="page-link" onclick="pagingUsers(@i)" href="#">@i</a>
+                    </li>
+                }
+                <li class="page-item @nextDisabled">
+                    <a class="page-link" onclick="pagingUsers(@(Model.PageIndex + 1))" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>

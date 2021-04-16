@@ -20,7 +20,7 @@
         private readonly UserManager<User> userManager;
 
         public UserService(
-            RollCallDbContext context, 
+            RollCallDbContext context,
             ISubjectServices subjectServices,
             UserManager<User> userManager)
         {
@@ -29,41 +29,86 @@
             this.userManager = userManager;
         }
 
-        public async Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId)
+        public async Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId, string name)
         {
+            int.TryParse(name, out int studentNumber);
+
             var teachersSubjects = await this.context
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(us => us.UserId == teacherId))
                 .Select(x => x.Id)
                 .ToListAsync();
 
-            return await this.context
-                .Users
-                .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)))
-                .Select(x => new UserIndexVM
-                {
-                    Id = x.Id,
-                    Name = x.FirstName + ' ' + x.LastName,
-                    StudentNumber = x.StudentNumber,
-                    Attendances = x.Attendances,
-                    UsersSubjects = x.UsersSubjects
-                }).ToListAsync();
+            if (string.IsNullOrEmpty(name))
+            {
+                return await this.context
+              .Users
+              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+              .Select(x => new UserIndexVM
+              {
+                  Id = x.Id,
+                  Name = x.FirstName + ' ' + x.LastName,
+                  StudentNumber = x.StudentNumber,
+                  Attendances = x.Attendances,
+                  UsersSubjects = x.UsersSubjects
+              }).ToListAsync();
+            }
+
+            else
+            {
+                return await this.context
+              .Users
+              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId))
+                           && (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+              .Select(x => new UserIndexVM
+              {
+                  Id = x.Id,
+                  Name = x.FirstName + ' ' + x.LastName,
+                  StudentNumber = x.StudentNumber,
+                  Attendances = x.Attendances,
+                  UsersSubjects = x.UsersSubjects
+              }).ToListAsync();
+            }
+
         }
 
-        public async Task<IEnumerable<UserIndexVM>> GetAllUsersAsIndexVM()
+        public async Task<IEnumerable<UserIndexVM>> GetAllUsersAsIndexVM(string name)
         {
-            return await this.context
-                .Users
-                .Select(x => new UserIndexVM
-                {
-                    Id = x.Id,
-                    Name = x.FirstName + ' ' + x.LastName,
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    StudentNumber = x.StudentNumber,
-                    Attendances = x.Attendances,
-                    UsersSubjects = x.UsersSubjects
-                }).ToListAsync();
+            int.TryParse(name, out int studentNumber);
+
+            if (string.IsNullOrEmpty(name))
+            {
+                return await this.context
+               .Users
+               .Select(x => new UserIndexVM
+               {
+                   Id = x.Id,
+                   Name = x.FirstName + ' ' + x.LastName,
+                   Email = x.Email,
+                   PhoneNumber = x.PhoneNumber,
+                   StudentNumber = x.StudentNumber,
+                   Attendances = x.Attendances,
+                   UsersSubjects = x.UsersSubjects
+               }).ToListAsync();
+            }
+
+            else
+            {
+                return await this.context
+               .Users
+                .Where(x => (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+               .Select(x => new UserIndexVM
+               {
+                   Id = x.Id,
+                   Name = x.FirstName + ' ' + x.LastName,
+                   Email = x.Email,
+                   PhoneNumber = x.PhoneNumber,
+                   StudentNumber = x.StudentNumber,
+                   Attendances = x.Attendances,
+                   UsersSubjects = x.UsersSubjects
+               }).ToListAsync();
+            }
+
         }
 
         public async Task<UserDetailVM> GetAsUserDetailVM(string id)
@@ -87,8 +132,8 @@
                         Class = a.Class
                     }).Where(x => !allTeachers.Contains(x.User)).ToList(),
                     Name = x.FirstName + ' ' + x.LastName,
-                    StudentNumber = x.StudentNumber, 
-                    UsersSubjects = x.UsersSubjects                    
+                    StudentNumber = x.StudentNumber,
+                    UsersSubjects = x.UsersSubjects
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
