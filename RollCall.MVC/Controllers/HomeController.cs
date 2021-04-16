@@ -1,9 +1,11 @@
 ﻿namespace RollCall.MVC.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.Infrastructure;
     using RollCall.MVC.Services;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -19,8 +21,11 @@
             this.schoolClassService = schoolClassService;
             this.userManager = userManager;
         }
+
+        [ServiceFilter(typeof(ClientIpCheckActionFilter))]
         public async Task<IActionResult> Index()
         {
+            var remoteIpAddress = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
             var userId = this.userManager.GetUserId(this.User);
 
             var classes = this.User.IsInRole(Roles.AdminRole) ? await this.schoolClassService.GetTodaysUserClasses()

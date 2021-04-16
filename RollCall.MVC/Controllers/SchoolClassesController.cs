@@ -59,6 +59,8 @@
             {
                 return NotFound();
             }
+            var user = await this.userManager.GetUserAsync(this.User);
+            await this.userManager.AddToRoleAsync(user, Roles.StudentRole);
 
             var isUserStudent = this.User.IsInRole(Roles.StudentRole);
             var userId = this.userManager.GetUserId(this.User);

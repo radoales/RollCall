@@ -5,6 +5,8 @@ namespace RollCall.MVC
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using RollCall.MVC.Infrastructure;
     using RollCall.MVC.Infrastructure.Extensions;
     public class Startup
     {
@@ -26,6 +28,15 @@ namespace RollCall.MVC
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<ClientIpCheckActionFilter>(container =>
+            {
+                var loggerFactory = container.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger<ClientIpCheckActionFilter>();
+
+                return new ClientIpCheckActionFilter(
+                    Configuration["AdminSafeList"], logger);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +61,8 @@ namespace RollCall.MVC
             //// app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<AdminSafeListMiddleware>(Configuration["AdminSafeList"]);
 
             app.UseEndpoints(endpoints =>
             {
