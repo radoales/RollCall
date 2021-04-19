@@ -63,7 +63,7 @@
             var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM(name)
                 : await this.userService.GetAllTeachersStudentsAsIndexVM(userid, name);
 
-            var model = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 2);
+            var model = await PaginatedList<UserIndexVM>.CreateAsync(users, pageNumber ?? 1, 10);
 
             return PartialView("_UsersPartial", model);
         }
