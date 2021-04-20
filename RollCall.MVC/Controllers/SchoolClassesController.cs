@@ -40,7 +40,7 @@
             {
                 "upcoming" => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
                 "passed" => await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId),
-                _ => await this.schoolClassService.GetAllAsIndexSchoolClassesVmByUser(userId),
+                _ => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
             };
 
             var model = new PaginatedListIndexSchoolClassVM
@@ -60,7 +60,6 @@
                 return NotFound();
             }
             var user = await this.userManager.GetUserAsync(this.User);
-            await this.userManager.AddToRoleAsync(user, Roles.StudentRole);
 
             var isUserStudent = this.User.IsInRole(Roles.StudentRole);
             var userId = this.userManager.GetUserId(this.User);
@@ -83,9 +82,9 @@
 
             model.UserId = userId;
             model.StudentCheckedIn = await this.attendanceService.IsStudentCheckedInforCurrentBlock(userId, (int)id, currentBlock);
-            var isClassActive = await this.schoolClassService.GetCurrentBlock((int)id) != 0;
+            var isCheckInActive = await this.schoolClassService.GetCurrentBlock((int)id) != 0 && await this.schoolClassService.IsCheckInActive((int) id);
 
-            if (!model.StudentCheckedIn && isClassActive)
+            if (!model.StudentCheckedIn && isCheckInActive)
             {
                 return RedirectToAction(nameof(CheckIn), new { model.UserId, classId = model.Id });
             }

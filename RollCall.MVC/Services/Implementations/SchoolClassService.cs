@@ -324,5 +324,21 @@
                  })
                  .ToListAsync();
         }
+
+        public async Task<bool> IsCheckInActive(int id)
+        {
+            var schoolClass = await this.context
+                .SchoolClasses
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            bool notNull = DateTime.TryParse(schoolClass.CodeGeneratedTime.ToString(), out DateTime parsed);
+
+            if (notNull)
+            {
+                return (DateTime.Now -parsed).Minutes <= TimeToCheckIn;
+            }
+
+            return false;
+        }
     }
 }

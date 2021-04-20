@@ -15,7 +15,6 @@ namespace RollCall.MVC.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<SchoolClass> SchoolClasses { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Address> Addresses { get; set; }
         public DbSet<UsersSubjects> UsersSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,8 +36,5 @@ namespace RollCall.MVC.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
-        public DbSet<RollCall.MVC.Data.Models.Attendance> Attendance { get; set; }
-
     }
 }

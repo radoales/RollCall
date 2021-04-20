@@ -34,7 +34,9 @@
         {
             get
             {
-                return Attendances.Count > 0 ? Math.Ceiling(Attendances.Average(a => a.AttendancePersentage)) : 0;
+                return Attendances.Count(x => x.Class.ClassStartTime <= DateTime.Now) > 0 ? 
+                    Math.Ceiling(Attendances.Average(a => a.AttendancePersentage)) 
+                    : 0;
             }
             set
             {

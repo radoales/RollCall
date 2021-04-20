@@ -141,7 +141,9 @@
         public SelectList GetSubjectsAsSelectedList()
         {
             var subjects = this.context
-                .Subjects.ToList();
+                .Subjects
+                .OrderBy(x => x.Name)
+                .ToList();
 
             subjects.Insert(0, new Subject { Id = 0, Name = "Select Subject" });
 
@@ -168,11 +170,11 @@
                 .ToListAsync();
         }
 
-        public SelectList GetUsersSubjectsAsSelectedList(string loggedInUser)
+        public SelectList GetUsersSubjectsAsSelectedList(string loggedInUserId, string userForDetailId)
         {
             var subjects = this.context
                  .Subjects
-                 .Where(x => x.UsersSubjects.Any(us => us.UserId == loggedInUser))
+                 .Where(x => x.UsersSubjects.Any(us => us.UserId == loggedInUserId) && x.UsersSubjects.Any(us => us.UserId == userForDetailId))
                  .ToList();
 
             subjects.Insert(0, new Subject { Id = 0, Name = "Select Subject" });
@@ -194,7 +196,7 @@
                 .FindAsync(userId, subjectId);
 
             var attendances = await this.context
-                .Attendance
+                .Attendances
                 .Where(x => x.Class.SubjectId == subjectId && x.UserId == userId)
                 .ToListAsync();
 

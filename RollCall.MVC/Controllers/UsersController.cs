@@ -10,8 +10,7 @@
     using ViewModels.Users;
     using static RollCall.MVC.WebConstants;
 
-    //[Authorize(Roles = Roles.AdminRole)]
-    //[Authorize(Roles = Roles.TeacherRole)]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService userService;
@@ -20,16 +19,23 @@
 
         public UsersController(
             IUserService userService,
-            UserManager<User> userManager, ISubjectServices subjectServices)
+            UserManager<User> userManager,
+            ISubjectServices subjectServices)
         {
             this.userService = userService;
             this.userManager = userManager;
             this.subjectServices = subjectServices;
         }
 
+        [Authorize(Roles = Roles.AdminRole + "," + Roles.TeacherRole)]
         public async Task<IActionResult> Index(int? pageNumber, string name)
         {
             var userid = this.userManager.GetUserId(this.User);
+
+            if (this.User.IsInRole(Roles.StudentRole))
+            {
+                RedirectToAction(nameof(Details), new { id = userid });
+            }
 
             var users = this.User.IsInRole(Roles.AdminRole) ? await this.userService.GetAllUsersAsIndexVM(name)
                 : await this.userService.GetAllTeachersStudentsAsIndexVM(userid, name);
@@ -45,13 +51,24 @@
         }
 
         public async Task<IActionResult> Details(string id, int? subjectId)
-        {
-            var loggedInUser = this.userManager.GetUserId(this.User);
+        {          
+            var loggedInUserId = this.userManager.GetUserId(this.User);
+            if (string.IsNullOrEmpty(id))
+            {
+                id = loggedInUserId;
+            }
+
+            var isUserTeacherOrAdmin = this.User.IsInRole(Roles.AdminRole) || this.User.IsInRole(Roles.TeacherRole);
+
+            if (id != loggedInUserId && !isUserTeacherOrAdmin)
+            {
+                return StatusCode(403);
+            }
 
             var model = subjectId == null ? await this.userService.GetAsUserDetailVM(id, 0)
                 : await this.userService.GetAsUserDetailVM(id, (int)subjectId);
 
-            model.Subjects = this.subjectServices.GetUsersSubjectsAsSelectedList(loggedInUser);
+            model.Subjects = this.subjectServices.GetUsersSubjectsAsSelectedList(loggedInUserId, id);
             model.Subject = subjectId != null ? (int)subjectId : 0;
             return View(model);
         }

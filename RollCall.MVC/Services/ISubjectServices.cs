@@ -16,7 +16,7 @@
         Task AddUserToSubject(string userId, int subjectId);
         Task RemoveUserFromSubject(string userId, int subjectId);
         Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId);
-        SelectList GetUsersSubjectsAsSelectedList(string loggedInUser);
+        SelectList GetUsersSubjectsAsSelectedList(string loggedInUserId, string userForDetailId);
         Task<IEnumerable<Subject>> GetAllSubjects();
         Task<bool> HasClassessOrUsers(int id);
         Task<DetailsSubjectVM> GetIndexSubjectVM(int id);

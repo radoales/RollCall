@@ -10,17 +10,19 @@
         <h2>@Model.Subject.Name</h2>
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
+
         <h6><u>Teachers: </u></h6>
+
         @foreach (var teacher in Model.Teachers)
         {
-           <h6>@teacher.FirstName @teacher.LastName</h6>
+            <h6>@teacher.FirstName @teacher.LastName</h6>
         }
 
         @if (this.User.IsInRole(TeacherRole) && Model.CurrentBlock != 0)
         {
             <a class="btn btn-success" onclick="generateCode(@Model.Id)"> Genarete Room Code</a>
             <h2 id="generatedCode">@Model.Code</h2>
-            <div id="timeLeft"></div>
+            <div id="timeLeft" hidden></div>
             <p id="time" hidden>@Model.CodeGeneratedTime</p>
         }
         @if (this.User.IsInRole(AdminRole))
@@ -49,20 +51,20 @@
             <tbody>
                 @foreach (var attendance in Model.Attendances)
                 {
-                <tr>
-                    <td>@attendance.User.StudentNumber</td>
-                    <td>@attendance.User.FirstName @attendance.User.LastName</td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
-                    </td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
-                    </td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
-                    </td>
-                    <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
-                </tr>
+                    <tr>
+                        <td>@attendance.User.StudentNumber</td>
+                        <td><a asp-controller="Users" asp-action="Details" asp-route-id="@attendance.UserId">@attendance.User.FirstName @attendance.User.LastName</a></td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
+                        </td>
+                        <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
+                    </tr>
                 }
                 <tr>
                     <td class="text-lg-right" colspan="5"><strong>Average Attendence:</strong></td>
@@ -89,7 +91,7 @@
 
     var x = document.getElementById("time").innerHTML
     var countDownDate = new Date(x).getTime();
-    console.log(countDownDate)
+
     // Update the count down every 1 second
     var x = setInterval(function () {
 
@@ -104,7 +106,14 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="demo"
-        document.getElementById("timeLeft").innerHTML = minutes + "m " + seconds + "s ";
+        var timeLeft = document.getElementById("timeLeft")
+        timeLeft.innerHTML = minutes + "m " + seconds + "s ";
+
+        if (timeLeft.innerHTML !== 'NaNm NaNs ') {
+            timeLeft.hidden = false;
+        }
+       
+        
 
         // If the count down is over, write some text
         if (distance < 0) {

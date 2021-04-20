@@ -39,7 +39,7 @@
             {
                 <tr>
                     <td>
-                        @attendance.Date
+                        <a asp-controller="SchoolClasses" asp-action="Details" asp-route-id="@attendance.ClassId">@attendance.Date</a>
                     </td>
                     <td>
                         <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />

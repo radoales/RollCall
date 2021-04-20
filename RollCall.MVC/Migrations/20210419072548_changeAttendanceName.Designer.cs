@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RollCall.MVC.Data;
 
 namespace RollCall.MVC.Migrations
 {
     [DbContext(typeof(RollCallDbContext))]
-    partial class RollCallDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210419072548_changeAttendanceName")]
+    partial class changeAttendanceName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

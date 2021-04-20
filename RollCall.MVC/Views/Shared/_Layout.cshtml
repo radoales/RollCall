@@ -35,12 +35,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="SchoolClasses" asp-action="Index">@(!this.User.IsInRole(AdminRole)? "My " : "")Classes</a>
                         </li>
-                        @if (!this.User.IsInRole(StudentRole))
+                        @if (this.User.IsInRole(StudentRole))
                         {
-                            <li class="nav-item"> 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details">My Attendances</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Students</a>
                             </li>
                         }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

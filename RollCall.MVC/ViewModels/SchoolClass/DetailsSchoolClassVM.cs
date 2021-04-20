@@ -17,7 +17,7 @@
         {
             get
             {              
-                return Attendances.Count > 0? Attendances.Average(a => a.AttendancePersentage): 0;
+                return Attendances.Count > 0? Math.Ceiling(Attendances.Average(a => a.AttendancePersentage)): 0;
             }
             set
             {

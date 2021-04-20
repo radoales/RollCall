@@ -168,7 +168,7 @@
                         UserId = a.UserId,
                         User = a.User,
                         Class = a.Class
-                    }).Where(x => x.Class.SubjectId == subjectId && !allTeachers.Contains(x.User))
+                    }).Where(x => x.Class.SubjectId == subjectId && !allTeachers.Contains(x.User) && x.Class.ClassStartTime <= DateTime.Now)
                     .OrderByDescending(a => a.Class.ClassStartTime).ToList(),
                     Name = x.FirstName + ' ' + x.LastName,
                     StudentNumber = x.StudentNumber,

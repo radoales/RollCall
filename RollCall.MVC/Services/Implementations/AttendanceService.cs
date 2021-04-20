@@ -19,7 +19,7 @@
         public async Task CheckIn(string userId, int classId, int currentBlock )
         {
             var attendance = await this.context
-                .Attendance.FirstOrDefaultAsync(x => x.ClassId == classId && x.UserId == userId);
+                .Attendances.FirstOrDefaultAsync(x => x.ClassId == classId && x.UserId == userId);
 
             switch (currentBlock)
             {
@@ -58,7 +58,7 @@
         public async Task<IEnumerable<Attendance>> GetAll()
         {
             return await this.context
-                .Attendance.
+                .Attendances.
                 Include(a => a.Class)
                 .Include(a => a.User)
                 .ToListAsync();
@@ -67,7 +67,7 @@
         public Task<Attendance> GetAttendance(int id)
         {
             return this.context
-                .Attendance
+                .Attendances
                 .Include(a => a.Class)
                 .Include(a => a.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
@@ -76,14 +76,14 @@
         public async Task<bool> HasUserPassedAttendancesInSubject(string userId, int subjectId)
         {
             return await this.context
-                .Attendance
+                .Attendances
                 .AnyAsync(x => x.UserId == userId && x.Class.SubjectId == subjectId && x.Class.ClassStartTime.Date < DateTime.Now.Date);
         }
 
         public async Task<bool> IsStudentCheckedInforCurrentBlock(string userId, int schoolClassId, int currentBlock)
         {
             var attendance = await this.context
-                .Attendance
+                .Attendances
                 .FirstOrDefaultAsync(x => x.ClassId == schoolClassId && x.UserId == userId);
             bool result = false;
 

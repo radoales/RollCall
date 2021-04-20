@@ -20,5 +20,6 @@
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysUserClasses();
         Task<int> GetCurrentBlock(int classId);
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);
+        Task<bool> IsCheckInActive(int id);
     }
 }
