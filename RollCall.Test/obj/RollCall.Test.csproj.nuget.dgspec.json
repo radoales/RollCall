@@ -4,14 +4,14 @@
     "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj": {}
   },
   "projects": {
-    "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj": {
+    "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj",
-        "projectName": "RollCall.Test",
-        "projectPath": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj",
+        "projectUniqueName": "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj",
+        "projectName": "RollCall.MVC",
+        "projectPath": "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj",
         "packagesPath": "C:\\Users\\nayde\\.nuget\\packages\\",
-        "outputPath": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\obj\\",
+        "outputPath": "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nayde\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,101 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "ExpressiveAnnotationsCore": {
+              "target": "Package",
+              "version": "[0.1.0, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj",
+        "projectName": "RollCall.Test",
+        "projectPath": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\RollCall.Test.csproj",
+        "packagesPath": "C:\\Users\\nayde\\.nuget\\packages\\",
+        "outputPath": "C:\\Programming\\SDL\\RollCall\\RollCall.Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\nayde\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj": {
+                "projectPath": "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[5.10.3, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[16.7.1, )"

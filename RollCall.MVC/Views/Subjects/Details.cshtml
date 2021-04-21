@@ -1,7 +1,7 @@
 ﻿@model DetailsSubjectVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Subject.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="text-center">
@@ -17,11 +17,11 @@
     {
         <hr />
         <div>
-            <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Subject.Id">Add or Remove Students</a> |
+            <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Subject.Id">Add or Remove Users</a> |
             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Subject.Id">Delete Subject</a>
         </div>
-        <hr /> 
     }
+    <hr />
 </div>
 <div class="row">
     <div class="col-md-6">
@@ -71,3 +71,4 @@
         </table>
     </div>
 </div>
+<hr />

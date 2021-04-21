@@ -1,0 +1,74 @@
+[
+  {
+    "name": {
+      "first": "Hubbard",
+      "last": "Miranda"
+    },
+    "phone": "+45 80552231",
+    "email": "hubbard.miranda@stud.kea.dk",
+    "username": "umiranda}"
+  },
+  {
+    "name": {
+      "first": "Lakisha",
+      "last": "Joyce"
+    },
+    "phone": "+45 80549822",
+    "email": "lakisha.joyce@stud.kea.dk",
+    "username": "ajoyce}"
+  },
+  {
+    "name": {
+      "first": "Rhonda",
+      "last": "Allen"
+    },
+    "phone": "+45 95153030",
+    "email": "rhonda.allen@stud.kea.dk",
+    "username": "hallen}"
+  },
+  {
+    "name": {
+      "first": "Holt",
+      "last": "Pollard"
+    },
+    "phone": "+45 85250227",
+    "email": "holt.pollard@stud.kea.dk",
+    "username": "opollard}"
+  },
+  {
+    "name": {
+      "first": "Elena",
+      "last": "Glover"
+    },
+    "phone": "+45 92349925",
+    "email": "elena.glover@stud.kea.dk",
+    "username": "lglover}"
+  },
+  {
+    "name": {
+      "first": "Mona",
+      "last": "Rivera"
+    },
+    "phone": "+45 90546123",
+    "email": "mona.rivera@stud.kea.dk",
+    "username": "orivera}"
+  },
+  {
+    "name": {
+      "first": "Kristin",
+      "last": "Guthrie"
+    },
+    "phone": "+45 96754734",
+    "email": "kristin.guthrie@stud.kea.dk",
+    "username": "rguthrie}"
+  },
+  {
+    "name": {
+      "first": "Carver",
+      "last": "Pierce"
+    },
+    "phone": "+45 93658930",
+    "email": "carver.pierce@stud.kea.dk",
+    "username": "apierce}"
+  }
+]

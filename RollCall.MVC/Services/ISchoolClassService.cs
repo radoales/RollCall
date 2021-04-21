@@ -17,9 +17,11 @@
         Task Update(int id, DateTime startTime, DateTime endTime, int subjectId);
         Task Delete(int id);
         Task GenerateCode(int id);
-        Task<IEnumerable<IndexSchoolClassVM>> GetTodaysUserClasses();
+        Task<IEnumerable<IndexSchoolClassVM>> GetTodaysClasses();
         Task<int> GetCurrentBlock(int classId);
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);
         Task<bool> IsCheckInActive(int id);
+        Task<IEnumerable<IndexSchoolClassVM>> GetAllUpcomingAsIndexSchoolClassesVm();
+        Task<IEnumerable<IndexSchoolClassVM>> GetAllPassedAsIndexSchoolClassesVm();
     }
 }

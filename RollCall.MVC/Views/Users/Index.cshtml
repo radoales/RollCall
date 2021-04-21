@@ -1,17 +1,22 @@
 ﻿@model PaginatedUserIndexVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Students";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="text-center">
-    <h1>Students</h1>
+
 
     @if (this.User.IsInRole(AdminRole))
     {
+        <h1>Users</h1>
         <hr />
         <a class="btn btn-primary" asp-controller="Identity" asp-action="Register">Add new User</a>
         <hr />
+    }
+    else
+    {
+        <h1>Students</h1>
     }
 
 </div>

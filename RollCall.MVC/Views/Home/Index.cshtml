@@ -1,8 +1,28 @@
 ﻿@model IEnumerable<IndexSchoolClassVM>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Today's classes";
 }
+
+<style>
+    .Blink {
+        animation: blinker 0.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+    }
+
+    @@keyframes blinker {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
 
 <div>
     <h3 class="text-center">Today's classes</h3>
@@ -10,6 +30,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.Subject)
                 </th>
@@ -29,6 +50,9 @@
             @foreach (var item in Model)
             {
             <tr>
+                <td>
+                    <div><i class="fa fa-circle text-danger @(item.IsCurrentClass ? "Blink" : "hide")"></i></div>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject.Name)
                 </td>

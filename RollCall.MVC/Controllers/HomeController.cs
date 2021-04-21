@@ -27,7 +27,7 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var classes = this.User.IsInRole(Roles.AdminRole) ? await this.schoolClassService.GetTodaysUserClasses()
+            var classes = this.User.IsInRole(Roles.AdminRole) ? await this.schoolClassService.GetTodaysClasses()
                 : await this.schoolClassService.GetTodaysLoggedInUserClasses(userId);
             return View(classes);
         }

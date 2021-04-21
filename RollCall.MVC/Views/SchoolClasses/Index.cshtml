@@ -1,7 +1,7 @@
 ﻿@model PaginatedListIndexSchoolClassVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Classes";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var date = "";
     var isUpcoming = Model.Set == "upcoming" ? "disabled" : "";
@@ -43,10 +43,10 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <button onclick="UpcomingClasses()" class="btn btn-outline-secondary btn-lg btn-block" @isUpcoming>Upcoming Classes</button>
+            <button onclick="UpcomingClasses()" class="btn btn-secondary btn-lg btn-block" @isUpcoming>Upcoming Classes</button>
         </div>
         <div class="col-md-6">
-            <button onclick="PassedClasses()" class="btn btn-outline-secondary btn-lg btn-block" @isPaased>Passed Classes</button>
+            <button onclick="PassedClasses()" class="btn btn-secondary btn-lg btn-block" @isPaased>Passed Classes</button>
         </div>
     </div>
     <br />

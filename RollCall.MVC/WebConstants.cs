@@ -17,7 +17,13 @@
         public const string TempDataSuccessMessageKey = "SuccessMessage";
         public const string TempDataErrorMessageKey = "ErrorMessage";
 
+        // The window for a student to check in (in minutes)
         public const int TimeToCheckIn = 15;
+
+        // Room code generator
+        public const int RoomCodeMin = 1000;
+        public const int RoomCodeMax = 9999;
+
 
     }
 }

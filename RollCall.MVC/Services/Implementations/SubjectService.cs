@@ -121,7 +121,7 @@
                 .Select(x => new DetailsSubjectVM
                 {
                     Subject = x,
-                    SchoolClasses = x.Classes,
+                    SchoolClasses = x.Classes.OrderBy(c => c.ClassStartTime).ToList(),
                     Students = x.UsersSubjects
                                 .Where(y => y.SubjectId == id && !allTeachers.Contains(y.User))
                                 .Select(y => y.User)

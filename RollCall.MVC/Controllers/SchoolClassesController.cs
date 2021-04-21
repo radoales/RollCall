@@ -34,13 +34,14 @@
         // GET: SchoolClasses 
         public async Task<IActionResult> Index(int? pageNumber, string set)
         {
-            var userId = this.userManager.GetUserId(this.User);
+           var userId = this.userManager.GetUserId(this.User);
+            var isAdmin = this.User.IsInRole(Roles.AdminRole);
 
            var schoolClasses = set switch
             {
-                "upcoming" => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
-                "passed" => await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId),
-                _ => await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
+                "upcoming" => isAdmin? await this.schoolClassService.GetAllUpcomingAsIndexSchoolClassesVm() : await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
+                "passed" => isAdmin ? await this.schoolClassService.GetAllPassedAsIndexSchoolClassesVm() : await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId),
+                _ => isAdmin ? await this.schoolClassService.GetAllUpcomingAsIndexSchoolClassesVm() : await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
             };
 
             var model = new PaginatedListIndexSchoolClassVM
@@ -93,6 +94,8 @@
         }
 
         // GET: SchoolClasses/Create
+        [Authorize(Roles = Roles.AdminRole)]
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["SubjectId"] = this.subjectServices.GetSubjectsAsSelectedList();
@@ -102,6 +105,7 @@
         // POST: SchoolClasses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.AdminRole)]
         public async Task<IActionResult> Create([Bind("Id,Code,ClassStartTime,ClassEndTime,SubjectId")] CreateSchoolClassVM model)
         {
             if (ModelState.IsValid)
