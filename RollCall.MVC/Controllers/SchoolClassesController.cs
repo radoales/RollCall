@@ -211,7 +211,8 @@
                 Time = schoolClass.Time,
                 TimeLeft = schoolClass.TimeLeft,
                 ClassId = classId,
-                IsClassActive = isClassActive
+                IsClassActive = isClassActive,
+                CurrentBlock = await this.schoolClassService.GetCurrentBlock(classId)
 
             };
 
@@ -221,6 +222,14 @@
         [HttpPost]
         public async Task<IActionResult> CheckIn(CheckInVM model)
         {
+            var isCheckInActive = await this.schoolClassService.IsCheckInActive(model.ClassId);
+
+            if (!isCheckInActive)
+            {
+                TempData[TempDataErrorMessageKey] = "You did not check in succesfully!\n Check in was locked!";
+                 return RedirectToAction(nameof(Details), new { id = model.ClassId });
+            }
+
             var schoolClass = await this.schoolClassService.GetDetailsSchoolClassVM(model.ClassId);
             if (schoolClass.Code != model.EnteredCode)
             {
@@ -233,7 +242,7 @@
             int currentBlock = await this.schoolClassService.GetCurrentBlock(model.ClassId);
 
             await this.attendanceService.CheckIn(model.UserId, model.ClassId, currentBlock);
-
+            TempData[TempDataSuccessMessageKey] = $"Check In for block {model.CurrentBlock} was Succesfull!";
             return RedirectToAction(nameof(Details), new { id = model.ClassId });
         }
     }

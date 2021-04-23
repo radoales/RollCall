@@ -337,7 +337,7 @@
 
             if (notNull)
             {
-                return (DateTime.Now - parsed).Minutes <= TimeToCheckIn;
+                return (DateTime.Now - parsed).Minutes < TimeToCheckIn;
             }
 
             return false;

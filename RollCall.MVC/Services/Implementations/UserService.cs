@@ -32,6 +32,7 @@
         public async Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId, string name)
         {
             int.TryParse(name, out int studentNumber);
+            var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
             var teachersSubjects = await this.context
                 .Subjects
@@ -43,8 +44,8 @@
             {
                 return await this.context
               .Users
-              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)) 
-              || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+              .Where(x => (x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId)) 
+              || x.StudentNumber.ToString().StartsWith(studentNumber.ToString())) && !allTeachers.Contains(x))
               .Select(x => new UserIndexVM
               {
                   Id = x.Id,
@@ -61,9 +62,9 @@
             {
                 return await this.context
               .Users
-              .Where(x => x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId))
-                           && (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) 
-                           || x.StudentNumber.ToString().StartsWith(studentNumber.ToString()))
+              .Where(x => (x.UsersSubjects.Any(us => teachersSubjects.Contains(us.SubjectId))
+                           && (x.FirstName.StartsWith(name) || x.LastName.StartsWith(name)) || x.StudentNumber.ToString().StartsWith(studentNumber.ToString())) 
+                           && !allTeachers.Contains(x))
               .Select(x => new UserIndexVM
               {
                   Id = x.Id,

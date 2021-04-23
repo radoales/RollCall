@@ -86,6 +86,16 @@ function PassedClasses() {
     });
 }
 
+//-------------------------Loading animation----------------------------->
+function loadingOn() {
+    document.getElementById("overlay").style.display = "block";
+}
+
+function loadingOff() {
+    document.getElementById("overlay").style.display = "none";
+}
+
+
 //-------------------------Paging SchoolClasses----------------------------->
 //Go to specified page
 function pagingSchoolClasses(pageNumber) {
@@ -98,7 +108,11 @@ function pagingSchoolClasses(pageNumber) {
         type: 'GET',
         url: "/schoolclasses/index",
         data: { "pageNumber": pageNumber, "set": set /*, "productTypeId": productTypeId, "sortBy": sortId */ },
+        beforeSend: function () {
+            loadingOn();
+        },
         success: function (result) {
+            loadingOff();
             $("body").html(result);
         }
     });

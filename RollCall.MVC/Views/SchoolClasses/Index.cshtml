@@ -23,12 +23,28 @@
         }
     }
 
-    .hide{
+    .hide {
         display: none;
     }
-</style>
 
+    #overlay {
+        position: fixed;
+        display: none;
+        width: 10%;
+        height: 10%;
+        top: 45%;
+        left: 45%;
+        background-color: rgba(0,0,0,0.0);
+        z-index: 2;
+    }
+
+</style>
 <div class="container">
+    <div class="text-center" id="overlay">
+        <div id="loadingDiv" class="text-center">
+            <img src="~/ajax-loader2.gif" />
+        </div>
+    </div>
     <input id="set" type="hidden" asp-for="Set" />
     <div class="text-center">
         <h1>Classes</h1>
@@ -40,6 +56,7 @@
             </p>
             <hr />
         }
+        <div id="loadingDiv" class="text-center hide"><img src="~/ajax-loader.gif" /></div>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -73,8 +90,8 @@
                 {
                     date = item.Date;
                     <tr class="text-center">
-                        <td class="text-center" colspan="4">
-                            <div style="font-size:20px"><strong>@date</strong></div>
+                        <td class="text-center" colspan="5">
+                            <div><strong>@date</strong></div>
                         </td>
                     </tr>
 
@@ -128,9 +145,8 @@
         </ul>
     </nav>
 
-
+     
 </div>
 <script type="text/javascript">
-
 
 </script>

@@ -1,18 +1,13 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RollCall.MVC.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using static RollCall.MVC.WebConstants;
-
-namespace RollCall.Test.Controllers
+﻿namespace RollCall.Test.Controllers
 {
+    using FluentAssertions;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using RollCall.MVC.Controllers;
+    using System.Linq;
+    using System.Reflection;
+    using Xunit;
+    using static RollCall.MVC.WebConstants;
     public class SchoolClassControllerTests
     {
         //Accessability Tests

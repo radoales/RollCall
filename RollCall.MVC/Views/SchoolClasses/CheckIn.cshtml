@@ -3,8 +3,8 @@
     <h2>@Model.SubjectName</h2>
     <h5>@Model.Date</h5>
     <h6>@Model.Time</h6>
-    <form id="modelForm"  asp-action="CheckIn">
-
+    <form id="modelForm" asp-action="CheckIn">
+        <input type="hidden" asp-for="CurrentBlock" />
         @if (Model.StudentCheckedIn == false && Model.IsClassActive)
         {
             <div style="justify-self:center">
@@ -14,6 +14,7 @@
                 <input type="hidden" asp-for="Time" />
                 <input type="hidden" asp-for="UserId" />
                 <input type="hidden" asp-for="CodeGeneratedTime" />
+
                 <div class="form-group">
                     <input class="" asp-for="EnteredCode" maxlength="4" id="enteredCode" style=" font-size:60px; width:150px" type="text" />
                     <span asp-validation-for="EnteredCode" class="text-danger"></span>
