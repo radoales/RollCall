@@ -9,6 +9,7 @@
     using static WebConstants;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
+    using System;
 
     public class IdentityController : Controller
     {
@@ -38,7 +39,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Route("Identity/register")]
         public async Task<ActionResult> Register(RegisterRequestModel model)
         {
@@ -72,7 +72,7 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Route("Identity/login")]
         public async Task<ActionResult<object>> Login([Bind("Username,Password")] LoginRequestModel model)
         {
@@ -94,17 +94,6 @@
 
             await signInManager.SignInAsync(user, true);
 
-            //var token = this.identityService.GenerateJwtToken(
-            //    user.Id,
-            //    user.UserName,
-            //    user.Role,
-            //    this.appSettings.Secret);
-
-            //return new LoginResponseModel
-            //{
-            //    Token = token
-            //};
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -118,8 +107,6 @@
             }
 
             await this.signInManager.SignOutAsync();
-
-
 
             return RedirectToAction("Index", "Home");
         }

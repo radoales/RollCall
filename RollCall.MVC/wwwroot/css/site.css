@@ -85,3 +85,11 @@ body {
     }
 
 /*-------------------------------------------------------*/
+#footer {
+    bottom: 0;
+    color: #707070;
+    height: 5em;
+    left: 0;
+    position: relative;
+    width: 100%;
+}

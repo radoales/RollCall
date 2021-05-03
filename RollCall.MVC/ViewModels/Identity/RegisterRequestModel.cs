@@ -18,18 +18,11 @@
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
-        public string Password { get; set; }
-
-        public string ConfirmPassword { get; set; }
-
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         [DisplayName("Last Name")]
         public string LastName { get; set; }
-
-        [DisplayName("Phone Number")]
-        public string PhoneNumber { get; set; }
 
         [DisplayName("Student Number")]
         public int StudentNumber { get; set; }

@@ -124,7 +124,9 @@
                          UserId = a.UserId,
                          User = a.User,
                          Class = a.Class
-                     }).Where(x => !allTeachers.Contains(x.User)).ToList(),
+                     }).Where(x => !allTeachers.Contains(x.User))
+                     .OrderBy(x => x.User.FirstName)
+                     .ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(TimeToCheckIn).ToString("MMM d, yyyy HH':'mm':'ss"),
@@ -169,7 +171,8 @@
                          UserId = a.UserId,
                          User = a.User,
                          Class = a.Class
-                     }).ToList(),
+                     }).OrderBy(x => x.User.FirstName)
+                     .ToList(),
                      Code = x.Code,
                      SubjectId = x.SubjectId,
                      CodeGeneratedTime = x.CodeGeneratedTime.Value.AddMinutes(30).ToString("MMM d, yyyy HH':'mm':'ss"),

@@ -16,18 +16,15 @@
     [Authorize]
     public class SubjectsController : Controller
     {
-        private readonly RollCallDbContext _context;
         private readonly ISubjectServices subjectServices;
         private readonly IAttendanceService attendanceService;
         private readonly UserManager<User> userManager;
 
         public SubjectsController(
-            RollCallDbContext context,
             ISubjectServices subjectServices,
             IAttendanceService attendanceService,
             UserManager<User> userManager)
         {
-            _context = context;
             this.subjectServices = subjectServices;
             this.attendanceService = attendanceService;
             this.userManager = userManager;
@@ -72,15 +69,15 @@
         // POST: Subjects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Subject model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.subjectServices.Create(model.Name);
+
+                return RedirectToAction(nameof(Details), new { id = model.Id });
             }
-            return View(subject);
+            return View(model);
         }
 
         // GET: Subjects/Edit/5
@@ -113,34 +110,19 @@
         // POST: Subjects/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Subject model)
         {
-            if (id != subject.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SubjectExists(subject.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await this.subjectServices.Update(id, model.Name);
                 return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return View(model);
         }
 
         // GET: Subjects/Delete/5
@@ -152,8 +134,7 @@
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subject = await this.subjectServices.Get((int)id);
             if (subject == null)
             {
                 return NotFound();
@@ -175,15 +156,8 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
+            await this.subjectServices.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SubjectExists(int id)
-        {
-            return _context.Subjects.Any(e => e.Id == id);
         }
 
         public async Task<IActionResult> GetAdduserSubjectsVM(string name, int subjectId)

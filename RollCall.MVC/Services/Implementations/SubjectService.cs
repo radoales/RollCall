@@ -59,6 +59,24 @@
             await this.context.SaveChangesAsync();
         }
 
+        public async Task Create(string name)
+        {
+            var subject = new Subject
+            {
+                Name = name
+            };
+
+            this.context.Subjects.Add(subject);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var subject = await this.context.Subjects.FindAsync(id);
+            this.context.Subjects.Remove(subject);
+            await this.context.SaveChangesAsync();
+        }
+
         public async Task<Subject> Get(int id)
         {
             return await this.context
@@ -205,6 +223,16 @@
 
             this.context.Remove(userSubject);
 
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task Update(int id, string name)
+        {
+            var subject = await this.context.Subjects.FirstOrDefaultAsync(x => x.Id == id);
+
+            subject.Name = name;
+
+            this.context.Subjects.Update(subject);
             await this.context.SaveChangesAsync();
         }
     }
