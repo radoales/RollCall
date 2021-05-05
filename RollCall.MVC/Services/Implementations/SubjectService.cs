@@ -15,13 +15,15 @@
     public class SubjectService : ISubjectServices
     {
         private readonly RollCallDbContext context;
+        private readonly ReadOnlyDbContext readOnlyDbContext;
         private readonly UserManager<User> userManager;
 
         public SubjectService(RollCallDbContext context,
-            UserManager<User> userManager)
+            UserManager<User> userManager, ReadOnlyDbContext readOnlyDbContext)
         {
             this.context = context;
             this.userManager = userManager;
+            this.readOnlyDbContext = readOnlyDbContext;
         }
 
         public async Task AddUserToSubject(string userId, int subjectId)
@@ -59,7 +61,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task Create(string name)
+        public async Task<int> Create(string name)
         {
             var subject = new Subject
             {
@@ -68,6 +70,8 @@
 
             this.context.Subjects.Add(subject);
             await this.context.SaveChangesAsync();
+
+            return subject.Id;
         }
 
         public async Task Delete(int id)
@@ -79,7 +83,7 @@
 
         public async Task<Subject> Get(int id)
         {
-            return await this.context
+            return await this.readOnlyDbContext
                 .Subjects
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

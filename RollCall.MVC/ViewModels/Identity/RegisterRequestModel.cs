@@ -13,7 +13,7 @@
         [RegularExpression(@"^[a-zA-Z0-9_.-]*$", ErrorMessage = "Invalid Username")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
+       // [Required(ErrorMessage = ErrorMessages.RequiredField)]
         [MaxLength(200, ErrorMessage = "Email too long")]
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Invalid email")]
         public string Email { get; set; }

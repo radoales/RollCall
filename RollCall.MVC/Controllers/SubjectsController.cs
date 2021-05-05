@@ -68,14 +68,14 @@
 
         // POST: Subjects/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Subject model)
         {
             if (ModelState.IsValid)
             {
-                await this.subjectServices.Create(model.Name);
+                var id = await this.subjectServices.Create(model.Name);
 
-                return RedirectToAction(nameof(Details), new { id = model.Id });
+                return RedirectToAction(nameof(Details), new { id });
             }
             return View(model);
         }

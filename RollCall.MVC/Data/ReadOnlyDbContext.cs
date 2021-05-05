@@ -2,17 +2,15 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using RollCall.MVC.Data.Models;
-    public class RollCallDbContext : IdentityDbContext<User>
+    using Models;
+
+    public class ReadOnlyDbContext : IdentityDbContext<User>
     {
-        public RollCallDbContext(DbContextOptions<RollCallDbContext> options)
+        public ReadOnlyDbContext(DbContextOptions<ReadOnlyDbContext> options)
             : base(options)
         {
+
         }
-        public DbSet<Attendance> Attendances { get; set; }
-        public DbSet<SchoolClass> SchoolClasses { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<UsersSubjects> UsersSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,5 +31,10 @@
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<SchoolClass> SchoolClasses { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<UsersSubjects> UsersSubjects { get; set; }
     }
 }

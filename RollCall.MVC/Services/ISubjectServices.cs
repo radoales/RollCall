@@ -20,7 +20,7 @@
         Task<IEnumerable<Subject>> GetAllSubjects();
         Task<bool> HasClassessOrUsers(int id);
         Task<DetailsSubjectVM> GetIndexSubjectVM(int id);
-        Task Create(string name);
+        Task<int> Create(string name);
         Task Update(int id, string name);
         Task Delete(int id);
     }

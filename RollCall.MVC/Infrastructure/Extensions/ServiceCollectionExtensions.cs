@@ -15,7 +15,12 @@
             => services
                 .AddDbContext<RollCallDbContext>(options => options
                     .UseSqlServer(
-                        configuration.GetDefaultConnectionString()));
+                         //configuration.GetConnectionString("ReadOnly")));
+                         configuration.GetDefaultConnectionString()))
+               .AddDbContext<ReadOnlyDbContext>(options => options
+                    .UseSqlServer(
+                         configuration.GetConnectionString("ReadOnly")));
+                        // configuration.GetDefaultConnectionString()));
 
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
@@ -37,7 +42,7 @@
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 0;
                 options.Password.RequireDigit = false;
             })
                .AddEntityFrameworkStores<RollCallDbContext>();
