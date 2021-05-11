@@ -69,9 +69,9 @@
 <script type="text/javascript">
    
        function selectSubject () {
-            console.log('hit')
-            var subjectId = $('#subjectId').val()
-            var userId = $('#userId').val()
+           
+           var subjectId = $('#subjectId').val()
+           console.log(subjectId)
             $.ajax({
                 type: 'GET',
                 url: "/users/details",

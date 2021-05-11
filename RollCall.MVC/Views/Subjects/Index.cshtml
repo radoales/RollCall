@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RollCall.MVC.Data.Models.Subject>
+﻿@model SubjectIndexVm
 
 @{
     ViewData["Title"] = "Subjects";
@@ -27,10 +27,18 @@
     </div>
     <hr />
 }
+<form asp-action="details">
+    <div class="form-group">
+        <label class="control-label"> <strong>Select a slot</strong></label>
+        <select onchange="selectSubjectSlot()" id="subjectSlot"
+                asp-for="SubjectSlot" class="form-control"
+                asp-items="Model.SubjectSlots"></select>
+    </div>
+</form>
 
 <div class="container">
     <div class="row justify-content-center" style="margin:auto">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Subjects)
         {
             <div class="card bg-light mb-3 list-galery-zoom  mb-5 rounded" style="width: 14.1rem; margin-top:5px;margin-right:10px; margin-right:10px; margin-bottom:30px">
                 <a style="text-decoration: none" asp-action="Details" asp-route-id="@item.Id">
@@ -42,3 +50,22 @@
         }
     </div>
 </div>
+
+
+<script type="text/javascript">
+
+    function selectSubjectSlot() {
+        
+        var subjectSlot = $('#subjectSlot').val()
+        console.log(subjectSlot)
+        $.ajax({
+            type: 'GET',
+            url: "/subjects/index",
+            data: { "slot": subjectSlot },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    };
+
+</script>

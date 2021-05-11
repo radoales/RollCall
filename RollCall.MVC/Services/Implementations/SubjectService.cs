@@ -118,20 +118,58 @@
 
         }
 
-        public async Task<IEnumerable<Subject>> GetAllSubjects()
+        public async Task<IEnumerable<Subject>> GetAllSubjects(string slot)
         {
-            return await this.context
+            var result = slot switch
+            {
+                "past" => await this.context
                 .Subjects
+                .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date < DateTime.Now.Date)
                 .OrderBy(x => x.Name)
-                .ToListAsync();
+                .ToListAsync(),
+
+                "upcoming" => await this.context
+                .Subjects
+                .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date)
+                .OrderBy(x => x.Name)
+                .ToListAsync(),
+
+                _ => await this.context
+                .Subjects
+                .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date <= DateTime.Now.Date
+                         && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date >= DateTime.Now.Date)
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+            };
+
+            return result;
         }
 
-        public async Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId)
+        public async Task<IEnumerable<Subject>> GetAllSubjectsByUser(string userId, string slot)
         {
-            return await this.context
+            var result = slot switch
+            {
+                "past" => await this.context
                 .Subjects
-                .Where(x => x.UsersSubjects.Any(x => x.UserId == userId))
-                .ToListAsync();
+                .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date < DateTime.Now.Date)
+                .OrderBy(x => x.Name)
+                .ToListAsync(),
+
+                "upcoming" => await this.context
+                .Subjects
+                .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date)
+                .OrderBy(x => x.Name)
+                .ToListAsync(),
+
+                _ => await this.context
+                .Subjects
+                .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && (x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date <= DateTime.Now.Date
+                         && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date >= DateTime.Now.Date))
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+            };
+
+            return result;
         }
 
         public async Task<DetailsSubjectVM> GetIndexSubjectVM(int id)

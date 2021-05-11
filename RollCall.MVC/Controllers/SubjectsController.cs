@@ -31,11 +31,17 @@
         }
 
         // GET: Subjects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string slot)
         {
-            var userId =  this.userManager.GetUserId(this.User);
-            var model = this.User.IsInRole(Roles.AdminRole) ? await this.subjectServices.GetAllSubjects()
-                : await this.subjectServices.GetAllSubjectsByUser(userId);
+            var userId = this.userManager.GetUserId(this.User);
+            var subjects = this.User.IsInRole(Roles.AdminRole) ? await this.subjectServices.GetAllSubjects(slot)
+                : await this.subjectServices.GetAllSubjectsByUser(userId, slot);
+
+            var model = new SubjectIndexVm
+            {
+                Subjects = subjects,
+                SubjectSlot = slot
+            };
 
             return View(model);
         }
@@ -68,7 +74,7 @@
 
         // POST: Subjects/Create
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Subject model)
         {
             if (ModelState.IsValid)
