@@ -4,8 +4,8 @@
     ViewData["Title"] = "Classes";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var date = "";
-    var isUpcoming = Model.Set == "upcoming" ? "disabled" : "";
-    var isPaased = Model.Set == "passed" ? "disabled" : "";
+    var isUpcoming = Model.SchoolClassesSet == "upcoming" ? "disabled" : "";
+    var isPaased = Model.SchoolClassesSet == "passed" ? "disabled" : "";
 }
 
 <style>
@@ -39,15 +39,32 @@
     }
 
 </style>
+
 <div class="container">
     <div class="text-center" id="overlay">
         <div id="loadingDiv" class="text-center">
             <img src="~/ajax-loader2.gif" />
         </div>
     </div>
-    <input id="set" type="hidden" asp-for="Set" />
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+            <h1 class="text-center">My Classes</h1>
+            <form asp-action="details">
+                <div class="form-group">
+                    <label class="control-label"> <strong>Select classes to show:</strong></label>
+                    <select class="form-control"
+                            onchange="selectSchoolClassesSet()" id="schoolClassesSet"
+                            asp-for="SchoolClassesSet"
+                            asp-items="Model.SchoolClassesSets"></select>
+                </div>
+            </form> 
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
     <div class="text-center">
-        <h1>Classes</h1>
         @if (this.User.IsInRole(AdminRole))
         {
             <hr />
@@ -58,14 +75,14 @@
         }
         <div id="loadingDiv" class="text-center hide"><img src="~/ajax-loader.gif" /></div>
     </div>
-    <div class="row">
+    @*<div class="row">
         <div class="col-md-6">
             <button onclick="UpcomingClasses()" class="btn btn-secondary btn-lg btn-block" @isUpcoming>Upcoming Classes</button>
         </div>
         <div class="col-md-6">
             <button onclick="PassedClasses()" class="btn btn-secondary btn-lg btn-block" @isPaased>Passed Classes</button>
         </div>
-    </div>
+    </div>*@
     <br />
     <table class="table">
         <thead>
@@ -121,7 +138,7 @@
     @{
         var prevDisabled = !Model.SchoolClasses.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.SchoolClasses.HasNextPage ? "disabled" : "";
-        var active = "";
+        var active = ""; 
     }
 
     <nav aria-label="Page navigation example">
@@ -145,7 +162,7 @@
         </ul>
     </nav>
 
-     
+
 </div>
 <script type="text/javascript">
 

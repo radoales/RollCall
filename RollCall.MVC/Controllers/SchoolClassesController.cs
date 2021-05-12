@@ -4,13 +4,13 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using RollCall.MVC.Data.Models;
-    using RollCall.MVC.Helpers;
-    using RollCall.MVC.Services;
-    using RollCall.MVC.ViewModels.SchoolClass;
+    using Data.Models;
+    using Helpers;
+    using Services;
+    using ViewModels.SchoolClass;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using static RollCall.MVC.WebConstants;
+    using static WebConstants;
     [Authorize]
     public class SchoolClassesController : Controller
     {
@@ -32,21 +32,20 @@
         }
 
         // GET: SchoolClasses 
-        public async Task<IActionResult> Index(int? pageNumber, string set)
+        public async Task<IActionResult> Index(int? pageNumber, string schoolClassesSet)
         {
            var userId = this.userManager.GetUserId(this.User);
             var isAdmin = this.User.IsInRole(Roles.AdminRole);
 
-           var schoolClasses = set switch
+            var schoolClasses = isAdmin switch
             {
-                "upcoming" => isAdmin? await this.schoolClassService.GetAllUpcomingAsIndexSchoolClassesVm() : await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
-                "passed" => isAdmin ? await this.schoolClassService.GetAllPassedAsIndexSchoolClassesVm() : await this.schoolClassService.GetPassedAsIndexSchoolClassesVmByUser(userId),
-                _ => isAdmin ? await this.schoolClassService.GetAllUpcomingAsIndexSchoolClassesVm() : await this.schoolClassService.GetUpcomingAsIndexSchoolClassesVmByUser(userId),
+                true => await this.schoolClassService.GetAllAsIndexSchoolClassesVm(schoolClassesSet),
+                false => await this.schoolClassService.GetAllAsIndexSchoolClassesVmByUser(userId, schoolClassesSet)
             };
 
             var model = new PaginatedListIndexSchoolClassVM
             {
-                Set = set,
+                SchoolClassesSet = schoolClassesSet,
                 SchoolClasses = await PaginatedList<IndexSchoolClassVM>.CreateAsync(schoolClasses, pageNumber ?? 1, 5)
             };
 

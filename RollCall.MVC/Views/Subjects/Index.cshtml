@@ -17,8 +17,23 @@
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
         }
 </style>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <h1 class="text-center">My Courses</h1>
+        <form asp-action="details">
+            <div class="form-group">
+                <label class="control-label"> <strong>Select courses to show:</strong></label>
+                <select class="form-control"
+                        onchange="selectSubjectSlot()" id="subjectSlot"
+                        asp-for="SubjectSlot"
+                        asp-items="Model.SubjectSlots"></select>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
 
-<h1 class="text-center">My Subjects</h1>
 @if (this.User.IsInRole(AdminRole))
 {
     <hr />
@@ -27,14 +42,8 @@
     </div>
     <hr />
 }
-<form asp-action="details">
-    <div class="form-group">
-        <label class="control-label"> <strong>Select a slot</strong></label>
-        <select onchange="selectSubjectSlot()" id="subjectSlot"
-                asp-for="SubjectSlot" class="form-control"
-                asp-items="Model.SubjectSlots"></select>
-    </div>
-</form>
+
+
 
 <div class="container">
     <div class="row justify-content-center" style="margin:auto">
@@ -55,7 +64,7 @@
 <script type="text/javascript">
 
     function selectSubjectSlot() {
-        
+
         var subjectSlot = $('#subjectSlot').val()
         console.log(subjectSlot)
         $.ajax({

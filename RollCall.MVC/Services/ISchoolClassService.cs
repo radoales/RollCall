@@ -7,9 +7,7 @@
     using System.Threading.Tasks;
     public interface ISchoolClassService
     {
-        Task<IEnumerable<IndexSchoolClassVM>> GetAllAsIndexSchoolClassesVmByUser(string userId);
-        Task<IEnumerable<IndexSchoolClassVM>> GetUpcomingAsIndexSchoolClassesVmByUser(string userId);
-        Task<IEnumerable<IndexSchoolClassVM>> GetPassedAsIndexSchoolClassesVmByUser(string userId);
+        Task<IEnumerable<IndexSchoolClassVM>> GetAllAsIndexSchoolClassesVmByUser(string userId, string schoolClassSet);
         Task<DetailsSchoolClassVM> GetDetailsSchoolClassVM(int id);
         Task<EditSchoolClassVM> GetEditSchoolClassVM(int id);
         Task<DetailsSchoolClassVM> GetAsStudent(int id, string userId);
@@ -21,7 +19,6 @@
         Task<int> GetCurrentBlock(int classId);
         Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId);
         Task<bool> IsCheckInActive(int id);
-        Task<IEnumerable<IndexSchoolClassVM>> GetAllUpcomingAsIndexSchoolClassesVm();
-        Task<IEnumerable<IndexSchoolClassVM>> GetAllPassedAsIndexSchoolClassesVm();
+        Task<IEnumerable<IndexSchoolClassVM>> GetAllAsIndexSchoolClassesVm(string schoolClassSet);
     }
 }

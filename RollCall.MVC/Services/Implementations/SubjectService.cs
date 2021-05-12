@@ -149,13 +149,13 @@
         {
             var result = slot switch
             {
-                "past" => await this.context
+                PastSubjects => await this.context
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date < DateTime.Now.Date)
                 .OrderBy(x => x.Name)
                 .ToListAsync(),
 
-                "upcoming" => await this.context
+                UpcomingSubjects => await this.context
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date)
                 .OrderBy(x => x.Name)

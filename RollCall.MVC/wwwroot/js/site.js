@@ -86,6 +86,18 @@ function PassedClasses() {
     });
 }
 
+function selectSchoolClassesSet() {
+    var schoolClassesSet = $('#schoolClassesSet').val()
+    $.ajax({
+        type: 'GET',
+        url: "/schoolclasses/index",
+        data: { "schoolClassesSet": schoolClassesSet },
+        success: function (result) {
+            $("body").html(result);
+        }
+    });
+}
+
 //-------------------------Loading animation----------------------------->
 function loadingOn() {
     document.getElementById("overlay").style.display = "block";
@@ -99,15 +111,15 @@ function loadingOff() {
 //-------------------------Paging SchoolClasses----------------------------->
 //Go to specified page
 function pagingSchoolClasses(pageNumber) {
-    var set = document.getElementById("set").value;
-    console.log(set)
+    var schoolClassesSet = document.getElementById("schoolClassesSet").value;
+    console.log(schoolClassesSet)
     //var sortId = e.options[e.selectedIndex].text;
     //var productTypeId = $('#productTypeId').attr('data-value');
 
     $.ajax({
         type: 'GET',
         url: "/schoolclasses/index",
-        data: { "pageNumber": pageNumber, "set": set /*, "productTypeId": productTypeId, "sortBy": sortId */ },
+        data: { "pageNumber": pageNumber, "schoolClassesSet": schoolClassesSet /*, "productTypeId": productTypeId, "sortBy": sortId */ },
         beforeSend: function () {
             loadingOn();
         },

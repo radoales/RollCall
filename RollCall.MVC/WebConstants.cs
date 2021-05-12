@@ -24,6 +24,15 @@
         public const int RoomCodeMin = 1000;
         public const int RoomCodeMax = 9999;
 
+        //Subject Sets
+        public const string PastSubjects = "Past Courses";
+        public const string OngoingSubjects = "Ongoing Courses";
+        public const string UpcomingSubjects = "Upcoming Courses";
+
+        //SchoolClasse Sets
+        public const string PastClasses = "Past Classes";
+        public const string OngoingClasses = "Ongoing Classes";
+        public const string UpcomingClasses = "Upcoming Classes";
 
     }
 }

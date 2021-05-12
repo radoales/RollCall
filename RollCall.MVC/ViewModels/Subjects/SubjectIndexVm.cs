@@ -6,12 +6,13 @@
     using System.Threading.Tasks;
     using Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using static WebConstants;
 
     public class SubjectIndexVm
     {
         public IEnumerable<Subject> Subjects { get; set; }
 
-        public SelectList SubjectSlots { get; set; } = new SelectList(new List<string>() { "ongoing", "past", "upcoming" }, "ongoing");
+        public SelectList SubjectSlots { get; set; } = new SelectList(new List<string>() { OngoingSubjects, PastSubjects, UpcomingSubjects}, OngoingSubjects);
 
         public string SubjectSlot { get; set; }
     }
