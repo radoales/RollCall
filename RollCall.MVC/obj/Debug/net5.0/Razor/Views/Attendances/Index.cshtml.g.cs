@@ -56,20 +56,27 @@ using RollCall.MVC.ViewModels.Users;
 #nullable disable
 #nullable restore
 #line 7 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
-using RollCall.MVC.Helpers;
+using RollCall.MVC.ViewModels.Attendance;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
 using static RollCall.MVC.WebConstants.Roles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"93f12a903d7c84d25d4f9e175873127deaabfdb8", @"/Views/Attendances/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4129ce4d84aafe438469a1293ed6145a7dee1812", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fb469c0d6577bcbcc7c5eb9775bd26ef520be5fa", @"/Views/_ViewImports.cshtml")]
     public class Views_Attendances_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<RollCall.MVC.Data.Models.Attendance>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Create", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -111,7 +118,7 @@ using static RollCall.MVC.WebConstants.Roles;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n<h1>Index</h1>\r\n\r\n<p>\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb85737", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb85927", async() => {
                 WriteLiteral("Create New");
             }
             );
@@ -167,7 +174,7 @@ using static RollCall.MVC.WebConstants.Roles;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n            </td>\r\n            <td>\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb88533", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb88723", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -198,7 +205,7 @@ using static RollCall.MVC.WebConstants.Roles;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" |\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb810690", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb810880", async() => {
                 WriteLiteral("Details");
             }
             );
@@ -229,7 +236,7 @@ using static RollCall.MVC.WebConstants.Roles;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" |\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb812854", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93f12a903d7c84d25d4f9e175873127deaabfdb813044", async() => {
                 WriteLiteral("Delete");
             }
             );

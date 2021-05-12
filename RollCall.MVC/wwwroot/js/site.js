@@ -32,6 +32,23 @@ $(document).ready(function () {
     });
 })
 
+//------------Filter SchoolClasses' Attendances--------------->
+$(document).ready(function () {
+    $('#filter-schoolClasses-attendances').keyup(function () {
+        var searchString = $(this).val();
+        var classId = $('#classId').val();
+
+        $.ajax({
+            type: 'GET',
+            url: "/schoolClasses/GetSchoolClassAttendances",
+            data: { "classId": classId, "searchString": searchString },
+            success: function (result) {
+                $('#schoolClasses-attendances').html(result);
+            }
+        });
+    });
+})
+
 
 
 //------------Add User to Subject--------------->

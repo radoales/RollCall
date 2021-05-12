@@ -56,20 +56,27 @@ using RollCall.MVC.ViewModels.Users;
 #nullable disable
 #nullable restore
 #line 7 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
-using RollCall.MVC.Helpers;
+using RollCall.MVC.ViewModels.Attendance;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
 using static RollCall.MVC.WebConstants.Roles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae57ff0afb63added5cd4d26f7f97c15aa6457f0", @"/Views/Attendances/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4129ce4d84aafe438469a1293ed6145a7dee1812", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fb469c0d6577bcbcc7c5eb9775bd26ef520be5fa", @"/Views/_ViewImports.cshtml")]
     public class Views_Attendances_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<RollCall.MVC.Data.Models.Attendance>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Edit", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -141,7 +148,7 @@ using static RollCall.MVC.WebConstants.Roles;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n        </dd>\r\n    </dl>\r\n</div>\r\n<div>\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae57ff0afb63added5cd4d26f7f97c15aa6457f06491", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae57ff0afb63added5cd4d26f7f97c15aa6457f06681", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -172,7 +179,7 @@ using static RollCall.MVC.WebConstants.Roles;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" |\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae57ff0afb63added5cd4d26f7f97c15aa6457f08627", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae57ff0afb63added5cd4d26f7f97c15aa6457f08817", async() => {
                 WriteLiteral("Back to List");
             }
             );

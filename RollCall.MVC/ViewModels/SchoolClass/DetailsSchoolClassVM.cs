@@ -44,5 +44,7 @@
         public Subject Subject { get; set; }
 
         public ICollection<ListAtendanceVM> Attendances { get; set; }
+
+        public string SearchString { get; set; }
     }
 }

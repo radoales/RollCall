@@ -56,20 +56,27 @@ using RollCall.MVC.ViewModels.Users;
 #nullable disable
 #nullable restore
 #line 7 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
-using RollCall.MVC.Helpers;
+using RollCall.MVC.ViewModels.Attendance;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
+using RollCall.MVC.Helpers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Programming\SDL\RollCall\RollCall.MVC\Views\_ViewImports.cshtml"
 using static RollCall.MVC.WebConstants.Roles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b0dc6c83cc098ad501e5225eabada7535a07cfda", @"/Views/SchoolClasses/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4129ce4d84aafe438469a1293ed6145a7dee1812", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fb469c0d6577bcbcc7c5eb9775bd26ef520be5fa", @"/Views/_ViewImports.cshtml")]
     public class Views_SchoolClasses_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<PaginatedListIndexSchoolClassVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/ajax-loader2.gif"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -154,7 +161,7 @@ using static RollCall.MVC.WebConstants.Roles;
     <div class=""text-center"" id=""overlay"">
         <div id=""loadingDiv"" class=""text-center"">
             ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b0dc6c83cc098ad501e5225eabada7535a07cfda8999", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b0dc6c83cc098ad501e5225eabada7535a07cfda9189", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -168,9 +175,9 @@ using static RollCall.MVC.WebConstants.Roles;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-md-4\"></div>\r\n        <div class=\"col-md-4 text-center\">\r\n            <h1 class=\"text-center\">My Classes</h1>\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda10251", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda10441", async() => {
                 WriteLiteral("\r\n                <div class=\"form-group\">\r\n                    <label class=\"control-label\"> <strong>Select classes to show:</strong></label>\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda10680", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda10870", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_SelectTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.SelectTagHelper>();
@@ -227,7 +234,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_SelectTagHelper.Items = Model.SchoolClasse
 #line hidden
 #nullable disable
             WriteLiteral("            <hr />\r\n            <p>\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda14536", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda14726", async() => {
                 WriteLiteral("Add new Class");
             }
             );
@@ -252,7 +259,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_SelectTagHelper.Items = Model.SchoolClasse
 #line hidden
 #nullable disable
             WriteLiteral("        <div id=\"loadingDiv\" class=\"text-center hide\">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b0dc6c83cc098ad501e5225eabada7535a07cfda16079", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b0dc6c83cc098ad501e5225eabada7535a07cfda16269", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -362,7 +369,7 @@ WriteAttributeValue(" ", 3504, item.IsCurrentClass ? "Blink" : "hide", 3505, 41,
 #line hidden
 #nullable disable
             WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda20946", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0dc6c83cc098ad501e5225eabada7535a07cfda21136", async() => {
                 WriteLiteral("Open Class");
             }
             );

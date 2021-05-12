@@ -244,5 +244,17 @@
             TempData[TempDataSuccessMessageKey] = $"Check In for block {model.CurrentBlock} was Succesfull!";
             return RedirectToAction(nameof(Details), new { id = model.ClassId });
         }
+
+        public async Task<IActionResult> GetSchoolClassAttendances(int classId, string searchString)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var isUserStudent = this.User.IsInRole(Roles.StudentRole);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var model =  await this.attendanceService.GetSchoolClassAttendances(classId, searchString);
+
+            return PartialView("_SchoolClassAttendancesPartial", model);
+        }
     }
 }

@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.ViewModels.Attendance;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -71,6 +72,44 @@
                 .Include(a => a.Class)
                 .Include(a => a.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<List<ListAtendanceVM>> GetSchoolClassAttendances(int classId, string searchString)
+        {
+            if (string.IsNullOrEmpty(searchString))
+            {
+                return await this.context
+              .Attendances
+              .Where(x => x.ClassId == classId )
+              .Select(a => new ListAtendanceVM
+              {
+                  Id = a.Id,
+                  CheckIn_Start = a.CheckIn_Start,
+                  CheckIn_Middle = a.CheckIn_Middle,
+                  CheckIn_End = a.CheckIn_End,
+                  ClassId = a.ClassId,
+                  UserId = a.UserId,
+                  User = a.User,
+                  Class = a.Class
+              })
+              .ToListAsync();
+            }
+
+            return await this.context 
+                .Attendances
+                .Where(x => x.ClassId == classId && (x.User.FirstName.StartsWith(searchString) || x.User.LastName.StartsWith(searchString)))
+                .Select(a => new ListAtendanceVM
+                {
+                    Id = a.Id,
+                    CheckIn_Start = a.CheckIn_Start,
+                    CheckIn_Middle = a.CheckIn_Middle,
+                    CheckIn_End = a.CheckIn_End,
+                    ClassId = a.ClassId,
+                    UserId = a.UserId,
+                    User = a.User,
+                    Class = a.Class
+                })
+                .ToListAsync();
         }
 
         public async Task<bool> HasUserPassedAttendancesInSubject(string userId, int subjectId)

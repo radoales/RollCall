@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ListAtendanceVM>
+    <div id="schoolClasses-attendances">
+        <table class="table">
+            <thead>
+                <tr style="font-weight:bold">
+                    <td>Student Number</td>
+                    <td>Name</td>
+                    <td>Check In 1</td>
+                    <td>Check In 2</td>
+                    <td>Check In 3</td>
+                    <td>Attendance %</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td>@attendance.User.StudentNumber</td>
+                        <td><a asp-controller="Users" asp-action="Details" asp-route-id="@attendance.UserId">@attendance.User.FirstName @attendance.User.LastName</a></td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
+                        </td>
+                        <td>
+                            <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
+                        </td>
+                        <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

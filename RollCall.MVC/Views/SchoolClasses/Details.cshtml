@@ -10,6 +10,7 @@
         <h2>@Model.Subject.Name</h2>
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
+        <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
 
         <h6><u>Teachers: </u></h6>
 
@@ -36,43 +37,10 @@
 
 
     <hr />
-    <table class="table">
-        <thead>
-            <tr>
+    <input id="classId" type="hidden" asp-for="Id"/>
+    <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type student number or student name" type="text" class="form-control" />
 
-                <td class="" colspan="6">
-                    <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
-                </td>
-            </tr>
-            <tr style="font-weight:bold">
-                <td>Student Number</td>
-                <td>Name</td>
-                <td>Check In 1</td>
-                <td>Check In 2</td>
-                <td>Check In 3</td>
-                <td>Attendance %</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var attendance in Model.Attendances)
-            {
-                <tr>
-                    <td>@attendance.User.StudentNumber</td>
-                    <td><a asp-controller="Users" asp-action="Details" asp-route-id="@attendance.UserId">@attendance.User.FirstName @attendance.User.LastName</a></td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Start" />
-                    </td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_Middle" />
-                    </td>
-                    <td>
-                        <partial name="_CheckInPartial" model="@attendance.CheckIn_End" />
-                    </td>
-                    <td style="font-weight:bold">@attendance.AttendancePersentage%</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @await Html.PartialAsync("_SchoolClassAttendancesPartial", Model.Attendances)
 </div>
 <script type="text/javascript">
     function generateCode(id) {
