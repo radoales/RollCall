@@ -71,7 +71,9 @@
        function selectSubject () {
            
            var subjectId = $('#subjectId').val()
-           console.log(subjectId)
+           var userId = $('#userId').val()
+
+
             $.ajax({
                 type: 'GET',
                 url: "/users/details",

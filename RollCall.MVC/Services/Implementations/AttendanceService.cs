@@ -72,7 +72,7 @@
                 .Include(a => a.Class)
                 .Include(a => a.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
-        }
+        } 
 
         public async Task<List<ListAtendanceVM>> GetSchoolClassAttendances(int classId, string searchString)
         {
@@ -92,6 +92,7 @@
                   User = a.User,
                   Class = a.Class
               })
+              .OrderBy(x => x.User.FirstName)
               .ToListAsync();
             }
 

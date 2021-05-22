@@ -61,12 +61,9 @@
 </div>
 
 
-<script type="text/javascript">
-
+<script>
     function selectSubjectSlot() {
-
         var subjectSlot = $('#subjectSlot').val()
-        console.log(subjectSlot)
         $.ajax({
             type: 'GET',
             url: "/subjects/index",

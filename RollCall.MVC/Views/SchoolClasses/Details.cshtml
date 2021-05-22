@@ -10,7 +10,6 @@
         <h2>@Model.Subject.Name</h2>
         <h5>@Model.Date</h5>
         <h6>@Model.Time</h6>
-        <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
 
         <h6><u>Teachers: </u></h6>
 
@@ -35,9 +34,9 @@
         }
     </div>
 
-
+    <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
     <hr />
-    <input id="classId" type="hidden" asp-for="Id"/>
+    <input id="classId" type="hidden" asp-for="Id" />
     <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type student number or student name" type="text" class="form-control" />
 
     @await Html.PartialAsync("_SchoolClassAttendancesPartial", Model.Attendances)
