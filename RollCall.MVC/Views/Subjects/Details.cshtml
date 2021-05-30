@@ -1,5 +1,18 @@
 ﻿@model DetailsSubjectVM
 
+<style>
+    .red {
+        color: red
+    }
+
+    .orange {
+        color: orange
+    }
+
+    .green {
+        color: green
+    }
+</style>
 @{
     ViewData["Title"] = Model.Subject.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,9 +21,15 @@
 
     <h1>@Model.Subject.Name</h1>
     <h5><u>Teachers:</u></h5>
+
     @foreach (var teacher in Model.Teachers)
     {
         <div><strong>@teacher.FirstName @teacher.LastName</strong></div>
+    }
+
+    @if (User.IsInRole(TeacherRole) || User.IsInRole(AdminRole))
+    {
+        <p style="font-size:30px" data-color="@Model.AverageAttendance">Average attendance: @Model.AverageAttendance%</p>
     }
 
     @if (this.User.IsInRole(AdminRole))
@@ -72,3 +91,50 @@
     </div>
 </div>
 <hr />
+
+<script>
+    $(document).ready(function () {
+
+        var mc = {
+            '0-49': 'red',
+            '50-69': 'orange',
+            '70-100': 'green'
+        };
+
+        function between(x, min, max) {
+            return x >= min && x <= max;
+        }
+
+
+
+        var dc;
+        var first;
+        var second;
+        var th;
+
+        $('p').each(function (index) {
+
+            th = $(this);
+
+            dc = parseInt($(this).attr('data-color'), 10);
+
+
+            $.each(mc, function (name, value) {
+
+
+                first = parseInt(name.split('-')[0], 10);
+                second = parseInt(name.split('-')[1], 10);
+
+                console.log(between(dc, first, second));
+
+                if (between(dc, first, second)) {
+                    th.addClass(value);
+                }
+
+
+
+            });
+
+        });
+    });
+</script>

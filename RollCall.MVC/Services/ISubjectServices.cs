@@ -24,5 +24,6 @@
         Task Update(int id, string name);
         Task Delete(int id);
         Task<bool> IsSubjectExisting(string name);
+        public Task<double> GetAverageSubjectAttendance(int id);
     }
 }

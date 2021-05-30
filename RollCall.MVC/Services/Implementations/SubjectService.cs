@@ -5,6 +5,8 @@
     using Microsoft.EntityFrameworkCore;
     using RollCall.MVC.Data;
     using RollCall.MVC.Data.Models;
+    using RollCall.MVC.ViewModels.Attendance;
+    using RollCall.MVC.ViewModels.SchoolClass;
     using RollCall.MVC.ViewModels.Subjects;
     using System;
     using System.Collections.Generic;
@@ -283,6 +285,22 @@
 
             this.context.Subjects.Update(subject);
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<double> GetAverageSubjectAttendance(int id)
+        {
+            var attendances = await this.readOnlyDbContext
+                .Attendances
+                .Where(x => x.Class.SubjectId == id)
+                .Select(x => new ListAtendanceVM
+                {
+                    CheckIn_Start = x.CheckIn_Start,
+                    CheckIn_Middle = x.CheckIn_Middle,
+                    CheckIn_End = x.CheckIn_End
+                })
+                .ToListAsync();
+
+            return  Math.Ceiling(attendances.Average(x => x.AttendancePersentage));
         }
     }
 }

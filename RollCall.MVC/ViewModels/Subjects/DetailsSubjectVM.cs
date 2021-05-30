@@ -8,6 +8,7 @@
         public IEnumerable<SchoolClass> SchoolClasses { get; set; }
         public IEnumerable<User> Students { get; set; }
         public IEnumerable<User> Teachers { get; set; }
+        public double AverageAttendance { get; set; }
 
     }
 }

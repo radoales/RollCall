@@ -55,6 +55,7 @@
             }
 
             var subject = await this.subjectServices.GetIndexSubjectVM((int)id);
+            subject.AverageAttendance = await this.subjectServices.GetAverageSubjectAttendance((int)id);
 
             if (subject == null)
             {
