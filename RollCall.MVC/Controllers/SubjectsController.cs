@@ -77,6 +77,11 @@
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Subject model)
         {
+            var isSubhectExisting = await this.subjectServices.IsSubjectExisting(model.Name);
+            if (isSubhectExisting)
+            {
+                ModelState.AddModelError("Name", "A corse with that name already exists");
+            }
             if (ModelState.IsValid)
             {
                 var id = await this.subjectServices.Create(model.Name);

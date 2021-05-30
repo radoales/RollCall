@@ -16,14 +16,16 @@
     public class SchoolClassService : ISchoolClassService
     {
         private readonly RollCallDbContext context;
+        private readonly ReadOnlyDbContext readOnlyDbContext;
         private readonly ISubjectServices subjectServices;
         private readonly UserManager<User> userManager;
 
-        public SchoolClassService(RollCallDbContext context, ISubjectServices subjectServices, UserManager<User> userManager)
+        public SchoolClassService(RollCallDbContext context, ISubjectServices subjectServices, UserManager<User> userManager, ReadOnlyDbContext readOnlyDbContext)
         {
             this.context = context;
             this.subjectServices = subjectServices;
             this.userManager = userManager;
+            this.readOnlyDbContext = readOnlyDbContext;
         }
 
         public async Task Create(DateTime classStartTime, DateTime classEndTime, int subjectId)
@@ -205,7 +207,7 @@
 
         public async Task<IEnumerable<IndexSchoolClassVM>> GetTodaysClasses()
         {
-            return await this.context
+            return await this.readOnlyDbContext
                  .SchoolClasses
                  .Include(x => x.Subject)
                  .ThenInclude(x => x.UsersSubjects)
@@ -227,7 +229,7 @@
         }
         public async Task<IEnumerable<IndexSchoolClassVM>> GetTodaysLoggedInUserClasses(string userId)
         {
-            return await this.context
+            return await this.readOnlyDbContext
                 .SchoolClasses
                 .Include(x => x.Subject)
                 .ThenInclude(x => x.UsersSubjects)

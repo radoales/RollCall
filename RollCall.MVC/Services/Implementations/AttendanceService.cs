@@ -11,10 +11,12 @@
     public class AttendanceService : IAttendanceService
     {
         private readonly RollCallDbContext context;
+        private readonly ReadOnlyDbContext readOnlyDbContext;
 
-        public AttendanceService(RollCallDbContext context)
+        public AttendanceService(RollCallDbContext context, ReadOnlyDbContext readOnlyDbContext)
         {
             this.context = context;
+            this.readOnlyDbContext = readOnlyDbContext;
         }
 
         public async Task CheckIn(string userId, int classId, int currentBlock )

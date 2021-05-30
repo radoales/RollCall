@@ -23,5 +23,6 @@
         Task<int> Create(string name);
         Task Update(int id, string name);
         Task Delete(int id);
+        Task<bool> IsSubjectExisting(string name);
     }
 }

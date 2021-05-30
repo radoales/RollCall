@@ -1,4 +1,7 @@
-﻿namespace RollCall.MVC
+﻿using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
+
+namespace RollCall.MVC
 {
     public class WebConstants
     {
@@ -13,7 +16,7 @@
             public const string TeacherRole = "Teacher";
         }
 
-        
+
         public const string TempDataSuccessMessageKey = "SuccessMessage";
         public const string TempDataErrorMessageKey = "ErrorMessage";
 

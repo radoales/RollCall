@@ -15,12 +15,10 @@
             => services
                 .AddDbContext<RollCallDbContext>(options => options
                     .UseSqlServer(
-                         //configuration.GetConnectionString("ReadOnly")));
                          configuration.GetDefaultConnectionString()))
                .AddDbContext<ReadOnlyDbContext>(options => options
                     .UseSqlServer(
                          configuration.GetConnectionString("ReadOnly")));
-                        // configuration.GetDefaultConnectionString()));
 
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {

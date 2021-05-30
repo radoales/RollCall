@@ -67,21 +67,16 @@
 }
 
 <script type="text/javascript">
-   
-       function selectSubject () {
-           
-           var subjectId = $('#subjectId').val()
-           var userId = $('#userId').val()
-
-
-            $.ajax({
-                type: 'GET',
-                url: "/users/details",
-                data: { "id": userId, "subjectId": subjectId },
-                success: function (result) {
-                    $("body").html(result);
-                }
-            });
-        };
-
+    function selectSubject() {
+        var subjectId = $('#subjectId').val()
+        var userId = $('#userId').val()
+        $.ajax({
+            type: 'GET',
+            url: "/users/details",
+            data: { "id": userId, "subjectId": subjectId },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    };
 </script>

@@ -83,7 +83,7 @@
 
         public async Task<Subject> Get(int id)
         {
-            return await this.readOnlyDbContext
+            return await this.context
                 .Subjects
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -122,19 +122,19 @@
         {
             var result = slot switch
             {
-                PastSubjects => await this.context
+                PastSubjects => await this.readOnlyDbContext
                 .Subjects
                 .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date < DateTime.Now.Date)
                 .OrderBy(x => x.Name)
                 .ToListAsync(),
 
-                UpcomingSubjects => await this.context
+                UpcomingSubjects => await this.readOnlyDbContext
                 .Subjects
-                .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date)
+                .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date || x.Classes.Count == 0)
                 .OrderBy(x => x.Name)
                 .ToListAsync(),
 
-                _ => await this.context
+                _ => await this.readOnlyDbContext
                 .Subjects
                 .Where(x => x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date <= DateTime.Now.Date
                          && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date >= DateTime.Now.Date)
@@ -149,19 +149,19 @@
         {
             var result = slot switch
             {
-                PastSubjects => await this.context
+                PastSubjects => await this.readOnlyDbContext
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date < DateTime.Now.Date)
                 .OrderBy(x => x.Name)
                 .ToListAsync(),
 
-                UpcomingSubjects => await this.context
+                UpcomingSubjects => await this.readOnlyDbContext
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date > DateTime.Now.Date)
                 .OrderBy(x => x.Name)
                 .ToListAsync(),
 
-                _ => await this.context
+                _ => await this.readOnlyDbContext
                 .Subjects
                 .Where(x => x.UsersSubjects.Any(x => x.UserId == userId) && (x.Classes.OrderBy(c => c.ClassStartTime.Date).First().ClassStartTime.Date <= DateTime.Now.Date
                          && x.Classes.OrderBy(c => c.ClassStartTime.Date).Last().ClassStartTime.Date >= DateTime.Now.Date))
@@ -247,6 +247,13 @@
             return await this.context
                 .UsersSubjects
                 .AnyAsync(x => x.SubjectId == id);
+        }
+
+        public async Task<bool> IsSubjectExisting(string name)
+        {
+            return await this.readOnlyDbContext
+                .Subjects
+                .AnyAsync(x => x.Name == name);
         }
 
         public async Task RemoveUserFromSubject(string userId, int subjectId)

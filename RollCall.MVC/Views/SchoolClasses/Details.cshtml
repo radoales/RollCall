@@ -37,7 +37,10 @@
     <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
     <hr />
     <input id="classId" type="hidden" asp-for="Id" />
-    <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type student number or student name" type="text" class="form-control" />
+    @if (!this.User.IsInRole(StudentRole))
+    {
+        <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type student number or student name" type="text" class="form-control" />
+    }
 
     @await Html.PartialAsync("_SchoolClassAttendancesPartial", Model.Attendances)
 </div>
@@ -72,7 +75,7 @@
         // Output the result in an element with id="demo"
         var timeLeft = document.getElementById("timeLeft")
         timeLeft.innerHTML = minutes + "m " + seconds + "s ";
-
+        console.log(timeLeft);
         if (timeLeft.innerHTML !== 'NaNm NaNs ') {
             timeLeft.hidden = false;
         }

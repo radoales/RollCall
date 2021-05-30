@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
     using System;
+    using Microsoft.AspNetCore.Authorization;
 
     public class IdentityController : Controller
     {
@@ -31,9 +32,11 @@
 
         [HttpGet]
         [Route("Identity/register")]
+        [Authorize]
         public ActionResult Register()
         {
-            var roles = new SelectList(new List<string>() { Roles.StudentRole, Roles.AdminRole, Roles.TeacherRole});
+            var roles = new SelectList(new List<string>() 
+            { Roles.StudentRole, Roles.AdminRole, Roles.TeacherRole});
             var model = new RegisterRequestModel() { Roles = roles };
             return View(model);
         }

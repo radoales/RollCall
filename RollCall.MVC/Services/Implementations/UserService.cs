@@ -16,17 +16,20 @@
     {
 
         private readonly RollCallDbContext context;
+        private readonly ReadOnlyDbContext readOnlyDbContext;
         private readonly ISubjectServices subjectServices;
         private readonly UserManager<User> userManager;
 
         public UserService(
             RollCallDbContext context,
             ISubjectServices subjectServices,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            ReadOnlyDbContext readOnlyDbContext)
         {
             this.context = context;
             this.subjectServices = subjectServices;
             this.userManager = userManager;
+            this.readOnlyDbContext = readOnlyDbContext;
         }
 
         public async Task<IEnumerable<UserIndexVM>> GetAllTeachersStudentsAsIndexVM(string teacherId, string name)
@@ -127,7 +130,7 @@
         {
             var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
-            return await this.context
+            return await this.readOnlyDbContext
                 .Users
                 .Select(x => new UserDetailVM
                 {
@@ -154,7 +157,7 @@
         {
             var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
-            return await this.context
+            return await this.readOnlyDbContext
                 .Users
                 .Select(x => new UserDetailVM
                 {
