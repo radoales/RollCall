@@ -4,6 +4,19 @@
     ViewData["Title"] = Model.Subject.Name + " " + Model.Date;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .red {
+        color: red
+    }
+
+    .orange {
+        color: orange
+    }
+
+    .green {
+        color: green
+    }
+</style>
 
 <div class="container">
     <div class="text-center">
@@ -28,18 +41,19 @@
         @if (this.User.IsInRole(AdminRole))
         {
             <div>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             </div>
         }
+        <p style="font-size:30px" data-color="@Model.AverageAttendance">Average attendance: @Model.AverageAttendance%</p>
     </div>
 
-    <div class="text-center"><strong>Average Attendence: @Model.AverageAttendance%</strong></div>
+  
     <hr />
     <input id="classId" type="hidden" asp-for="Id" />
     @if (!this.User.IsInRole(StudentRole))
     {
-        <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type student number or student name" type="text" class="form-control" />
+        <input asp-for="SearchString" id="filter-schoolClasses-attendances" placeholder="type a student name" type="text" class="form-control" />
     }
 
     @await Html.PartialAsync("_SchoolClassAttendancesPartial", Model.Attendances)

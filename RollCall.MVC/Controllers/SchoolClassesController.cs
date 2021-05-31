@@ -11,6 +11,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using static WebConstants;
+    using System;
+
     [Authorize]
     public class SchoolClassesController : Controller
     {
@@ -125,6 +127,15 @@
             }
 
             var model = await this.schoolClassService.GetEditSchoolClassVM((int)id);
+
+            var isPastClass = model.ClassEndTime <= DateTime.Now;
+
+            if (isPastClass)
+            {
+                TempData[TempDataErrorMessageKey] = "Past classes can not be edited";
+                return RedirectToAction(nameof(Details), new { id });
+            }
+
             if (model == null)
             {
                 return NotFound();

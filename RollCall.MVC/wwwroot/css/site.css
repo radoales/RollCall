@@ -93,3 +93,15 @@ body {
     position: relative;
     width: 100%;
 }
+
+.red {
+    color: red
+}
+
+.orange {
+    color: orange
+}
+
+.green {
+    color: green
+}

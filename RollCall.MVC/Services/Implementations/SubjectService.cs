@@ -289,9 +289,9 @@
 
         public async Task<double> GetAverageSubjectAttendance(int id)
         {
-            var attendances = await this.readOnlyDbContext
+            var attendances = await this.context
                 .Attendances
-                .Where(x => x.Class.SubjectId == id)
+                .Where(x => x.Class.SubjectId == id && x.Class.ClassEndTime < DateTime.Now)
                 .Select(x => new ListAtendanceVM
                 {
                     CheckIn_Start = x.CheckIn_Start,
@@ -300,7 +300,7 @@
                 })
                 .ToListAsync();
 
-            return  Math.Ceiling(attendances.Average(x => x.AttendancePersentage));
+            return attendances.Count > 0 ?  Math.Ceiling(attendances.Average(x => x.AttendancePersentage)) : 0;
         }
     }
 }

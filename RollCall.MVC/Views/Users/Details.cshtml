@@ -5,11 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .red {
+        color: red
+    }
+
+    .orange {
+        color: orange
+    }
+
+    .green {
+        color: green
+    }
+</style>
+
 <div>
     <div class="text-center">
         <h1>@Model.Name</h1>
         <h4>Student number: @Model.StudentNumber</h4>
-        <h4>Average Attendance: @Model.AverageAttendance%</h4>
+        <p style="font-size:30px" data-color="@Model.AverageAttendance">Average attendance: @Model.AverageAttendance%</p>
 
     </div>
 
