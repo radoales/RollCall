@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Models;
+    using ExcelDataReader;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@
     using RollCall.MVC.ViewModels.Subjects;
     using Services;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using static RollCall.MVC.WebConstants;
@@ -76,10 +78,43 @@
         // POST: Subjects/Create
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Subject model)
+        public async Task<IActionResult> Create([Bind("Id,Name,File")] CreateSubjectVM model)
         {
-            var isSubhectExisting = await this.subjectServices.IsSubjectExisting(model.Name);
-            if (isSubhectExisting)
+            if (model.File != null)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    var isExcel =
+                        model.File.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    if (!isExcel)
+                    {
+                        ModelState.AddModelError("File", "File must be an Excel file");
+                        return View(model);
+                    }
+
+                    model.File.CopyTo(stream);
+                    stream.Position = 0;
+                    var listOfSubjects = new List<CreateSubjectListVM>();
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        while (reader.Read()) //Each row of the file
+                        {
+                            listOfSubjects.Add(new CreateSubjectListVM
+                            {
+                                Name = reader.GetValue(0).ToString()
+                            });
+                        }
+                    }
+
+                    await this.subjectServices.CreateMany(listOfSubjects);
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            var isSubjectExisting = await this.subjectServices.IsSubjectExisting(model.Name);
+            if (isSubjectExisting)
             {
                 ModelState.AddModelError("Name", "A corse with that name already exists");
             }

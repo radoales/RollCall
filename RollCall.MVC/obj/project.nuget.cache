@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "4eLZmzxwux3BNZajIxyPXaX4ZHzoC7RMmEoivXe7WEWOch1HqRVCsrOkZvHVxyaJ+KhokrtNVLVSzOHjU+oSJQ==",
+  "dgSpecHash": "CkSYvTzdaTLnaogTXjpRuP7SnT8T2CxlbquQ2ubb4PWBZkEHxW/DFclUjL9+bOdPpO/ucrbiFD0BABnAsqil6A==",
   "success": true,
   "projectFilePath": "C:\\Programming\\SDL\\RollCall\\RollCall.MVC\\RollCall.MVC.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\nayde\\.nuget\\packages\\exceldatareader\\3.6.0\\exceldatareader.3.6.0.nupkg.sha512",
     "C:\\Users\\nayde\\.nuget\\packages\\expressiveannotationscore\\0.1.0\\expressiveannotationscore.0.1.0.nupkg.sha512",
     "C:\\Users\\nayde\\.nuget\\packages\\expressiveannotationscore.dll\\0.1.0\\expressiveannotationscore.dll.0.1.0.nupkg.sha512",
     "C:\\Users\\nayde\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

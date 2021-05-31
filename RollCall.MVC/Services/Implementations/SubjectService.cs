@@ -300,7 +300,31 @@
                 })
                 .ToListAsync();
 
-            return attendances.Count > 0 ?  Math.Ceiling(attendances.Average(x => x.AttendancePersentage)) : 0;
+            return attendances.Count > 0 ? Math.Ceiling(attendances.Average(x => x.AttendancePersentage)) : 0;
+        }
+
+        public async Task CreateMany(List<CreateSubjectListVM> subjects)
+        {
+            var subjectsFromDb = await this.readOnlyDbContext
+                .Subjects
+                .ToListAsync();
+            var subjectsToAdd = new List<Subject>();
+
+            foreach (var subject in subjects)
+            {
+                if (!subjectsFromDb.Any(x => x.Name == subject.Name))
+                {
+                    var subjectToAdd = new Subject
+                    {
+                        Name = subject.Name
+                    };
+                    subjectsToAdd.Add(subjectToAdd);
+                }
+
+            }
+
+            await this.context.Subjects.AddRangeAsync(subjectsToAdd);
+            await this.context.SaveChangesAsync();
         }
     }
 }
