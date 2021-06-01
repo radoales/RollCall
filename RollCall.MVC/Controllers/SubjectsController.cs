@@ -82,20 +82,23 @@
         {
             if (model.File != null)
             {
-                using (var stream = new MemoryStream())
-                {
-                    var isExcel =
+                var isExcel =
                         model.File.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-                    if (!isExcel)
-                    {
-                        ModelState.AddModelError("File", "File must be an Excel file");
-                        return View(model);
-                    }
+                if (!isExcel)
+                {
+                    ModelState.AddModelError("File", "File must be an Excel file");
+                    return View(model);
+                }
+                var numberOfNewCourses = 0;
 
+                using (var stream = new MemoryStream())
+                {                   
                     model.File.CopyTo(stream);
                     stream.Position = 0;
+
                     var listOfSubjects = new List<CreateSubjectListVM>();
+
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
                         while (reader.Read()) //Each row of the file
@@ -107,9 +110,16 @@
                         }
                     }
 
-                    await this.subjectServices.CreateMany(listOfSubjects);
+                    numberOfNewCourses = await this.subjectServices.CreateMany(listOfSubjects);
                 }
-
+                if (numberOfNewCourses > 0)
+                {
+                    TempData[TempDataSuccessMessageKey] = $"{numberOfNewCourses} new courses were added to the system";
+                }
+                else
+                {
+                    TempData[TempDataErrorMessageKey] = $"No new courses were added to the system!\nThis may be due to an empty file or the courses already exist in the sytem.";
+                }
                 return RedirectToAction(nameof(Index));
             }
 

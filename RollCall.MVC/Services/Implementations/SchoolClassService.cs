@@ -106,7 +106,8 @@
             var currentBlock = await GetCurrentBlock(id);
             var allTeachers = await this.userManager.GetUsersInRoleAsync(Roles.TeacherRole);
 
-            var result = await this.context.SchoolClasses
+            var result = await this.context
+                .SchoolClasses
                  .Include(s => s.Subject)
                  .Include(x => x.Attendances)
                  .ThenInclude(x => x.User)
@@ -338,7 +339,7 @@
                 .SchoolClasses
                 .Include(x => x.Subject)
                 .Where(x => x.ClassEndTime < DateTime.Now && x.Subject.UsersSubjects.FirstOrDefault(y => y.UserId == userId).UserId == userId)
-                .OrderByDescending(x => x.ClassStartTime )
+                .OrderByDescending(x => x.ClassStartTime)
                 .Select(x => new IndexSchoolClassVM
                 {
                     Id = x.Id,
@@ -392,7 +393,7 @@
               }).ToListAsync()
             };
 
-            return result;     
+            return result;
         }
 
         public async Task<bool> IsCheckInActive(int id)
@@ -411,6 +412,6 @@
             return false;
         }
 
-     
+
     }
 }

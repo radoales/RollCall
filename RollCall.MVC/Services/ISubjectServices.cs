@@ -21,7 +21,7 @@
         Task<bool> HasClassessOrUsers(int id);
         Task<DetailsSubjectVM> GetIndexSubjectVM(int id);
         Task<int> Create(string name);
-        Task CreateMany(List<CreateSubjectListVM> subjects);
+        Task<int> CreateMany(List<CreateSubjectListVM> subjects);
         Task Update(int id, string name);
         Task Delete(int id);
         Task<bool> IsSubjectExisting(string name);

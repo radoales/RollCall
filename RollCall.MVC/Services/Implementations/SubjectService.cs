@@ -303,13 +303,13 @@
             return attendances.Count > 0 ? Math.Ceiling(attendances.Average(x => x.AttendancePersentage)) : 0;
         }
 
-        public async Task CreateMany(List<CreateSubjectListVM> subjects)
+        public async Task<int> CreateMany(List<CreateSubjectListVM> subjects)
         {
             var subjectsFromDb = await this.readOnlyDbContext
                 .Subjects
                 .ToListAsync();
             var subjectsToAdd = new List<Subject>();
-
+            var counter = 0;
             foreach (var subject in subjects)
             {
                 if (!subjectsFromDb.Any(x => x.Name == subject.Name))
@@ -319,12 +319,15 @@
                         Name = subject.Name
                     };
                     subjectsToAdd.Add(subjectToAdd);
+                    counter++;
                 }
 
             }
 
             await this.context.Subjects.AddRangeAsync(subjectsToAdd);
             await this.context.SaveChangesAsync();
+
+            return counter;
         }
     }
 }

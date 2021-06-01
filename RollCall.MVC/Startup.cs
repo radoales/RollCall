@@ -28,6 +28,7 @@ namespace RollCall.MVC
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.Configure<AppSettings>(Configuration.GetSection("TimeToCheckIn"));
 
             services.AddScoped<ClientIpCheckActionFilter>(container =>
             {

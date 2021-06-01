@@ -12,6 +12,7 @@
     using System.Threading.Tasks;
     using static WebConstants;
     using System;
+    using Microsoft.Extensions.Configuration;
 
     [Authorize]
     public class SchoolClassesController : Controller
@@ -19,23 +20,26 @@
         private readonly ISchoolClassService schoolClassService;
         private readonly ISubjectServices subjectServices;
         private readonly IAttendanceService attendanceService;
-        private readonly UserManager<User> userManager; 
+        private readonly UserManager<User> userManager;
+        private readonly IConfiguration config;
 
         public SchoolClassesController(
             ISchoolClassService schoolClassService,
             ISubjectServices subjectServices,
             IAttendanceService attendanceService,
-            UserManager<User> userManager)
+            UserManager<User> userManager, IConfiguration config)
         {
             this.schoolClassService = schoolClassService;
             this.subjectServices = subjectServices;
             this.attendanceService = attendanceService;
             this.userManager = userManager;
+            this.config = config;
         }
 
         // GET: SchoolClasses 
         public async Task<IActionResult> Index(int? pageNumber, string schoolClassesSet)
         {
+            var xexa = this.config.GetValue<int>("TimeToCheckIn");
            var userId = this.userManager.GetUserId(this.User);
             var isAdmin = this.User.IsInRole(Roles.AdminRole);
 
